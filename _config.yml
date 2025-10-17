@@ -1,7 +1,7 @@
 # ---------------- #
 #   Main Configs   #
 # ---------------- #
-baseurl: https://nagexiaochengzi.github.io
+baseurl: 
 url: https://nagexiaochengzi.github.io
 date_format: "ordinal"
 title: 博客主页
@@ -13,7 +13,7 @@ encoding: "utf-8"
 # 页面左下角显示的年份
 since: 2025
 # 源码仓库，请替换成自己的
-repository: https://nagexiaochengzi.github.io
+repository: nagexiaochengzi/nagexiaochengzi.github.io
 # 对 css 和 js 资源的 cdn 加速配置
 cdn:
     jsdelivr:
