@@ -1,18 +1,18 @@
 name: "苗佳哲"
 description: "华中科技大学-计算机科学与技术学院-2025级博士"
-avatar: images/GgSOJO2BTdZB8Aq.jpeg
+avatar: https://github.com/nagexiaochengzi/nagexiaochengzi.github.io/blob/master/images/GgSOJO2BTdZB8Aq.jpeg
 # 你的favicon（出现在浏览器tab上）图片URL，建议使用较小(64px × 64px)的图片
-favicon: images/GgSOJO2BTdZB8Aq.jpeg
+favicon: https://github.com/nagexiaochengzi/nagexiaochengzi.github.io/blob/master/images/GgSOJO2BTdZB8Aq.jpeg
 
 navigation:
   - name: 个人首页
     url: /
   - name: 学术热点
-    url: /about
+    url: /hot
   - name: 研究方向
     url: /archive
   - name: 发表文章
-    url: /tags
+    url: /paper
 
 # Pagination
 paginate: 8
