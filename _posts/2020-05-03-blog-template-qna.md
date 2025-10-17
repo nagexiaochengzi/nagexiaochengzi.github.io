@@ -114,7 +114,7 @@ _config.yml 里的 components.qrcode 这一段用于控制二维码。
 
 不显示二维码：将 components.qrcode.enabled 改为 false。
 
-替换二维码图片：替换 assets/images/qrcode.jpg 文件。
+替换二维码图片：替换 assets/images/qrcode.png 文件。
 
 ## _data 目录下的 yml 文件内容含义
 
