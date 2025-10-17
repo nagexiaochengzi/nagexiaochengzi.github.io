@@ -1,20 +1,15 @@
 ---
 layout: page
-title: About
-description: 打码改变世界
-keywords: Zhuang Ma, 马壮
+title: 发表论文及获奖荣誉
+description: 
+keywords: mjz
 comments: true
 menu: 关于
 permalink: /about/
 ---
+家庭美满，身心健康，
 
-我是马壮，码而生，码而立。
-
-仰慕「优雅编码的艺术」。
-
-坚信熟能生巧，努力改变人生。
-
-## 联系
+## 第一作者发表论文
 
 <ul>
 {% for website in site.data.social %}
@@ -29,7 +24,7 @@ permalink: /about/
 </ul>
 
 
-## Skill Keywords
+## 合作者发表论文
 
 {% for skill in site.data.skills %}
 ### {{ skill.name }}
