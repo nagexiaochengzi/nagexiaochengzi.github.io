@@ -59,6 +59,7 @@ permalink: /about/
     <li> Chinagraph2024</li>
     <li> CNCC2024</li>
   </ul>
+  
 ## 肖美美
 
 {% for skill in site.data.skills %}
