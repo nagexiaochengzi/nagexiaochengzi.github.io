@@ -51,7 +51,7 @@ permalink: /about/
     <li>基于WEB的3D医疗数据解析平台</li>
     <li>基于大小模型协同的在线编辑器设计与开发</li>
   </ul>
-<h3>参加学术</h3>
+<h3>参加国内国际学术会议</h3>
   <ul>
     <li>CVM</li>
     <li>ICME</li>
