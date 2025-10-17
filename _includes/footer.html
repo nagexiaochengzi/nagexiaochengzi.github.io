@@ -1,193 +1,231 @@
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
-                    {% if site.zhihu_username %}
-                    <li>
-                        <a target="_blank" href="https://www.zhihu.com/people/{{ site.zhihu_username }}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa  fa-stack-1x fa-inverse">知</i>
-                            </span>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if site.weibo_username %}
-                    <li>
-                        <a target="_blank" href="http://weibo.com/{{ site.weibo_username }}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if site.github_username %}
-                    <li>
-                        <a target="_blank" href="https://github.com/{{ site.github_username }}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-                <p class="copyright text-muted">
-                    Copyright &copy; {{ site.title }} {{ site.time | date: '%Y' }}
-                    <br>
-                    Powered by <a href="https://github.com/jsksxs360/xs-huxblog">Xs-Hux Blog</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=jsksxs360&repo=xs-huxblog&type=star&count=true" >
-                    </iframe>
-                </p>
+    <footer class="container">
+
+      {% include footer-ad.html %}
+
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © {{ site.since }}
+                    <span title="{{ site.author}}">{{ site.author }}</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
             </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="{{ site.github.repository_url }}" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                {% for nav in site.navs %}
+                <li>
+                    <a href="{{ site.url }}{{ nav.href }}" title="{{ nav.label }}" target="{{ nav.target | default: _self }}">{{ nav.label }}</a>
+                </li>
+                {% endfor %}
+                <li><a href="{{ site.url }}{{ site.subscribe_rss }}"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+          {% include visit-stat.html %}
+
         </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
     </div>
-</footer>
-
-<!-- MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-</script>
-<script type="text/javascript" async
-  src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML">
-</script>
-
-<!-- jQuery -->
-<script src='{{ "/js/jquery.min.js " | prepend: site.baseurl }}'></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src='{{ "/js/bootstrap.min.js " | prepend: site.baseurl }}'></script>
-
-<!-- Custom Theme JavaScript -->
-<script src='{{ "/js/hux-blog.min.js " | prepend: site.baseurl }}'></script>
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-<!-- Highlight.js -->
-<script>
-    async("https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js", function(){
-        hljs.initHighlightingOnLoad();
-    })
-</script>
-
-<!-- jquery.tagcloud.js -->
-<script>
-    async('{{ "/js/jquery.tagcloud.js" | prepend: site.baseurl }}',function(){
-        $.fn.tagcloud.defaults = {
-            //size: {start: 1, end: 1, unit: 'em'},
-            color: {start: '#bbbbee', end: '#2f93b4'},
-        };
-        $('#tag_cloud a').tagcloud();
-    })
-</script>
-<script src='{{ "/js/archive.js " | prepend: site.baseurl }}'></script>
-<script src='{{ "/js/snackbar.js " | prepend: site.baseurl }}'></script>
-<script src='{{ "/js/sw-registration.js " | prepend: site.baseurl }}'></script>
-
-<!--fastClick.js -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-<!-- Baidu Push-->
-<script>
-    // do not push in tag.html
-    if($('#tag_cloud').length == 0){
-        (function(){
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    }
-</script>
-
-<!-- Baidu Tongji -->
-{% if site.ba_track_id %}
-<script>
-    // dynamic User by Hux
-    var _baId = '{{ site.ba_track_id }}';
-
-    // Originial
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-{% endif %}
-
-<!-- Side Catalog -->
-{% if page.catalog %}
-<script type="text/javascript">
-    function generateCatalog (selector) {
-        var P = $('div.post-container'),a,n,t,l,i,c;
-        a = P.find('h1,h2,h3,h4,h5,h6');
-        a.each(function () {
-            n = $(this).prop('tagName').toLowerCase();
-            i = "#"+$(this).prop('id');
-            t = $(this).text();
-            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
-            l = $('<li class="'+n+'_nav"></li>').append(c);
-            $(selector).append(l);
+    <!-- / footer -->
+    {% if site.components.share.enabled %}
+    <script src="{{ assets_base_url }}/assets/vendor/share.js/dist/js/share.min.js"></script>
+    {% endif %}
+    <script src="{{ assets_base_url }}/assets/js/geopattern.js"></script>
+    <script>
+      jQuery(document).ready(function($) {
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
         });
-        return true;    
-    }
+       /* hljs.initHighlightingOnLoad(); */
+      });
+    </script>
 
-    generateCatalog(".catalog-body");
-
-    // toggle side catalog
-    $(".catalog-toggle").click((function(e){
-        e.preventDefault();
-        $('.side-catalog').toggleClass("fold")
-    }))
-
-    /*
-     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
-     * Fork by Hux to support padding
-     */
-    async("{{ '/js/jquery.nav.js' | prepend: site.baseurl }}", function () {
-        $('.catalog-body').onePageNav({
-            currentClass: "active",
-            changeHash: !1,
-            easing: "swing",
-            filter: "",
-            scrollSpeed: 700,
-            scrollOffset: 0,
-            scrollThreshold: .2,
-            begin: null,
-            end: null,
-            scrollChange: null,
-            padding: 80
+    {% if site.components.fancybox.enabled %}
+    <script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("p img").each(function() {
+          var strA = "<a href='" + this.src + "' itemscope=\"\" itemtype=\"http://schema.org/ImageObject\" itemprop=\"url\" data-fancybox=\"default\" rel=\"default\"></a>";
+          $(this).wrapAll(strA);
         });
+      });
+    </script>
+    {% endif %}
+
+    {% if page.mermaid %}
+    <script type="module">
+      import mermaid from 'https://fastly.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: false });
+      await mermaid.run({
+        nodes: document.querySelectorAll('pre code.language-mermaid'),
+      });
+    </script>
+    <script type="text/javascript">
+  (function(){
+    $("pre code.language-mermaid").each(function(index, element) {
+      var preBlock = element.parentNode;
+      element.style.backgroundColor = 'initial';
+      preBlock.style.border = 'none';
+      preBlock.style.backgroundColor = 'initial';
     });
-</script>
+  })()
+    </script>
+    {% endif %}
+
+    {% if page.sequence %}
+    <script src="{{ assets_base_url }}/assets/js/webfont.js"></script>
+    <script src="{{ assets_base_url }}/assets/js/snap.svg-min.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
+    <script src="{{ assets_base_url }}/assets/vendor/js-sequence-diagrams/dist/sequence-diagram-min.js"></script>
+    <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/js-sequence-diagrams/dist/sequence-diagram-min.css">
+    <script>
+      $(".language-sequence").sequenceDiagram({theme: 'simple'});
+    </script>
+    {% endif %}
+
+    {% if page.flow %}
+    <script src="{{ assets_base_url }}/assets/js/raphael.min.js"></script>
+    <script src="{{ assets_base_url }}/assets/vendor/flowchart.js/dist/flowchart.min.js"></script>
+    <script src="{{ assets_base_url }}/assets/js/flow.js"></script>
+    {% endif %}
+
+    {% if page.mathjax %}
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mathjax/MathJax@2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    {% endif %}
+
+    {% if page.mindmap %}
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.css">
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mzlogin/kity@dev/dist/kity.min.js"></script>
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.min.js"></script>
+    <script>
+$(document).ready(function(){
+  $('.language-mindmap').each(function(index, element) {
+    var markdownText = element.textContent.trim();
+    var parentNode = element.parentNode.parentNode;
+    var nodeName = '.language-mindmap-' + index;
+    var node = document.createElement("div");
+    node.className = 'language-mindmap-' + index;
+    node.style.height = '' + $(element).height() + 'px';
+    parentNode.insertBefore(node, element.parentNode);
+    var minder = new kityminder.Minder({
+      renderTo: nodeName
+    });
+    minder.importData('markdown', markdownText);
+    /* minder.disable(); */
+    minder.execCommand('hand');
+
+    var viewerTipNode = document.createElement("a");
+    viewerTipNode.setAttribute('href', '{{ site.url }}/mindmap-viewer/?data=' + encodeURIComponent(markdownText));
+    viewerTipNode.setAttribute('target', '_blank');
+    viewerTipNode.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;');
+    viewerTipNode.innerText = '全屏查看';
+    parentNode.insertBefore(viewerTipNode, element.parentNode);
+
+    element.parentNode.style.display = 'none';
+
+    {% if page.mindmap-template %}
+    setTimeout(function() {
+      minder.setTemplate('{{ page.mindmap-template }}');
+      minder.refresh();
+    }, 100);
+    {% endif %}
+  });
+});
+    </script>
+    {% endif %}
+{% if page.mindmap2 %}
+    <script src="https://fastly.jsdelivr.net/npm/d3@6"></script>
+    <script src="https://fastly.jsdelivr.net/npm/markmap-view"></script>
+    <script src="https://fastly.jsdelivr.net/npm/markmap-autoloader@0.1.2/dist/index.min.js"></script>
+    <style>
+        .markmap > svg {
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+    <script>
+        function fullScreen(nodeId) {
+            var element= document.getElementById(nodeId);  
+            if (window.ActiveXObject) {
+                var WsShell = new ActiveXObject('WScript.Shell');
+                WsShell.SendKeys('{F11}');
+            }
+            else if (element.requestFullScreen) {
+                element.requestFullScreen();
+            }
+            else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            else if (element.webkitRequestFullScreen) {
+                element.webkitRequestFullScreen();
+            }
+            else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            }
+        }
+
+        function fullExit() {
+            var element= document.getElementById("ddd");  
+            if (window.ActiveXObject) {
+                var WsShell = new ActiveXObject('WScript.Shell');
+                WsShell.SendKeys('{F11}');
+            }
+            else if (element.requestFullScreen) {
+                document.exitFullscreen();
+            }
+            else if (element.msRequestFullscreen) {
+                document.msExitFullscreen();
+            }
+            else if (element.webkitRequestFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+            else if (element.mozRequestFullScreen) {
+                document.mozCancelFullScreen();
+            }
+        }
+
+        function insertAfter(newElement, targetElement) {
+            var parent = targetElement.parentNode;
+            if (parent.lastChild == targetElement) {
+                parent.appendChild(targetElement);
+            } else {
+                parent.insertBefore(newElement, targetElement.nextSibling);
+            }
+        }
+       
+        $(document).ready(function(){
+            $('.language-mindmap').each(function(index, element) {
+                window.markmap = {
+                    autoLoader: { manual: false },
+                };
+                var markdownText = element.textContent.trim();
+                var parentNode = element.parentNode.parentNode;
+                element.setAttribute('class', "markmap");
+                var nodeName = '.language-mindmap-' + index;
+                element.setAttribute("id", nodeName);
+                var viewerTipNode1 = document.createElement("a");
+                viewerTipNode1.appendChild(document.createTextNode("全屏"));
+                viewerTipNode1.setAttribute('onclick', 'fullScreen("' + nodeName + '")');
+                viewerTipNode1.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;');
+                viewerTipNode1.setAttribute('href', 'javascript:void(0)');
+                insertAfter(viewerTipNode1, element.parentNode);
+                var viewerTipNode2 = document.createElement("a");
+                viewerTipNode2.appendChild(document.createTextNode("语法提示"));
+                viewerTipNode2.setAttribute('href', 'https://markmap.js.org/');
+                viewerTipNode2.setAttribute('target', '_blank');
+                viewerTipNode2.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;padding-left:0.5rem;');
+                insertAfter(viewerTipNode2, viewerTipNode1);
+            });
+        });
+    </script>
 {% endif %}
+</body>
+</html>
