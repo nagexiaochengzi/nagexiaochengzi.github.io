@@ -368,16 +368,14 @@ img {
       max-width: 120px;
       max-height: 120px;
     }
-
-    img {
-      display: inline-block;
-      border-radius: 2px;
-      width: 207px;
-      height: 289px;
-    }
   }
 }
-
+.site-info.site-avatar img{
+  display: inline-block;
+  border-radius: 2px;
+  width: 207px;
+  height: 289px;
+}
 .site-name {
   margin: 0 auto;
   color: $base-color;
