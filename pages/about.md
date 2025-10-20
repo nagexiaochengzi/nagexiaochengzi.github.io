@@ -10,9 +10,6 @@ permalink: /about/
 家庭美满，身体健康，心情愉悦
 
 # 苗佳哲 - 学术与科研成果展示
-<div style="background-color: #f8f9fa; border-left: 4px solid #4a90e2; padding: 15px; margin-bottom: 30px; border-radius: 0 4px 4px 0;">
-  <p style="margin: 0; font-size: 16px; color: #333;"><strong>核心定位</strong>：聚焦计算机视觉与图形学领域，在3D服装动画、物理仿真及多模态技术方向有扎实研究成果，兼具学术创新与工程实践能力。</p>
-</div>
 
 ## 一、主要研究方向
 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; padding: 18px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
