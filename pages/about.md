@@ -89,14 +89,14 @@ permalink: /about/
       <h5 style="margin: 0; color: #333;">第十二届中国软件杯大学生软件设计大赛</h5>
       <span style="background-color: #fff2f0; color: #ff4d4f; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">国A类赛事</span>
     </div>
-    <p style="margin: 0; color: #666; font-size: 14px;">全国总决赛三等奖 | 教育部 | 2023.8 | 担任队长</p>
+    <p style="margin: 0; color: #666; font-size: 14px;">全国总决赛三等奖 | 教育部 | 2023.8 | 队长</p>
   </div>
   <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 20px; border-top: 4px solid #fa8c16;">
     <div style="display: flex; justify-content: space-between; align-items-center; margin-bottom: 15px;">
       <h5 style="margin: 0; color: #333;">第十七届全国大学生软件创新大赛</h5>
-      <span style="background-color: #fff8e6; color: #fa8c16; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">区域赛</span>
+      <span style="background-color: #fff8e6; color: #fa8c16; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">全国赛</span>
     </div>
-    <p style="margin: 0; color: #666; font-size: 14px;">华南区域赛二等奖 | 2024.4 | 担任队长</p>
+    <p style="margin: 0; color: #666; font-size: 14px;">华南区域赛二等奖 | 2024.4 | 队长</p>
   </div>
 </div>
 
@@ -189,6 +189,8 @@ permalink: /about/
     </span>
   </div>
 </div>
+
+# 肖美美- 学术与科研成果展示
 
 <style>
 /* 基础样式补充，确保在不同HTML环境中兼容 */
