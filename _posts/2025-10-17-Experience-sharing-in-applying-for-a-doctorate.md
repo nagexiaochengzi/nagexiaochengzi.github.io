@@ -138,37 +138,37 @@ mindmap2: false
         <div class="relative timeline-line pl-8 ml-4">
           <!-- 时间线项目 -->
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段一：前期准备</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段一：前期准备</h3>
             <p class="text-gray-700">学好专业知识，发文章，考英语六级（如果条件允许，刷分，越高越好），参加比赛，完善简历。</p>
           </div>
           
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段二：联系导师</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段二：联系导师</h3>
             <p class="text-gray-700">邮件联系导师（可在各个院系的官网找导师，也可根据公众号、文章通讯作者、相关学长学姐推荐找老师。<span class="text-danger font-medium">注意：只可报考一个院系的一个导师！！！</span></p>
           </div>
           
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段三：保持联系</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段三：保持联系</h3>
             <p class="text-gray-700">跟老师保持联系，不能让老师忘记你，最好的在科研上有持续的联系。积极主动！活跃一点！勇敢一点！</p>
           </div>
           
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段四：系统报名</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段四：系统报名</h3>
             <p class="text-gray-700">博士申请系统开放，报名并按系统要求提交相关材料（报名费xxx元），里面要填大量的信息，可提前准备（个人信息、发表文章、比赛获奖情况、报考信息）。关注学院博士研究生招生网，里面会发布最新报考消息，一定要及时关注，以免错过重要信息！</p>
           </div>
           
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段五：资格审查</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段五：资格审查</h3>
             <p class="text-gray-700">系统会对材料进行审核，这一环节会淘汰部分申请者。</p>
           </div>
           
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段六：综合考察</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段六：综合考察</h3>
             <p class="text-gray-700">每个学校每个院系都不一样，收到进面通知到实际面试中间的准备时间非常短，因此需要提前准备！！（专业知识、专业英语和面试PPT）</p>
           </div>
           
           <div class="relative timeline-dot">
-            <h3 class="text-lg font-semibold text-primary mb-3">阶段七：结果公布</h3>
+            <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段七：结果公布</h3>
             <p class="text-gray-700">出综合考核结果，查看是否拟录取。</p>
           </div>
         </div>
@@ -413,14 +413,6 @@ mindmap2: false
           <div class="border-l-4 border-success pl-4 py-2 md:col-span-2 lg:col-span-1">
             <h3 class="font-medium">华中科技大学</h3>
             <p class="text-sm text-gray-600">拟录取</p>
-          </div>
-        </div>
-        
-        <!-- 申请结果图表 -->
-        <div class="mt-10">
-          <h3 class="text-lg font-semibold mb-4">申请结果统计</h3>
-          <div class="h-64">
-            <canvas id="applicationChart"></canvas>
           </div>
         </div>
       </div>
