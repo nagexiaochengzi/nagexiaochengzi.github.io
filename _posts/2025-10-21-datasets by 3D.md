@@ -15,7 +15,6 @@ topmost: true
 
 ## 数据集基于文本生成的3D开源数据集
 
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -66,9 +65,6 @@ topmost: true
             <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-4">
                 3D视觉与图像数据集
             </h1>
-            <p class="text-gray-600 max-w-3xl mx-auto text-lg">
-                精选高质量3D重建、物体检测与生成相关数据集，助力计算机视觉研究与应用
-            </p>
         </div>
     </header>
 
@@ -327,19 +323,6 @@ topmost: true
 
         </div>
     </main>
-
-    <!-- 页脚 -->
-    <footer class="bg-dark text-white py-8">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <p class="mb-2">3D视觉数据集资源汇总</p>
-                <p class="text-gray-400 text-sm">
-                    数据来源：各数据集官方发布 | 最后更新：2025年10月
-                </p>
-            </div>
-        </div>
-    </footer>
-
     <!-- 简单的交互效果脚本 -->
     <script>
         // 平滑滚动
