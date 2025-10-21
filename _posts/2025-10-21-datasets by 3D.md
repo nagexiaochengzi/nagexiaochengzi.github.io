@@ -256,7 +256,7 @@ topmost: true
                             <i class="fa fa-calendar mr-1"></i> 2015年
                         </span>
                         <span class="flex items-center">
-                            <i class="fa fa-hdd-o mr-1"></i> 2GB/30GB
+                            <i class="fa fa-hdd-o mr-1"></i> 30GB
                         </span>
                     </div>
                     <p class="text-gray-700 mb-4">
