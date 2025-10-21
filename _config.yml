@@ -28,7 +28,7 @@ components:
     # 不蒜子访问统计
     busuanzi:
         enabled: true
-        start_date: 2025-10-17
+        start_date: 2025-1-1
     # My Popular Repositories
     side_bar_repo:
         enabled: true
