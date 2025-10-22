@@ -93,7 +93,6 @@ mindmap2: false
           <i class="fa fa-graduation-cap text-primary text-2xl"></i>
           <h1 class="text-xl font-bold text-primary">博士申请指南</h1>
         </div>
-        
         <!-- 桌面导航 -->
         <nav class="hidden md:flex space-x-8">
           <a href="#overview" class="text-gray-600 hover:text-primary transition-colors">总览</a>
@@ -102,14 +101,12 @@ mindmap2: false
           <a href="#experience" class="text-gray-600 hover:text-primary transition-colors">申请经历</a>
           <a href="#summary" class="text-gray-600 hover:text-primary transition-colors">总结</a>
         </nav>
-        
         <!-- 移动端菜单按钮 -->
         <button id="menu-toggle" class="md:hidden text-gray-600 hover:text-primary">
           <i class="fa fa-bars text-xl"></i>
         </button>
       </div>
     </div>
-    
     <!-- 移动端导航菜单 -->
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
       <div class="container mx-auto px-4 py-3 space-y-3">
@@ -121,9 +118,6 @@ mindmap2: false
       </div>
     </div>
   </header>
-
-
-
   <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- 时间线及总览部分 -->
     <section id="overview" class="mb-16">
@@ -133,7 +127,6 @@ mindmap2: false
         </div>
         <h2 class="text-2xl md:text-3xl font-bold">时间线及总览</h2>
       </div>
-      
       <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
         <div class="relative timeline-line pl-8 ml-4">
           <!-- 时间线项目 -->
@@ -141,32 +134,26 @@ mindmap2: false
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段一：前期准备</h3>
             <p class="text-gray-700">学好专业知识，发文章，考英语六级（如果条件允许，刷分，越高越好），参加比赛，完善简历。</p>
           </div>
-          
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段二：联系导师</h3>
             <p class="text-gray-700">邮件联系导师（可在各个院系的官网找导师，也可根据公众号、文章通讯作者、相关学长学姐推荐找老师。<span class="text-danger font-medium">注意：只可报考一个院系的一个导师！！！</span></p>
           </div>
-          
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段三：保持联系</h3>
             <p class="text-gray-700">跟老师保持联系，不能让老师忘记你，最好的在科研上有持续的联系。积极主动！活跃一点！勇敢一点！</p>
           </div>
-          
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段四：系统报名</h3>
             <p class="text-gray-700">博士申请系统开放，报名并按系统要求提交相关材料（报名费xxx元），里面要填大量的信息，可提前准备（个人信息、发表文章、比赛获奖情况、报考信息）。关注学院博士研究生招生网，里面会发布最新报考消息，一定要及时关注，以免错过重要信息！</p>
           </div>
-          
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段五：资格审查</h3>
             <p class="text-gray-700">系统会对材料进行审核，这一环节会淘汰部分申请者。</p>
           </div>
-          
           <div class="relative timeline-dot mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段六：综合考察</h3>
             <p class="text-gray-700">每个学校每个院系都不一样，收到进面通知到实际面试中间的准备时间非常短，因此需要提前准备！！（专业知识、专业英语和面试PPT）</p>
           </div>
-          
           <div class="relative timeline-dot">
             <h3 class="text-lg font-semibold text-primary mb-3" style="margin-left: 17px;">阶段七：结果公布</h3>
             <p class="text-gray-700">出综合考核结果，查看是否拟录取。</p>
@@ -174,7 +161,6 @@ mindmap2: false
         </div>
       </div>
     </section>
-
     <!-- 投简历联系老师部分 -->
     <section id="contact" class="mb-16">
       <div class="flex items-center mb-8">
@@ -183,7 +169,6 @@ mindmap2: false
         </div>
         <h2 class="text-2xl md:text-3xl font-bold">投简历联系老师</h2>
       </div>
-      
       <div class="grid md:grid-cols-2 gap-8">
         <!-- 如何找到导师邮箱 -->
         <div class="bg-white rounded-xl shadow-md p-6 card-hover">
@@ -202,7 +187,6 @@ mindmap2: false
             </li>
           </ul>
         </div>
-        
         <!-- 如何保持联系 -->
         <div class="bg-white rounded-xl shadow-md p-6 card-hover">
           <h3 class="text-xl font-semibold mb-4 flex items-center">
@@ -221,19 +205,16 @@ mindmap2: false
             </li>
           </ul>
         </div>
-        
         <!-- 首次自荐邮件模板 -->
         <div class="bg-white rounded-xl shadow-md p-6 md:col-span-2 card-hover">
           <h3 class="text-xl font-semibold mb-4 flex items-center">
             <i class="fa fa-file-text text-primary mr-2"></i>
             首次自荐邮件模板
           </h3>
-          
           <div class="mb-4">
             <p class="font-medium text-gray-800">邮件主题：</p>
             <p class="bg-gray-50 p-3 rounded border border-gray-200 text-gray-700">xx年博士申请-xx大学xx专业-姓名</p>
           </div>
-          
           <div>
             <p class="font-medium text-gray-800 mb-2">邮件内容：</p>
             <div class="bg-gray-50 p-4 rounded border border-gray-200 text-gray-700 space-y-3">
@@ -248,7 +229,6 @@ mindmap2: false
         </div>
       </div>
     </section>
-
     <!-- 材料准备部分 -->
     <section id="materials" class="mb-16">
       <div class="flex items-center mb-8">
@@ -257,10 +237,8 @@ mindmap2: false
         </div>
         <h2 class="text-2xl md:text-3xl font-bold">材料准备</h2>
       </div>
-      
       <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-6">
         <p class="text-gray-700 mb-6">材料准备时要注意报考学校的要求，是需要邮寄还是线上提交，以及注意截止时间点（特别特别需要注意系统截止时间）。可以将报考学校及一些重要时间节点写在一个word上以防忘记。</p>
-        
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- 材料列表 -->
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
@@ -270,7 +248,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">复印/扫描材料</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-list-alt text-primary mr-2"></i>
@@ -278,7 +255,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">每个学校要求不一样</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-graduation-cap text-primary mr-2"></i>
@@ -286,7 +262,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">最高学历、学位证书复印件</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-file-text-o text-primary mr-2"></i>
@@ -294,7 +269,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">毕业（在读）学校的正式成绩单原件</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-book text-primary mr-2"></i>
@@ -302,7 +276,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">应届生一般提供开题报告</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-user text-primary mr-2"></i>
@@ -310,7 +283,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">包括个人情况、教育背景、学术科研水平、未来计划</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-thumbs-up text-primary mr-2"></i>
@@ -318,7 +290,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">一般要求两封，有些学校要求报考导师的推荐信</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-language text-primary mr-2"></i>
@@ -326,7 +297,6 @@ mindmap2: false
             </div>
             <p class="text-sm text-gray-600">六级或者雅思托福的扫描件</p>
           </div>
-          
           <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors">
             <div class="flex items-center mb-2">
               <i class="fa fa-lightbulb-o text-primary mr-2"></i>
@@ -337,7 +307,6 @@ mindmap2: false
         </div>
       </div>
     </section>
-
     <!-- 个人申请经历 -->
     <section id="experience" class="mb-16">
       <div class="flex items-center mb-8">
@@ -346,7 +315,6 @@ mindmap2: false
         </div>
         <h2 class="text-2xl md:text-3xl font-bold">个人申请经历</h2>
       </div>
-      
       <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- 申请经历列表 -->
@@ -354,62 +322,50 @@ mindmap2: false
             <h3 class="font-medium">南京大学</h3>
             <p class="text-sm text-gray-600">未回邮件</p>
           </div>
-          
           <div class="border-l-4 border-danger pl-4 py-2">
             <h3 class="font-medium">北京理工大学</h3>
             <p class="text-sm text-gray-600">未回邮件</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">武汉理工大学</h3>
             <p class="text-sm text-gray-600">没名额</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">中国科学技术大学</h3>
             <p class="text-sm text-gray-600">没名额</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">西安交通大学</h3>
             <p class="text-sm text-gray-600">没名额</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">重庆大学</h3>
             <p class="text-sm text-gray-600">没名额</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">南开大学</h3>
             <p class="text-sm text-gray-600">卡英语</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">西北工业大学</h3>
             <p class="text-sm text-gray-600">定向博士</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">四川大学</h3>
             <p class="text-sm text-gray-600">放弃复试</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">山东大学</h3>
             <p class="text-sm text-gray-600">放弃复试</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">北京邮电大学</h3>
             <p class="text-sm text-gray-600">放弃复试</p>
           </div>
-          
           <div class="border-l-4 border-warning pl-4 py-2">
             <h3 class="font-medium">武汉大学</h3>
             <p class="text-sm text-gray-600">放弃拟录取</p>
           </div>
-          
           <div class="border-l-4 border-success pl-4 py-2 md:col-span-2 lg:col-span-1">
             <h3 class="font-medium">华中科技大学</h3>
             <p class="text-sm text-gray-600">拟录取</p>
@@ -417,7 +373,6 @@ mindmap2: false
         </div>
       </div>
     </section>
-
     <!-- 申博总结 -->
     <section id="summary">
       <div class="flex items-center mb-8">
@@ -426,7 +381,6 @@ mindmap2: false
         </div>
         <h2 class="text-2xl md:text-3xl font-bold">申博总结</h2>
       </div>
-      
       <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
         <div class="grid md:grid-cols-2 gap-8">
           <div class="space-y-6">
@@ -439,7 +393,6 @@ mindmap2: false
                 <p class="text-gray-700">论文是硬通货，入学后尽快确定研究方向，精读领域顶会/期刊论文，找到创新切入点</p>
               </div>
             </div>
-            
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
                 <span class="text-primary font-semibold">2</span>
@@ -449,7 +402,6 @@ mindmap2: false
                 <p class="text-gray-700">优先投递CCF或SCI期刊</p>
               </div>
             </div>
-            
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
                 <span class="text-primary font-semibold">3</span>
@@ -459,7 +411,6 @@ mindmap2: false
                 <p class="text-gray-700">主动与导师、课题组学长交流</p>
               </div>
             </div>
-            
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
                 <span class="text-primary font-semibold">4</span>
@@ -470,7 +421,6 @@ mindmap2: false
               </div>
             </div>
           </div>
-          
           <div class="space-y-6">
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
@@ -481,7 +431,6 @@ mindmap2: false
                 <p class="text-gray-700">提前半年到一年调研目标院校的导师研究方向，通过论文、官网、学术报告了解其团队</p>
               </div>
             </div>
-            
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
                 <span class="text-primary font-semibold">6</span>
@@ -491,7 +440,6 @@ mindmap2: false
                 <p class="text-gray-700">通过邮件联系导师时，附个人简历、代表作及研究计划，突出与导师课题的契合点</p>
               </div>
             </div>
-            
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
                 <span class="text-primary font-semibold">7</span>
@@ -501,7 +449,6 @@ mindmap2: false
                 <p class="text-gray-700">个人陈述需清晰展现科研脉络与未来规划，避免泛泛而谈</p>
               </div>
             </div>
-            
             <div class="flex">
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 mt-1">
                 <span class="text-primary font-semibold">8</span>
@@ -513,7 +460,6 @@ mindmap2: false
             </div>
           </div>
         </div>
-        
         <!-- 总结卡片 -->
         <div class="mt-10 bg-primary/5 rounded-xl p-6 border border-primary/20">
           <h3 class="text-xl font-semibold text-primary mb-4 flex items-center">
@@ -525,22 +471,17 @@ mindmap2: false
       </div>
     </section>
   </main>
-
-
   <!-- 返回顶部按钮 -->
   <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
     <i class="fa fa-arrow-up"></i>
   </button>
-
   <script>
     // 移动端菜单切换
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    
     menuToggle.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
     });
-    
     // 导航栏滚动效果
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -552,26 +493,21 @@ mindmap2: false
         navbar.classList.add('shadow-sm');
       }
     });
-    
     // 平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
         // 关闭移动菜单（如果打开）
         if (!mobileMenu.classList.contains('hidden')) {
           mobileMenu.classList.add('hidden');
         }
-        
         document.querySelector(this.getAttribute('href')).scrollIntoView({
           behavior: 'smooth'
         });
       });
     });
-    
     // 返回顶部按钮
     const backToTopButton = document.getElementById('back-to-top');
-    
     window.addEventListener('scroll', () => {
       if (window.scrollY > 300) {
         backToTopButton.classList.remove('opacity-0', 'invisible');
@@ -581,14 +517,12 @@ mindmap2: false
         backToTopButton.classList.remove('opacity-100', 'visible');
       }
     });
-    
     backToTopButton.addEventListener('click', () => {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     });
-    
     // 申请结果图表
     const ctx = document.getElementById('applicationChart').getContext('2d');
     new Chart(ctx, {
