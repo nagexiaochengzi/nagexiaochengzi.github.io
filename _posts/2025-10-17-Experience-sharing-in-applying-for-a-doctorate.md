@@ -118,69 +118,56 @@ mindmap2: false
         <section id="overview">
           <h1>时间线及总览</h1>
           <ol>
-            <li>学好专业知识，发文章，考英语六级（如果条件允许，刷分，越高越好），参加比赛，完善简历。</li>
-            <li>邮件联系导师（可在各个院系的官网找导师，也可根据公众号、文章通讯作者、相关学长学姐推荐找老师。</li>
-            <li><span class="danger">只可报考一个院系的一个导师！！！</span>所以建议有一个老师答复后不要反复联系同一个系的其他老师。</li>
-            <li>跟老师保持联系，不能让老师忘记你，最好的在科研上有持续的联系。积极主动！活跃一点！勇敢一点！</li>
-            <li>博士申请系统开放，报名并按系统要求提交相关材料（报名费xxx元），里面要填大量的信息，可提前准备（个人信息、发表文章、比赛获奖情况、报考信息）。关注学院博士研究生招生网，里面会发布最新报考消息，一定要及时关注，以免错过重要信息！报完名后进入等待阶段，系统会对材料进行审核，这一环节会淘汰部分申请者。</li>
-            <li>资格审查。</li>
-            <li>综合考察（每个学校每个院系都不一样）收到进面通知到实际面试中间的准备时间非常短，因此需要提前准备！！（专业知识、专业英语和面试PPT）</li>
-            <li>出综合考核结果，查看是否拟录取。</li>
+            <li>1. 学好专业知识，发文章，考英语六级（如果条件允许，刷分，越高越好），参加比赛，完善简历。</li>
+            <li>2. 邮件联系导师（可在各个院系的官网找导师，也可根据公众号、文章通讯作者、相关学长学姐推荐找老师。</li>
+            <li>3. <span class="danger">只可报考一个院系的一个导师！！！</span>所以建议有一个老师答复后不要反复联系同一个系的其他老师。</li>
+            <li>4. 跟老师保持联系，不能让老师忘记你，最好的在科研上有持续的联系。积极主动！活跃一点！勇敢一点！</li>
+            <li>5. 博士申请系统开放，报名并按系统要求提交相关材料（报名费xxx元），里面要填大量的信息，可提前准备（个人信息、发表文章、比赛获奖情况、报考信息）。关注学院博士研究生招生网，里面会发布最新报考消息，一定要及时关注，以免错过重要信息！报完名后进入等待阶段，系统会对材料进行审核，这一环节会淘汰部分申请者。</li>
+            <li>6. 资格审查。</li>
+            <li7. >综合考察（每个学校每个院系都不一样）收到进面通知到实际面试中间的准备时间非常短，因此需要提前准备！！（专业知识、专业英语和面试PPT）</li>
+            <li>8. 出综合考核结果，查看是否拟录取。</li>
           </ol>
         </section>
-
         <!-- 投简历联系老师 -->
         <section id="contact">
           <h1>投简历联系老师</h1>
-          
           <h2>1. 如何找到导师邮箱</h2>
           <ul>
             <li>主要通过导师在学院的个人主页上的联系方式，因为有些老师可能不常用官网上的邮箱，也可以寻找导师作为通讯作者最新发表的文章，文章上的邮箱也可以联系到导师。</li>
           </ul>
-          
           <h2>2. 首次自荐邮件模板</h2>
           <ul>
             <li><strong>邮件主题：</strong>xx年博士申请-xx大学xx专业-姓名</li>
             <li><strong>邮件内容：</strong></li>
           </ul>
-          
           <blockquote>
             尊敬的xx老师：<br><br>
             您好！我叫xxx，是xx大学xx学院xx学系xx教授课题组的应届硕士毕业生，希望有机会能够报考您xxx年的博士研究生。我在硕士期间的研究方向为xxxxxx，主要的工作聚焦于xxxxxx的相关研究。目前已完成xxxxx的工作，截至目前，以第一作者身份撰写SCI文章x篇投稿至xxx，目前正在xx阶段，对您的研究方向十分感兴趣，附件为我的个人简历，希望可以到您的课题组学习（科研情况等写详细，这里只是写个例子）。<br><br>
             万分感谢您在百忙之中抽出时间阅读我的自荐，祝身体健康，工作顺利！
           </blockquote>
-          
           <p><strong>附件：</strong>个人简历PDF版本</p>
-          
           <h2>3. 如何保持联系</h2>
           <ul>
             <li>联系导师并不是一次性的事情，如果导师回复“欢迎报考”或者“保持联系”，可以在联系之后每半个月或者1个月邮件汇报自己的工作和学习进度。如果联系导师联系较早，也可以在正式报名之前在再询问一下导师的意见。</li>
           </ul>
-          
-          <div class="img-container">
-            <img src="/images/posts/shenbo/1.png" alt="联系导师建议图" />
-          </div>
         </section>
-
         <!-- 材料准备 -->
         <section id="materials">
           <h1>材料准备</h1>
           <p>材料准备时要注意报考学校的要求，是需要邮寄还是线上提交，以及注意截止时间点（特别特别需要注意系统截止时间）。可以将报考学校级一些重要时间节点写在一个word上以防忘记。每个学校的博士申请-考核要求基本都会包括以下东西：</p>
-          
           <ol>
-            <li>有效身份证复印/扫描材料</li>
-            <li>报考登记表（每个学校不一样）</li>
-            <li>最高学历、学位证书复印件</li>
-            <li>毕业（在读）学校的正式成绩单原件：如果本科的成绩单没有留存原件，可以尝试联系学校档案馆出具成绩单，硕士期间的一般可以自助在校内打印。</li>
-            <li>硕士学位论文：对于这一条学校一般会要求应届生提供开题之类的。</li>
-            <li>个人陈述（按照学校要求准备，一般包括个人情况、教育背景、学术科研水平、未来计划）</li>
-            <li>专家推荐信：一般要求两封，有些学校会要求报考导师的推荐信，不要有错别字。根据学校的要求准备纸质版或填写愿意推荐自己的导师邮箱。</li>
-            <li>英语水平的成绩证明：六级或者雅思托福的扫描件，有的学校英语高水平论文可以免英语。</li>
-            <li>博士研究计划</li>
-            <li>证明材料（论文检索报告，比赛证书之类的）</li>
-          </ol>
+            <li>1. 有效身份证复印/扫描材料</li>
+            <li>2. 报考登记表（每个学校不一样）</li>
+            <li>3. 最高学历、学位证书复印件</li>
+            <li>4. 毕业（在读）学校的正式成绩单原件：如果本科的成绩单没有留存原件，可以尝试联系学校档案馆出具成绩单，硕士期间的一般可以自助在校内打印。</li>
+            <li>5. 硕士学位论文：对于这一条学校一般会要求应届生提供开题之类的。</li>
+            <li>6. 个人陈述（按照学校要求准备，一般包括个人情况、教育背景、学术科研水平、未来计划）</li>
+            <li>7. 专家推荐信：一般要求两封，有些学校会要求报考导师的推荐信，不要有错别字。根据学校的要求准备纸质版或填写愿意推荐自己的导师邮箱。</li>
+            <li>8. 英语水平的成绩证明：六级或者雅思托福的扫描件，有的学校英语高水平论文可以免英语。</li>
+            <li>9. 博士研究计划</li>
+            <li>10. 证明材料（论文检索报告，比赛证书之类的）</li>
+          </ol> 
         </section>
-
         <!-- 个人申请经历 -->
         <section id="experience">
           <h1>个人申请经历</h1>
@@ -200,22 +187,12 @@ mindmap2: false
             <li class="success">华中科技大学：拟录取</li>
           </ol>
         </section>
-
         <!-- 申博总结 -->
         <section id="summary">
           <h1>申博总结</h1>
-          <ol>
-            <li>科研积累，论文是硬通货，入学后尽快确定研究方向，精读领域顶会/期刊论文，找到创新切入点；</li>
-            <li>优先投递CCF或SCI期刊；</li>
-            <li>主动与导师、课题组学长交流;</li>
-            <li>选择与研究方向相关的赛事，通过竞赛提升动手能力;</li>
-            <li>提前半年到一年调研目标院校的导师研究方向，通过论文、官网、学术报告了解其团队;</li>
-            <li>通过邮件联系导师时，附个人简历、代表作及研究计划，突出与导师课题的契合点;</li>
-            <li>个人陈述需清晰展现科研脉络与未来规划，避免泛泛而谈，申博是长期战，需持续积累而非临时冲刺;</li>
-          </ol>
+         科研积累，论文是硬通货，入学后尽快确定研究方向，精读领域顶会/期刊论文，找到创新切入点；优先投递CCF或SCI期刊；主动与导师、课题组学长交流；选择与研究方向相关的赛事，通过竞赛提升动手能力；提前半年到一年调研目标院校的导师研究方向，通过论文、官网、学术报告了解其团队；通过邮件联系导师时，附个人简历、代表作及研究计划，突出与导师课题的契合点；个人陈述需清晰展现科研脉络与未来规划，避免泛泛而谈，申博是长期战，需持续积累而非临时冲刺。
         </section>
       </main>
-
       <!-- 侧边栏目录 -->
       <aside class="toc">
         <h3>目录</h3>
@@ -229,7 +206,6 @@ mindmap2: false
       </aside>
     </div>
   </div>
-
   <!-- 移动端目录 -->
   <div id="mobile-toc" class="mobile-toc">
     <div class="mobile-toc-content">
@@ -244,19 +220,10 @@ mindmap2: false
       </ul>
     </div>
   </div>
-
-  <!-- 页脚 -->
-  <footer>
-    <div class="container">
-      <p>博士申请指南 &copy; 2023</p>
-    </div>
-  </footer>
-
   <!-- 返回顶部按钮 -->
   <button id="back-to-top">
     <i class="fa fa-arrow-up"></i>
   </button>
-
   <!-- 核心功能JavaScript -->
   <script>
     // 确保DOM加载完成
@@ -266,26 +233,21 @@ mindmap2: false
       const closeTocBtn = document.getElementById('close-toc');
       const mobileToc = document.getElementById('mobile-toc');
       const tocLinks = document.querySelectorAll('.toc-links a');
-      
       toggleTocBtn.addEventListener('click', () => {
         mobileToc.style.display = 'block';
       });
-      
       closeTocBtn.addEventListener('click', () => {
         mobileToc.style.display = 'none';
       });
-      
       // 点击目录链接关闭移动端目录并平滑滚动
       tocLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           const targetId = this.getAttribute('href');
           const targetElement = document.querySelector(targetId);
-          
           if (targetElement) {
             // 关闭移动目录
             mobileToc.style.display = 'none';
-            
             // 平滑滚动到目标位置
             window.scrollTo({
               top: targetElement.offsetTop - 70,
@@ -294,10 +256,8 @@ mindmap2: false
           }
         });
       });
-      
       // 返回顶部按钮功能
       const backToTopButton = document.getElementById('back-to-top');
-      
       window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
           backToTopButton.style.opacity = '1';
@@ -307,7 +267,6 @@ mindmap2: false
           backToTopButton.style.visibility = 'hidden';
         }
       });
-      
       backToTopButton.addEventListener('click', () => {
         window.scrollTo({
           top: 0,
