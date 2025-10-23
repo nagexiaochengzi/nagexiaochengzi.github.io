@@ -21,26 +21,6 @@ topmost: true
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据集资源库</title>
     <style>
-        /* 基础样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
         /* 标题样式 */
         .page-header {
             text-align: center;
