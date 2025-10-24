@@ -331,7 +331,6 @@ mindmap2: false
             <h1>3D-RAG知识库构建与生成流程</h1>
             <p class="subtitle">基于检索增强生成的多视图3D模型创建流程，通过检索参考信息增强生成过程，实现高质量3D模型生成</p>
         </header>
-        
         <div class="flow-container">
             <!-- 第一阶段：知识库构建 -->
             <div class="phase">
