@@ -39,16 +39,7 @@ topmost: true
             margin: 0 auto;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-         
+
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
@@ -220,7 +211,7 @@ topmost: true
 </head>
 <body>
     <div class="container">
-        <header>
+        <header style="text-align: center;margin-bottom: 40px;padding: 20px;background: linear-gradient(135deg, var(--primary), var(--secondary));color: white;border-radius: 10px;box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
             <h1>3D-RAG知识库构建与生成流程</h1>
             <p class="subtitle">基于检索增强生成的3D模型创建方法</p>
         </header>
