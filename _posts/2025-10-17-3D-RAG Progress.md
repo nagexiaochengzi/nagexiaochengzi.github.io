@@ -24,7 +24,7 @@ mindmap2: false
    
         
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
         }
         
