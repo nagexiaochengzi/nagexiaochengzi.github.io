@@ -48,14 +48,6 @@ mindmap2: false
             height: 5px;
             background: linear-gradient(90deg, #4a6ee0, #6a4ee0, #e04e6a);
         }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            font-weight: 700;
-        }
-        
         .subtitle {
             font-size: 1.3rem;
             color: #5a6c7d;
@@ -596,10 +588,6 @@ mindmap2: false
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="footer-note">
-            <p>3D-RAG流程将检索增强生成范式应用于3D内容创建，通过利用现有知识增强生成过程，提高3D模型的质量和可控性。</p>
         </div>
     </div>
 </body>
