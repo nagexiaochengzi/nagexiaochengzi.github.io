@@ -20,309 +20,224 @@ topmost: true
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D-RAG知识库构建与生成流程</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-   
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6b8cbc;
+            --accent: #ff9e64;
+            --light: #f5f7fa;
+            --dark: #2c3e50;
+            --success: #5cb85c;
+            --info: #5bc0de;
+            --warning: #f0ad4e;
+            --danger: #d9534f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
         
         .container {
-            max-width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
         header {
             text-align: center;
             margin-bottom: 40px;
-            padding: 30px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            position: relative;
-            overflow: hidden;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+         
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
         
-        header::before {
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 15px 0 10px;
+        }
+        
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .process-flow:before {
             content: '';
             position: absolute;
-            top: 0;
+            top: 50px;
             left: 0;
             right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #4a6ee0, #6a4ee0, #e04e6a);
-        }
-        .subtitle {
-            font-size: 1.3rem;
-            color: #5a6c7d;
-            max-width: 900px;
-            margin: 0 auto;
-            line-height: 1.6;
+            height: 3px;
+            background: var(--secondary);
+            z-index: 1;
         }
         
-        .flow-container {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-        
-        .phase {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            margin: 0 10px 20px;
+            text-align: center;
             position: relative;
-        }
-        
-        .phase-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(74, 110, 224, 0.2);
-        }
-        
-        .phase-number {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #4a6ee0, #6a4ee0);
-            border-radius: 50%;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-            margin-right: 25px;
-            box-shadow: 0 4px 15px rgba(74, 110, 224, 0.3);
-        }
-        
-        .phase-title {
-            font-size: 1.9rem;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        
-        .phase-description {
-            color: #5a6c7d;
-            margin-top: 8px;
-            font-size: 1.1rem;
-        }
-        
-        .steps-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-        
-        .step {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 25px;
-            transition: all 0.3s ease;
-            border-left: 5px solid #4a6ee0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .step::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #4a6ee0, #6a4ee0);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-        
-        .step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .step:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .step-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 18px;
+            z-index: 2;
         }
         
         .step-icon {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(74, 110, 224, 0.1);
-            border-radius: 10px;
-            margin-right: 18px;
-            font-size: 1.4rem;
-            color: #4a6ee0;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--secondary);
+            font-size: 2rem;
+            color: var(--primary);
         }
         
         .step-title {
-            font-size: 1.4rem;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        
-        .step-content {
-            line-height: 1.7;
-            color: #5a6c7d;
-        }
-        
-        .step-content ul {
-            padding-left: 22px;
-            margin-top: 12px;
-        }
-        
-        .step-content li {
-            margin-bottom: 10px;
-            position: relative;
-        }
-        
-        .step-content li::marker {
-            color: #4a6ee0;
-        }
-        
-        .arrow {
-            text-align: center;
-            font-size: 2.2rem;
-            color: #4a6ee0;
-            margin: 15px 0;
-            opacity: 0.7;
-        }
-        
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 18px;
-        }
-        
-        .tech-tag {
-            background: rgba(74, 110, 224, 0.1);
-            color: #4a6ee0;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(74, 110, 224, 0.2);
-            font-weight: 500;
-        }
-        
-        .output-box {
-            background: rgba(234, 240, 255, 0.7);
-            border-radius: 10px;
-            padding: 18px;
-            margin-top: 20px;
-            border: 1px dashed rgba(74, 110, 224, 0.4);
-        }
-        
-        .output-title {
             font-weight: bold;
-            color: #4a6ee0;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--dark);
         }
         
-        .output-title::before {
-            content: "➤";
-            margin-right: 10px;
-            color: #4a6ee0;
+        .step-desc {
+            font-size: 0.9rem;
+            color: #666;
         }
         
         .example-box {
-            background: rgba(255, 248, 225, 0.7);
-            border-radius: 10px;
-            padding: 18px;
-            margin-top: 20px;
-            border-left: 4px solid #e0b34e;
+            background: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent);
         }
         
         .example-title {
             font-weight: bold;
-            color: #b38c2e;
+            color: var(--accent);
             margin-bottom: 10px;
-            font-size: 1.1rem;
         }
         
-        .process-note {
-            background: rgba(225, 245, 254, 0.7);
-            border-radius: 10px;
-            padding: 18px;
-            margin-top: 20px;
-            border-left: 4px solid #4ab8e0;
+        .architecture {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
         }
         
-        .process-note-title {
+        .arch-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--info);
+        }
+        
+        .arch-title {
             font-weight: bold;
-            color: #2a7b9b;
             margin-bottom: 10px;
-            font-size: 1.1rem;
+            color: var(--info);
         }
         
-        .diagram-placeholder {
-            background: #f0f5ff;
-            border-radius: 12px;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: rgba(255, 158, 100, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, var(--success), #8bc34a);
+            color: white;
             padding: 25px;
-            margin-top: 25px;
-            text-align: center;
-            border: 2px dashed #a0b8f0;
+            border-radius: 10px;
+            margin-top: 30px;
         }
         
-        .diagram-title {
-            font-weight: bold;
-            color: #4a6ee0;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+        .conclusion h2 {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        .diagram-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 120px;
-            color: #7a8bb3;
-            font-style: italic;
-        }
-        
-        @media (max-width: 768px) {
-            .steps-container {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .phase-title {
-                font-size: 1.6rem;
-            }
-            
-            .phase-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .phase-number {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-        }
-        
-        .footer-note {
+        footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            color: #7a8bb3;
-            font-size: 0.95rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-flow:before {
+                display: none;
+            }
+            
+            .process-step {
+                margin-bottom: 30px;
+            }
         }
     </style>
 </head>
@@ -330,265 +245,205 @@ topmost: true
     <div class="container">
         <header>
             <h1>3D-RAG知识库构建与生成流程</h1>
-            <p class="subtitle">基于检索增强生成的多视图3D模型创建流程，通过检索参考信息增强生成过程，实现高质量3D模型生成</p>
+            <p class="subtitle">基于检索增强生成的3D模型创建方法</p>
         </header>
-        <div class="flow-container">
-            <!-- 第一阶段：知识库构建 -->
-            <div class="phase">
-                <div class="phase-header">
-                    <div class="phase-number">1</div>
-                    <div>
-                        <h2 class="phase-title">知识库构建（离线流程）</h2>
-                        <p class="phase-description">准备多模态数据并构建可检索的知识库，为后续检索增强生成提供基础</p>
-                    </div>
+        
+        <section class="section">
+            <h2>概述</h2>
+            <p>3D-RAG（3D Retrieval-Augmented Generation）是一种创新的3D生成方法，它通过检索现有3D对象的多视图数据，增强文本到3D的生成过程。这种方法解决了传统3D生成中概念保真度低和几何结构不合理的问题。</p>
+            
+            <div class="example-box">
+                <div class="example-title">核心思想</div>
+                <p>传统方法：文本 → 多视角扩散模型 → 3D重建</p>
+                <p>3D-RAG方法：文本 → <span class="highlight">检索相关3D对象的多视图</span> → 条件化多视图生成 → 3D重建</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>整体流程架构</h2>
+            
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="step-icon">1</div>
+                    <div class="step-title">知识库构建</div>
+                    <div class="step-desc">离线处理多视图数据，构建可检索的知识库</div>
                 </div>
                 
-                <div class="steps-container">
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-database"></i></div>
-                            <h3 class="step-title">数据准备与组织</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>收集并整理对象的多视图图像和文本描述，构建结构化数据单元：</p>
-                            <ul>
-                                <li><strong>文档ID：</strong>唯一标识符，用于检索和管理</li>
-                                <li><strong>多视图图像：</strong>12-24张环绕Y轴均匀分布的图像，覆盖对象全貌</li>
-                                <li><strong>文本描述：</strong>详细的对象特征描述，包括形状、颜色、材质等</li>
-                                <li><strong>元数据：</strong>对象类别、创建时间、来源等信息</li>
-                            </ul>
-                            <div class="example-box">
-                                <div class="example-title">数据单元示例：</div>
-                                <p><strong>文档ID:</strong> Pikachu_001</p>
-                                <p><strong>图像集:</strong> [view_0.png, view_30.png, ..., view_330.png] (12张图像)</p>
-                                <p><strong>描述:</strong> "黄色的电属性宝可梦，身高0.4m，有闪电形状的尾巴和红扑扑的脸颊，耳朵尖端为黑色"</p>
-                                <p><strong>元数据:</strong> 类别=宝可梦, 创建日期=2023-10-05</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-project-diagram"></i></div>
-                            <h3 class="step-title">创建嵌入向量</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>使用多模态模型提取文本和图像的特征表示：</p>
-                            <ul>
-                                <li><strong>文本嵌入：</strong>使用BGE、OpenAI text-embedding等模型将描述文本转换为向量</li>
-                                <li><strong>图像嵌入：</strong>使用CLIP、DINOv2等模型提取每张视图的图像特征</li>
-                                <li><strong>特征聚合：</strong>采用平均池化或注意力池化将所有视图特征聚合成全局对象表示</li>
-                                <li><strong>向量融合：</strong>将文本向量和图像向量融合为统一的对象表示向量</li>
-                            </ul>
-                            <div class="process-note">
-                                <div class="process-note-title">处理流程：</div>
-                                <p>单视图特征提取 → 多视图特征聚合 → 文本特征提取 → 多模态特征融合 → 统一对象向量</p>
-                            </div>
-                            <div class="tech-tags">
-                                <span class="tech-tag">CLIP</span>
-                                <span class="tech-tag">BGE</span>
-                                <span class="tech-tag">DINOv2</span>
-                                <span class="tech-tag">特征池化</span>
-                                <span class="tech-tag">多模态融合</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-cube"></i></div>
-                            <h3 class="step-title">构建向量数据库</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>将处理后的向量和元数据存入向量数据库，构建可检索的知识库：</p>
-                            <ul>
-                                <li><strong>向量索引：</strong>使用HNSW或IVF算法构建高效索引结构</li>
-                                <li><strong>元数据存储：</strong>关联向量与原始图像、文本描述和其他元数据</li>
-                                <li><strong>数据库优化：</strong>配置合适的相似度度量（如余弦相似度）和检索参数</li>
-                                <li><strong>质量验证：</strong>测试检索效果，确保相关对象能被正确检索</li>
-                            </ul>
-                            <div class="output-box">
-                                <div class="output-title">输出成果：</div>
-                                <p>包含对象向量表示、原始多视图图像和文本描述的可检索知识库，支持高效相似性搜索</p>
-                            </div>
-                            <div class="tech-tags">
-                                <span class="tech-tag">ChromaDB</span>
-                                <span class="tech-tag">Pinecone</span>
-                                <span class="tech-tag">Milvus</span>
-                                <span class="tech-tag">Qdrant</span>
-                                <span class="tech-tag">HNSW</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="process-step">
+                    <div class="step-icon">2</div>
+                    <div class="step-title">查询与检索</div>
+                    <div class="step-desc">根据用户查询检索最相关的多视图数据</div>
                 </div>
                 
-                <div class="diagram-placeholder">
-                    <div class="diagram-title">知识库构建流程示意图</div>
-                    <div class="diagram-content">
-                        [原始数据] → [特征提取] → [向量融合] → [索引构建] → [向量数据库]
-                    </div>
+                <div class="process-step">
+                    <div class="step-icon">3</div>
+                    <div class="step-title">增强生成</div>
+                    <div class="step-desc">基于检索结果生成一致的多视图图像</div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">4</div>
+                    <div class="step-title">3D重建</div>
+                    <div class="step-desc">从多视图图像重建高质量3D模型</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>阶段一：知识库构建（离线处理）</h2>
+            <p>此阶段将原始的多视图数据集处理成结构化、可高效检索的视觉知识库。</p>
+            
+            <div class="architecture">
+                <div class="arch-card">
+                    <div class="arch-title">步骤1: 数据预处理与特征提取</div>
+                    <p>使用视觉编码器（如DINOv2、CLIP-ViT）提取每张视角图片的全局和局部特征。</p>
+                    <ul>
+                        <li><strong>全局特征</strong>：编码整体视觉外观</li>
+                        <li><strong>局部特征</strong>：编码图像块/局部细节</li>
+                        <li><strong>文本特征</strong>：为caption提取文本特征</li>
+                    </ul>
+                </div>
+                
+                <div class="arch-card">
+                    <div class="arch-title">步骤2: 构建多模态关联图</div>
+                    <p>建立视图间的几何关联和对象间的语义关联。</p>
+                    <ul>
+                        <li><strong>几何边</strong>：连接同一对象的不同视角</li>
+                        <li><strong>语义边</strong>：连接不同对象中语义相似的视角</li>
+                    </ul>
+                </div>
+                
+                <div class="arch-card">
+                    <div class="arch-title">步骤3: 索引构建</div>
+                    <p>为所有特征向量建立向量索引（如FAISS、SCANN），支持快速近邻搜索。</p>
                 </div>
             </div>
             
-            <!-- 第二阶段：查询与生成 -->
-            <div class="phase">
-                <div class="phase-header">
-                    <div class="phase-number">2</div>
-                    <div>
-                        <h2 class="phase-title">查询与生成（在线流程）</h2>
-                        <p class="phase-description">基于用户查询检索相关知识，增强生成条件，创建符合需求的多视图图像</p>
-                    </div>
+            <div class="example-box">
+                <div class="example-title">示例：椅子数据集处理</div>
+                <p>假设我们有一个包含多种椅子6视图的数据集：</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>obj_id</th>
+                            <th>img_id</th>
+                            <th>caption</th>
+                            <th>特征提取</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>chair_001</td>
+                            <td>view_1, view_2, ..., view_6</td>
+                            <td>"一把现代风格的办公椅，有网状靠背和扶手"</td>
+                            <td>提取6个视图的全局+局部特征，caption文本特征</td>
+                        </tr>
+                        <tr>
+                            <td>chair_002</td>
+                            <td>view_1, view_2, ..., view_6</td>
+                            <td>"复古木质餐椅，有雕花靠背"</td>
+                            <td>提取6个视图的全局+局部特征，caption文本特征</td>
+                        </tr>
+                        <tr>
+                            <td>chair_003</td>
+                            <td>view_1, view_2, ..., view_6</td>
+                            <td>"简约北欧风格椅子，无扶手"</td>
+                            <td>提取6个视图的全局+局部特征，caption文本特征</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p>处理完成后，知识库中包含：</p>
+                <ul>
+                    <li>每个椅子对象的6个视图的视觉特征</li>
+                    <li>视图间的几何关联（正面-侧面-背面等）</li>
+                    <li>椅子间的语义关联（现代风格、复古风格等）</li>
+                    <li>高效的向量索引，支持快速检索</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>阶段二：检索增强生成（在线推理）</h2>
+            <p>此阶段响应用户查询，生成高质量的多视图图像。</p>
+            
+            <div class="architecture">
+                <div class="arch-card">
+                    <div class="arch-title">步骤1: 用户查询与检索</div>
+                    <p>用户输入文本或文本+图像查询，系统进行多粒度检索：</p>
+                    <ul>
+                        <li><strong>粗检索</strong>：基于全局特征找到相似对象</li>
+                        <li><strong>细检索</strong>：基于局部特征匹配细节</li>
+                        <li><strong>图漫步扩展</strong>：利用关联图扩展检索结果</li>
+                    </ul>
                 </div>
                 
-                <div class="steps-container">
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-search"></i></div>
-                            <h3 class="step-title">检索 (Retrieve)</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>根据用户查询在知识库中检索最相关的参考对象：</p>
-                            <ul>
-                                <li><strong>查询向量化：</strong>使用相同的嵌入模型将用户查询转换为向量</li>
-                                <li><strong>相似性搜索：</strong>在向量数据库中使用余弦相似度等算法查找最相似的K个对象</li>
-                                <li><strong>结果排序：</strong>根据相似度得分对结果进行排序</li>
-                                <li><strong>返回参考信息：</strong>获取Top-K对象的完整信息（多视图图像和描述）</li>
-                            </ul>
-                            <div class="example-box">
-                                <div class="example-title">用户查询示例：</div>
-                                <p>"一个红色的皮卡丘，戴着侦探帽，手里拿着放大镜"</p>
-                            </div>
-                            <div class="output-box">
-                                <div class="output-title">检索结果：</div>
-                                <p>Top-3相关对象：皮卡丘（相似度0.92）、侦探形象（相似度0.87）、红色卡通角色（相似度0.79）</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-plus-circle"></i></div>
-                            <h3 class="step-title">增强 (Augment)</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>构建包含查询和参考信息的增强提示，为生成模型提供丰富上下文：</p>
-                            <ul>
-                                <li><strong>系统指令：</strong>定义生成任务和目标（如生成一致的多视图图像）</li>
-                                <li><strong>用户查询：</strong>原始需求描述</li>
-                                <li><strong>参考信息：</strong>检索到的对象特征、风格和细节</li>
-                                <li><strong>生成要求：</strong>具体技术规范（如视图数量、分辨率、一致性要求）</li>
-                                <li><strong>约束条件：</strong>需要保留或修改的特定特征</li>
-                            </ul>
-                            <div class="process-note">
-                                <div class="process-note-title">增强提示结构：</div>
-                                <p>【系统指令】+【用户查询】+【参考对象1特征】+【参考对象2特征】+【生成要求】+【约束条件】</p>
-                            </div>
-                            <div class="output-box">
-                                <div class="output-title">增强提示输出：</div>
-                                <p>结构化的多模态提示，融合用户意图、参考对象特征和技术要求</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-paint-brush"></i></div>
-                            <h3 class="step-title">生成 (Generate)</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>多视角生成模型根据增强提示生成一致的多视图图像：</p>
-                            <ul>
-                                <li><strong>模型输入：</strong>增强提示，包含文本和可能的参考图像特征</li>
-                                <li><strong>条件生成：</strong>模型融合参考特征和用户需求进行生成</li>
-                                <li><strong>多视图一致性：</strong>确保生成的不同视角图像在几何和外观上保持一致</li>
-                                <li><strong>迭代优化：</strong>根据需要调整生成参数或进行多轮生成</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span class="tech-tag">MVDream</span>
-                                <span class="tech-tag">SyncDreamer</span>
-                                <span class="tech-tag">Zero-1-to-3</span>
-                                <span class="tech-tag">3D-aware扩散模型</span>
-                            </div>
-                            <div class="output-box">
-                                <div class="output-title">生成结果：</div>
-                                <p>12-24张具有3D一致性的多视角图像，描绘了符合用户需求的虚拟对象</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="arch-card">
+                    <div class="arch-title">步骤2: 上下文增强与提示构建</div>
+                    <p>将检索结果作为条件信息，构建增强的生成提示：</p>
+                    <ul>
+                        <li>原始用户查询</li>
+                        <li>检索到的多视图图像/特征</li>
+                        <li>几何和语义关联信息</li>
+                    </ul>
                 </div>
                 
-                <div class="diagram-placeholder">
-                    <div class="diagram-title">RAG生成流程示意图</div>
-                    <div class="diagram-content">
-                        [用户查询] → [向量检索] → [增强提示构建] → [条件生成] → [多视图图像]
-                    </div>
+                <div class="arch-card">
+                    <div class="arch-title">步骤3: 可控多视图生成</div>
+                    <p>使用条件化生成模型（如增强版Zero-1-to-3或MVDream）：</p>
+                    <ul>
+                        <li>输入：用户查询+目标相机姿态+检索结果</li>
+                        <li>输出：一致的多视图图像</li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- 第三阶段：3D重建 -->
-            <div class="phase">
-                <div class="phase-header">
-                    <div class="phase-number">3</div>
-                    <div>
-                        <h2 class="phase-title">3D重建（后处理）</h2>
-                        <p class="phase-description">从生成的多视图图像重建高质量的3D模型，并进行优化和输出</p>
-                    </div>
-                </div>
+            <div class="example-box">
+                <div class="example-title">示例：生成"带有华丽雕花和天鹅绒坐垫的洛可可风格椅子"</div>
                 
-                <div class="steps-container">
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-cubes"></i></div>
-                            <h3 class="step-title">3D重建处理</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>使用3D重建技术从多视角图像生成3D模型：</p>
-                            <ul>
-                                <li><strong>输入准备：</strong>整理生成的多视角图像，确保视角分布合理</li>
-                                <li><strong>相机参数估计：</strong>估计或假设每个视图的相机位置和参数</li>
-                                <li><strong>几何重建：</strong>使用NeRF、3D Gaussian Splatting等技术重建3D几何</li>
-                                <li><strong>纹理映射：</strong>从图像中提取并映射纹理到3D模型表面</li>
-                                <li><strong>优化处理：</strong>修复几何缺陷，优化纹理质量</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span class="tech-tag">NeRF</span>
-                                <span class="tech-tag">3D Gaussian Splatting</span>
-                                <span class="tech-tag">InstantNGP</span>
-                                <span class="tech-tag">COLMAP</span>
-                                <span class="tech-tag">纹理映射</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-header">
-                            <div class="step-icon"><i class="fas fa-file-export"></i></div>
-                            <h3 class="step-title">模型输出与格式</h3>
-                        </div>
-                        <div class="step-content">
-                            <p>生成最终3D模型并输出标准格式：</p>
-                            <ul>
-                                <li><strong>格式转换：</strong>输出为.obj, .ply, .gltf等标准3D格式</li>
-                                <li><strong>质量评估：</strong>评估模型的视觉质量、几何准确性和完整性</li>
-                                <li><strong>后处理：</strong>进行网格简化、法线平滑等优化操作</li>
-                                <li><strong>应用部署：</strong>集成到目标平台或应用场景中</li>
-                            </ul>
-                            <div class="output-box">
-                                <div class="output-title">最终输出：</div>
-                                <p>高质量的3D模型文件，符合用户需求，可直接用于可视化、AR/VR、游戏等应用</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h3>步骤1: 检索</h3>
+                <p>系统执行以下检索操作：</p>
+                <ul>
+                    <li><strong>粗检索</strong>：找到知识库中所有"洛可可风格"或"华丽雕花"的椅子</li>
+                    <li><strong>细检索</strong>：匹配"雕花"细节和"天鹅绒"材质</li>
+                    <li><strong>图漫步</strong>：从找到的椅子出发，沿着几何边找到完整6视图，沿着语义边找到相似风格椅子</li>
+                </ul>
                 
-                <div class="diagram-placeholder">
-                    <div class="diagram-title">3D重建流程示意图</div>
-                    <div class="diagram-content">
-                        [多视图图像] → [相机参数估计] → [几何重建] → [纹理映射] → [3D模型优化] → [格式输出]
-                    </div>
-                </div>
+                <h3>步骤2: 上下文增强</h3>
+                <p>构建包含以下内容的生成提示：</p>
+                <ul>
+                    <li>原始文本："带有华丽雕花和天鹅绒坐垫的洛可可风格椅子"</li>
+                    <li>检索到的参考图像：3个洛可可风格椅子的完整6视图</li>
+                    <li>特定细节：雕花图案、天鹅绒材质样本</li>
+                </ul>
+                
+                <h3>步骤3: 生成</h3>
+                <p>条件化多视图生成模型：</p>
+                <ul>
+                    <li>以检索结果为指导，生成6个一致的新视图</li>
+                    <li>确保雕花风格与参考一致，材质符合天鹅绒特性</li>
+                    <li>保持洛可可风格的整体美学</li>
+                </ul>
             </div>
-        </div>
+        </section>
+        
+        <section class="section">
+            <h2>阶段三：3D重建</h2>
+            <p>使用生成的高质量、一致的多视图图像，通过3D重建技术（如NeRF、3D高斯泼溅）创建最终3D模型。</p>
+            
+            <div class="example-box">
+                <div class="example-title">示例：椅子3D模型重建</div>
+                <p>将生成的6个视图输入到3D重建流程：</p>
+                <ol>
+                    <li><strong>相机姿态估计</strong>：估计生成图像的相对相机位置</li>
+                    <li><strong>几何重建</strong>：使用多视图立体视觉或神经渲染方法恢复3D几何</li>
+                    <li><strong>纹理映射</strong>：将多视图图像的颜色信息映射到3D表面</li>
+                    <li><strong>后处理</strong>：优化几何、修复瑕疵、简化网格</li>
+                </ol>
+                <p>最终输出一个既符合用户描述，又具备参考对象精细特征的3D椅子模型。</p>
+            </div>
+        </section>
     </div>
 </body>
 </html>
