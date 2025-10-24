@@ -21,31 +21,7 @@ topmost: true
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D-RAG知识库构建与生成流程</title>
     <style>
-        :root {
-            --primary: #4a6fa5;
-            --secondary: #6b8cbc;
-            --accent: #ff9e64;
-            --light: #f5f7fa;
-            --dark: #2c3e50;
-            --success: #5cb85c;
-            --info: #5bc0de;
-            --warning: #f0ad4e;
-            --danger: #d9534f;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f8f9fa;
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 20px;
-        }
+         
         
         .container {
             max-width: 100%;
