@@ -187,6 +187,4 @@ permalink: /about/
   </div>
 </div>
 
-# 肖美美- 学术与科研成果展示
-
  
