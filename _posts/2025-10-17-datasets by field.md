@@ -21,6 +21,19 @@ topmost: false
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据集资源库 | 苗佳哲</title>
     <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
         
         .container {
             max-width: 100%;
