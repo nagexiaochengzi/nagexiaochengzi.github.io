@@ -203,24 +203,19 @@ topmost: false
     <div class="container">
         <header class="page-header">
             <h1 class="page-title">数据集资源库</h1>
-            <p class="page-subtitle">汇集各领域高质量数据集，助力科研与开发</p>
         </header>
-        
         <!-- 搜索框 -->
         <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="搜索数据集名称、描述或标签...">
             <div class="search-results" id="searchResults"></div>
         </div>
-        
         <div class="category-nav" id="categoryNav">
             <!-- 分类导航将通过JavaScript动态生成 -->
         </div>
-        
         <div id="datasetsContainer">
             <!-- 数据集内容将通过JavaScript动态生成 -->
         </div>
     </div>
-
     <script>
         // 数据集分类数据
         const categories = [
@@ -232,7 +227,6 @@ topmost: false
             { id: 'semiconductor', name: '半导体领域' },
             { id: 'other', name: '其他' }
         ];
-        
         // 数据集数据
         const datasets = [
             // 综合性数据集
@@ -285,7 +279,6 @@ topmost: false
                 category: "comprehensive",
                 accessLink: "#"
             },
-            
             // 数学领域数据集
             {
                 name: "NuminaMath-CoT",
@@ -427,7 +420,6 @@ topmost: false
                 category: "mathematics",
                 accessLink: "#"
             },
-            
             // 无线领域数据集
             {
                 name: "4G LTE数据集",
@@ -576,7 +568,6 @@ topmost: false
                 category: "wireless",
                 accessLink: "#"
             },
-            
             // AI领域数据集
             {
                 name: "COCO 2017",
@@ -1082,7 +1073,6 @@ topmost: false
                 category: "ai",
                 accessLink: "#"
             },
-            
             // 材料领域数据集
             {
                 name: "Materials Project",
@@ -1700,7 +1690,6 @@ topmost: false
                 category: "materials",
                 accessLink: "#"
             },
-            
             // 半导体领域数据集
             {
                 name: "MixedWM38",
@@ -1800,7 +1789,6 @@ topmost: false
                 category: "semiconductor",
                 accessLink: "#"
             },
-            
             // 其他数据集
             {
                 name: "计算机硬件数据集",
@@ -1845,23 +1833,19 @@ topmost: false
                 accessLink: "#"
             }
         ];
-        
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             renderCategoryNav();
             renderAllDatasets();
-            
             // 添加分类导航点击事件
             document.getElementById('categoryNav').addEventListener('click', function(e) {
                 if (e.target.classList.contains('category-btn')) {
                     const categoryId = e.target.getAttribute('data-category');
-                    
                     // 更新活动按钮
                     document.querySelectorAll('.category-btn').forEach(btn => {
                         btn.classList.remove('active');
                     });
                     e.target.classList.add('active');
-                    
                     // 显示对应分类的数据集
                     if (categoryId === 'all') {
                         renderAllDatasets();
@@ -1870,7 +1854,6 @@ topmost: false
                     }
                 }
             });
-            
             // 添加搜索功能
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('input', function() {
@@ -1889,18 +1872,15 @@ topmost: false
                 }
             });
         });
-        
         // 渲染分类导航
         function renderCategoryNav() {
             const navContainer = document.getElementById('categoryNav');
-            
             // 添加"全部"按钮
             const allButton = document.createElement('button');
             allButton.className = 'category-btn active';
             allButton.setAttribute('data-category', 'all');
             allButton.textContent = '全部';
             navContainer.appendChild(allButton);
-            
             // 添加各分类按钮
             categories.forEach(category => {
                 const button = document.createElement('button');
@@ -1910,111 +1890,86 @@ topmost: false
                 navContainer.appendChild(button);
             });
         }
-        
         // 渲染所有数据集
         function renderAllDatasets() {
             const container = document.getElementById('datasetsContainer');
             container.innerHTML = '';
-            
             categories.forEach(category => {
                 const categoryDatasets = datasets.filter(dataset => dataset.category === category.id);
-                
                 if (categoryDatasets.length > 0) {
                     // 添加分类标题
                     const categoryTitle = document.createElement('h2');
                     categoryTitle.className = 'category-title';
                     categoryTitle.textContent = category.name;
                     container.appendChild(categoryTitle);
-                    
                     // 添加数据集网格
                     const grid = document.createElement('div');
                     grid.className = 'datasets-grid';
-                    
                     categoryDatasets.forEach(dataset => {
                         grid.appendChild(createDatasetCard(dataset));
                     });
-                    
                     container.appendChild(grid);
                 }
             });
         }
-        
         // 按分类渲染数据集
         function renderDatasetsByCategory(categoryId) {
             const container = document.getElementById('datasetsContainer');
             container.innerHTML = '';
-            
             const category = categories.find(cat => cat.id === categoryId);
             const categoryDatasets = datasets.filter(dataset => dataset.category === categoryId);
-            
             if (categoryDatasets.length > 0) {
                 // 添加分类标题
                 const categoryTitle = document.createElement('h2');
                 categoryTitle.className = 'category-title';
                 categoryTitle.textContent = category.name;
                 container.appendChild(categoryTitle);
-                
                 // 添加数据集网格
                 const grid = document.createElement('div');
                 grid.className = 'datasets-grid';
-                
                 categoryDatasets.forEach(dataset => {
                     grid.appendChild(createDatasetCard(dataset));
                 });
-                
                 container.appendChild(grid);
             } else {
                 container.innerHTML = '<p>该分类下暂无数据集。</p>';
             }
         }
-        
         // 创建数据集卡片
         function createDatasetCard(dataset) {
             const card = document.createElement('div');
             card.className = 'dataset-card';
-            
             const header = document.createElement('div');
             header.className = 'dataset-header';
-            
             const name = document.createElement('h3');
             name.className = 'dataset-name';
             name.textContent = dataset.name;
-            
             const description = document.createElement('p');
             description.className = 'dataset-description';
             description.textContent = dataset.description;
-            
             header.appendChild(name);
             header.appendChild(description);
-            
             const tags = document.createElement('div');
             tags.className = 'dataset-tags';
-            
             dataset.tags.forEach(tag => {
                 const tagElement = document.createElement('span');
                 tagElement.className = 'dataset-tag';
                 tagElement.textContent = tag;
                 tags.appendChild(tagElement);
             });
-            
             const access = document.createElement('div');
             access.className = 'dataset-access';
-            
             const accessLink = document.createElement('a');
             accessLink.className = 'access-btn';
             accessLink.href = dataset.accessLink;
             accessLink.textContent = '访问数据集';
             accessLink.target = '_blank';
-            
             access.appendChild(accessLink);
-            
             card.appendChild(header);
             card.appendChild(tags);
             card.appendChild(access);
-            
             return card;
         }
-        
         // 执行搜索
         function performSearch(searchTerm) {
             const searchResults = datasets.filter(dataset => {
@@ -2022,53 +1977,41 @@ topmost: false
                 const nameMatch = dataset.name.toLowerCase().includes(searchTerm);
                 const descriptionMatch = dataset.description.toLowerCase().includes(searchTerm);
                 const tagsMatch = dataset.tags.some(tag => tag.toLowerCase().includes(searchTerm));
-                
                 return nameMatch || descriptionMatch || tagsMatch;
             });
-            
             // 显示搜索结果
             displaySearchResults(searchResults, searchTerm);
         }
-        
         // 显示搜索结果
         function displaySearchResults(results, searchTerm) {
             const container = document.getElementById('datasetsContainer');
             const resultsInfo = document.getElementById('searchResults');
-            
             container.innerHTML = '';
-            
             if (results.length > 0) {
                 resultsInfo.textContent = `找到 ${results.length} 个与 "${searchTerm}" 相关的结果`;
-                
                 // 按分类分组显示结果
                 const resultsByCategory = {};
-                
                 results.forEach(dataset => {
                     if (!resultsByCategory[dataset.category]) {
                         resultsByCategory[dataset.category] = [];
                     }
                     resultsByCategory[dataset.category].push(dataset);
                 });
-                
                 // 显示每个分类的结果
                 Object.keys(resultsByCategory).forEach(categoryId => {
                     const category = categories.find(cat => cat.id === categoryId);
                     const categoryDatasets = resultsByCategory[categoryId];
-                    
                     // 添加分类标题
                     const categoryTitle = document.createElement('h2');
                     categoryTitle.className = 'category-title';
                     categoryTitle.textContent = category.name;
                     container.appendChild(categoryTitle);
-                    
                     // 添加数据集网格
                     const grid = document.createElement('div');
                     grid.className = 'datasets-grid';
-                    
                     categoryDatasets.forEach(dataset => {
                         grid.appendChild(createDatasetCard(dataset));
                     });
-                    
                     container.appendChild(grid);
                 });
             } else {
