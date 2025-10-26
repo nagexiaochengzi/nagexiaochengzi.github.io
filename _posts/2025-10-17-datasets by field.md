@@ -16,3 +16,6 @@ topmost: false
 ## 数据集
 
 [查看数据集资源库](_layouts/dataset.html)
+<div class="column one-third">
+            {% include dataset.html %}
+</div>
