@@ -21,7 +21,6 @@ permalink: /about/
 </div>
 
 ## 二、论文成果
-## 二、论文成果
 ### 2.1 第一作者论文
 <div style="margin-bottom: 25px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden;">
   <table style="width: 100%; border-collapse: collapse; margin: 0;">
