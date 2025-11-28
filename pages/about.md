@@ -83,7 +83,7 @@ permalink: /about/
     </li>
     <li style="padding: 10px 0; display: flex; align-items: flex-start;">
       <div>
-        <span style="font-weight: 500; color: #333;">Displays</span>：
+        <span style="font-weight: 500; color: #333;">Computer Graphics International (Oral)</span>：
         <a href="https://link.springer.com/chapter/10.1007/978-3-031-82021-2_13" target="_blank" style="color: #0047ab; text-decoration: none;">论文8</a>
       </div>
     </li>
