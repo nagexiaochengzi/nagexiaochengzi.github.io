@@ -28,7 +28,6 @@ permalink: /about/
     <thead>
       <tr style="background-color: #f0f7ff; color: #0047ab;">
         <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; width: 25%;">发表载体</th>
-        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; width: 15%;">级别</th>
         <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; width: 60%;">论文链接</th>
       </tr>
     </thead>
