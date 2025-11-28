@@ -34,31 +34,31 @@ permalink: /about/
       <tr>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">Computer Graphics International (Oral)</td>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
-          <a href="https://link.springer.com/chapter/10.1007/978-3-031-51963-7_23" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文1</a>
+          <a href="https://link.springer.com/chapter/10.1007/978-3-031-50075-6_22" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文1</a>
         </td>
       </tr>
       <tr>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">The Visual Computer</td>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
-          <a href="https://link.springer.com/article/10.1007/s00371-024-03621-5" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文2</a>
+          <a href="https://link.springer.com/article/10.1007/s00371-024-03575-0" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文2</a>
         </td>
       </tr>
       <tr>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">IEEE International Conference on Multimedia & Expo (Oral)</td>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
-          <a href="https://ieeexplore.ieee.org/document/10555564" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文3</a>
+          <a href="https://ieeexplore.ieee.org/abstract/document/10688101/" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文3</a>
         </td>
       </tr>
       <tr>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">Graphical Models</td>
         <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
-          <a href="https://www.sciencedirect.com/science/article/pii/S1524070324000465" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文4</a>
+          <a href="https://www.sciencedirect.com/science/article/pii/S1524070324000237" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文4</a>
         </td>
       </tr>
       <tr>
         <td style="padding: 12px 15px; vertical-align: top;">IEEE Transactions on Consumer Electronics</td>
         <td style="padding: 12px 15px; vertical-align: top;">
-          <a href="https://ieeexplore.ieee.org/document/10369647" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文5</a>
+          <a href="https://ieeexplore.ieee.org/abstract/document/11197542" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文5</a>
         </td>
       </tr>
     </tbody>
@@ -71,13 +71,13 @@ permalink: /about/
     <li style="padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: flex-start;">
       <div>
         <span style="font-weight: 500; color: #333;">Graphical Models</span>：
-        <a href="https://www.sciencedirect.com/science/article/pii/S1524070323000528" target="_blank" style="color: #0047ab; text-decoration: none;">论文6</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S1524070323000279" target="_blank" style="color: #0047ab; text-decoration: none;">论文6</a>
       </div>
     </li>
-    <li style="padding: 10px 0; display: flex; align-items: flex-start;">
+    <li style="padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: flex-start;">
       <div>
         <span style="font-weight: 500; color: #333;">Displays</span>：
-        <a href="https://www.sciencedirect.com/science/article/pii/S0141938224000518" target="_blank" style="color: #0047ab; text-decoration: none;">论文7</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S0141938223001671" target="_blank" style="color: #0047ab; text-decoration: none;">论文7</a>
       </div>
     </li>
     <li style="padding: 10px 0; display: flex; align-items: flex-start;">
