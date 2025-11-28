@@ -21,7 +21,76 @@ permalink: /about/
 </div>
 
 ## 二、论文成果
+## 二、论文成果
 ### 2.1 第一作者论文
+<div style="margin-bottom: 25px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden;">
+  <table style="width: 100%; border-collapse: collapse; margin: 0;">
+    <thead>
+      <tr style="background-color: #f0f7ff; color: #0047ab;">
+        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; width: 25%;">发表载体</th>
+        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; width: 15%;">级别</th>
+        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; width: 60%;">论文链接</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">Computer Graphics International (Oral)</td>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
+          <a href="https://link.springer.com/chapter/10.1007/978-3-031-51963-7_23" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文1</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">The Visual Computer</td>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
+          <a href="https://link.springer.com/article/10.1007/s00371-024-03621-5" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文2</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">IEEE International Conference on Multimedia & Expo (Oral)</td>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
+          <a href="https://ieeexplore.ieee.org/document/10555564" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文3</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">Graphical Models</td>
+        <td style="padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top;">
+          <a href="https://www.sciencedirect.com/science/article/pii/S1524070324000465" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文4</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px 15px; vertical-align: top;">IEEE Transactions on Consumer Electronics</td>
+        <td style="padding: 12px 15px; vertical-align: top;">
+          <a href="https://ieeexplore.ieee.org/document/10369647" target="_blank" style="color: #0047ab; text-decoration: none; font-weight: 500;">论文5</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### 2.2 合作者论文
+<div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 20px;">
+  <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li style="padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: flex-start;">
+      <div>
+        <span style="font-weight: 500; color: #333;">Graphical Models</span>：
+        <a href="https://www.sciencedirect.com/science/article/pii/S1524070323000528" target="_blank" style="color: #0047ab; text-decoration: none;">论文6</a>
+      </div>
+    </li>
+    <li style="padding: 10px 0; display: flex; align-items: flex-start;">
+      <div>
+        <span style="font-weight: 500; color: #333;">Displays</span>：
+        <a href="https://www.sciencedirect.com/science/article/pii/S0141938224000518" target="_blank" style="color: #0047ab; text-decoration: none;">论文7</a>
+      </div>
+    </li>
+    <li style="padding: 10px 0; display: flex; align-items: flex-start;">
+      <div>
+        <span style="font-weight: 500; color: #333;">Displays</span>：
+        <a href="https://link.springer.com/chapter/10.1007/978-3-031-82021-2_13" target="_blank" style="color: #0047ab; text-decoration: none;">论文8</a>
+      </div>
+    </li>
+  </ul>
+</div>
+<!-- ### 2.1 第一作者论文
 <div style="margin-bottom: 25px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden;">
   <table style="width: 100%; border-collapse: collapse; margin: 0;">
     <thead>
@@ -77,7 +146,7 @@ permalink: /about/
       </div>
     </li>
   </ul>
-</div>
+</div> -->
 
 ## 三、竞赛获奖
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0;">
