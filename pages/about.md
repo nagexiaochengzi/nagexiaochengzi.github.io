@@ -17,7 +17,9 @@ permalink: /about/
   <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">计算机图形学</span>
   <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">三维重建及仿真</span>
   <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">多模态大模型</span>
-  <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">3D-RAG</span>
+  <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">检索增强生成（RAG）</span>
+  <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">多模态理解、生成</span>
+  <span style="background-color: #e6f7ff; color: #1890ff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500;">大模型及应用</span>
 </div>
 
 ## 二、论文成果
