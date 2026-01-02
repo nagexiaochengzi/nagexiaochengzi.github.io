@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狼人杀上帝控制台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        h1 {
+            color: #4361ee;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(67, 97, 238, 0.1);
+        }
+        
+        .subtitle {
+            color: #6c757d;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e0e0;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .panel-title {
+            color: #4361ee;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(67, 97, 238, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .panel-title i {
+            font-size: 1.3rem;
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: none;
+            color: #6c757d;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .tab.active {
+            background: white;
+            color: #4361ee;
+            border-bottom: 3px solid #4361ee;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .role-pool {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .role-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .role-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #4361ee;
+        }
+        
+        .role-item.selected {
+            border-color: #ef476f;
+            background: rgba(239, 71, 111, 0.05);
+        }
+        
+        .role-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .wolf-role .role-icon {
+            color: #ef476f;
+        }
+        
+        .village-role .role-icon {
+            color: #06d6a0;
+        }
+        
+        .third-role .role-icon {
+            color: #ffd166;
+        }
+        
+        .role-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .role-count {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .edit-role-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4361ee;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .role-item:hover .edit-role-btn {
+            opacity: 1;
+        }
+        
+        .board-config {
+            margin-top: 20px;
+        }
+        
+        .board-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .board-title h3 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+        
+        .player-count {
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #4361ee;
+        }
+        
+        .board-roles {
+            min-height: 120px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px dashed #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        .board-roles.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+            font-style: italic;
+        }
+        
+        .board-role-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 0 8px 8px 0;
+            width: 100px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .remove-role {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef476f;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #06d6a0;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #05c090;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(6, 214, 160, 0.3);
+        }
+        
+        .btn-danger {
+            background: #ef476f;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e63950;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(239, 71, 111, 0.3);
+        }
+        
+        .btn-warning {
+            background: #ffd166;
+            color: #333;
+        }
+        
+        .btn-warning:hover {
+            background: #f9c74f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 209, 102, 0.3);
+        }
+        
+        .game-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .game-phase {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .phase-title {
+            color: #333;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .phase-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .timer {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .time-display {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #4361ee;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .timer-btn {
+            padding: 10px 20px;
+            min-width: 100px;
+        }
+        
+        .player-list {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .player-list h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .player-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .player-item {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+            width: calc(50% - 6px);
+            transition: all 0.3s;
+        }
+        
+        .player-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .player-item.dead {
+            opacity: 0.6;
+            background: #f8f9fa;
+            text-decoration: line-through;
+        }
+        
+        .player-number {
+            background: #4361ee;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .player-info {
+            flex-grow: 1;
+        }
+        
+        .player-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .player-role {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .player-status {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .player-status.alive {
+            background: rgba(6, 214, 160, 0.1);
+            color: #06d6a0;
+        }
+        
+        .player-status.dead {
+            background: rgba(239, 71, 111, 0.1);
+            color: #ef476f;
+        }
+        
+        .preset-boards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .preset-board {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .preset-board:hover {
+            border-color: #4361ee;
+            transform: translateY(-5px);
+        }
+        
+        .preset-board h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .preset-board p {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .modal-title {
+            color: #333;
+            font-size: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #4361ee;
+            background: white;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .game-log {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .game-log h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .log-entries {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .log-entry {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #4361ee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .log-entry-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .log-phase {
+            font-weight: 600;
+            color: #4361ee;
+        }
+        
+        .log-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .log-content {
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .log-edit-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #495057;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .log-edit-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .log-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .log-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .log-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+        
+        .log-input:focus {
+            outline: none;
+            border-color: #4361ee;
+            background: white;
+        }
+        
+        .night-info {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .night-info h4 {
+            color: #495057;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .night-info-content {
+            color: #6c757d;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+        
+        .edit-info-btn {
+            background: #f8f9fa;
+            color: #4361ee;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .info-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .panel {
+                width: 100%;
+            }
+            
+            .player-item {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .role-pool {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .timer-controls {
+                flex-wrap: wrap;
+            }
+            
+            .tab-container {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-moon"></i> 狼人杀上帝控制台</h1>
+        </header>
+        
+        <div class="main-content">
+            <div class="panel">
+                <div class="tab-container">
+                    <button class="tab active" data-tab="role-pool">角色池</button>
+                    <button class="tab" data-tab="custom-role">自定义角色</button>
+                </div>
+                
+                <div id="role-pool" class="tab-content active">
+                    <h2 class="panel-title"><i class="fas fa-users"></i> 角色池</h2>
+                    
+                    <div class="role-pool" id="rolePool">
+                        <!-- 角色池将通过JavaScript动态生成 -->
+                    </div>
+                    
+                    <div class="board-config">
+                        <div class="board-title">
+                            <h3>当前板型</h3>
+                            <div class="player-count">玩家总数: <span id="playerCount">0</span></div>
+                        </div>
+                        
+                        <div class="board-roles empty" id="boardRoles">
+                            请从上方角色池中添加角色到当前板型
+                        </div>
+                        
+                        <div class="controls">
+                            <button class="btn-danger" id="clearBoard">
+                                <i class="fas fa-trash-alt"></i> 清空板型
+                            </button>
+                            <button class="btn-warning" id="saveBoard">
+                                <i class="fas fa-save"></i> 保存板型
+                            </button>
+                            <button class="btn-primary" id="startGame">
+                                <i class="fas fa-play"></i> 开始游戏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="custom-role" class="tab-content">
+                    <h2 class="panel-title"><i class="fas fa-user-plus"></i> 自定义角色</h2>
+                    <div class="form-group">
+                        <label for="customRoleName">角色名称</label>
+                        <input type="text" id="customRoleName" class="form-control" placeholder="例如：机械狼">
+                    </div>
+                    <div class="form-group">
+                        <label for="customRoleIcon">角色图标 (FontAwesome类名)</label>
+                        <input type="text" id="customRoleIcon" class="form-control" placeholder="fas fa-robot" value="fas fa-robot">
+                        <small style="color: #6c757d; font-size: 0.8rem;">可从 <a href="https://fontawesome.com/icons" target="_blank" style="color: #4361ee;">FontAwesome</a> 查找图标类名</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="customRoleDescription">角色描述</label>
+                        <textarea id="customRoleDescription" class="form-control form-textarea" placeholder="例如：机械狼第一夜学习一名玩家的身份，之后获得该身份的技能"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="customRoleSide">所属阵营</label>
+                        <select id="customRoleSide" class="form-control">
+                            <option value="wolf">狼人阵营</option>
+                            <option value="village">好人阵营</option>
+                            <option value="third">第三方阵营</option>
+                        </select>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-primary" id="createCustomRole">
+                            <i class="fas fa-check"></i> 创建自定义角色
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="preset-boards">
+                    <div class="preset-board" data-preset="standard">
+                        <h4>标准板型</h4>
+                        <p>4狼人、4村民、预言家、女巫、猎人、守卫</p>
+                    </div>
+                    <div class="preset-board" data-preset="advanced">
+                        <h4>进阶板型</h4>
+                        <p>4狼人、3村民、预言家、女巫、猎人、白狼王</p>
+                    </div>
+                    <div class="preset-board" data-preset="mechanical">
+                        <h4>机械狼板型</h4>
+                        <p>3狼人、机械狼、4村民、预言家、女巫、守卫</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-gamepad"></i> 游戏控制区</h2>
+                
+                <div class="game-phase" id="gamePhase">
+                    <div class="phase-title">游戏准备阶段</div>
+                    <div class="phase-description">
+                        请先配置板型并开始游戏。游戏开始后，这里将显示当前游戏阶段和相应的操作指引。
+                    </div>
+                </div>
+                
+                <div class="timer">
+                    <h3><i class="fas fa-hourglass-half"></i> 发言计时器</h3>
+                    <div class="time-display" id="timeDisplay">02:00</div>
+                    <div class="timer-controls">
+                        <button class="btn-primary timer-btn" id="startTimer">
+                            <i class="fas fa-play"></i> 开始
+                        </button>
+                        <button class="btn-warning timer-btn" id="pauseTimer">
+                            <i class="fas fa-pause"></i> 暂停
+                        </button>
+                        <button class="btn-danger timer-btn" id="resetTimer">
+                            <i class="fas fa-redo"></i> 重置
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="player-list">
+                    <div class="player-list-header">
+                        <h3><i class="fas fa-users"></i> 玩家列表</h3>
+                        <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 10px;">
+                            点击玩家切换存活状态，点击玩家编号可重新分配身份
+                        </div>
+                    </div>
+                    <div class="player-items" id="playerItems">
+                        <!-- 玩家列表将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn-primary" id="nextPhase">
+                        <i class="fas fa-forward"></i> 下一阶段
+                    </button>
+                    <button class="btn-warning" id="prevPhase">
+                        <i class="fas fa-backward"></i> 上一阶段
+                    </button>
+                    <button class="btn-secondary" id="assignRoles">
+                        <i class="fas fa-random"></i> 重新分配身份
+                    </button>
+                </div>
+                
+                <div class="game-log">
+                    <h3><i class="fas fa-clipboard-list"></i> 游戏日志</h3>
+                    <div class="log-entries" id="logEntries">
+                        <!-- 游戏日志将通过JavaScript动态生成 -->
+                    </div>
+                    
+                    <div class="log-input-group">
+                        <input type="text" class="log-input" id="logInput" placeholder="输入游戏事件，例如：第一夜狼人击杀了3号玩家">
+                        <button class="btn-primary" id="addLogEntry">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </div>
+                    
+                    <div class="log-actions">
+                        <button class="btn-warning" id="clearLog">
+                            <i class="fas fa-trash-alt"></i> 清空日志
+                        </button>
+                        <button class="btn-secondary" id="saveLog">
+                            <i class="fas fa-save"></i> 保存日志
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+  
+    </div>
+
+    <!-- 角色编辑模态框 -->
+    <div class="modal" id="roleEditModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">编辑角色</h3>
+                <button class="close-modal" id="closeRoleModal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="editRoleName">角色名称</label>
+                <input type="text" id="editRoleName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editRoleIcon">角色图标</label>
+                <input type="text" id="editRoleIcon" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editRoleDescription">角色描述</label>
+                <textarea id="editRoleDescription" class="form-control form-textarea"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editRoleSide">所属阵营</label>
+                <select id="editRoleSide" class="form-control">
+                    <option value="wolf">狼人阵营</option>
+                    <option value="village">好人阵营</option>
+                    <option value="third">第三方阵营</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-danger" id="deleteRole">删除角色</button>
+                <button class="btn-warning" id="cancelEditRole">取消</button>
+                <button class="btn-primary" id="saveRoleChanges">保存更改</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 日志编辑模态框 -->
+    <div class="modal" id="logEditModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">编辑日志条目</h3>
+                <button class="close-modal" id="closeLogModal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="editLogPhase">阶段</label>
+                <input type="text" id="editLogPhase" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editLogContent">内容</label>
+                <textarea id="editLogContent" class="form-control form-textarea"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-warning" id="cancelLogEdit">取消</button>
+                <button class="btn-primary" id="saveLogChanges">保存更改</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 基础角色数据
+        let roles = [
+            { id: 'werewolf', name: '狼人', icon: 'fas fa-paw', count: 0, description: '夜晚可以击杀一名玩家', side: 'wolf', custom: false },
+            { id: 'villager', name: '村民', icon: 'fas fa-user', count: 0, description: '没有特殊技能，通过投票放逐狼人', side: 'village', custom: false },
+            { id: 'seer', name: '预言家', icon: 'fas fa-eye', count: 0, description: '夜晚可以查验一名玩家的身份', side: 'village', custom: false },
+            { id: 'witch', name: '女巫', icon: 'fas fa-flask', count: 0, description: '拥有一瓶解药和一瓶毒药', side: 'village', custom: false },
+            { id: 'hunter', name: '猎人', icon: 'fas fa-crosshairs', count: 0, description: '死亡时可以开枪带走一名玩家', side: 'village', custom: false },
+            { id: 'guard', name: '守卫', icon: 'fas fa-shield-alt', count: 0, description: '每晚可以守护一名玩家免受狼人袭击', side: 'village', custom: false },
+            { id: 'idiot', name: '白痴', icon: 'fas fa-theater-masks', count: 0, description: '被放逐后可以翻牌免死，但失去投票权', side: 'village', custom: false },
+            { id: 'whitewolf', name: '白狼王', icon: 'fas fa-crown', count: 0, description: '狼人阵营，可以在白天自爆带走一名玩家', side: 'wolf', custom: false },
+            { id: 'knight', name: '骑士', icon: 'fas fa-horse', count: 0, description: '可以在白天决斗一名玩家，若对方是狼人则将其杀死', side: 'village', custom: false },
+            { id: 'cupid', name: '丘比特', icon: 'fas fa-heart', count: 0, description: '第一夜指定两名玩家成为情侣', side: 'village', custom: false },
+            { id: 'mechanical_wolf', name: '机械狼', icon: 'fas fa-robot', count: 0, description: '第一夜学习一名玩家的身份，之后获得该身份的技能', side: 'wolf', custom: true }
+        ];
+        
+        // 游戏阶段
+        const gamePhases = [
+            { 
+                title: "游戏准备", 
+                description: "分发身份牌，玩家确认身份。上帝宣布：天黑了，请闭眼。",
+                actions: []
+            },
+            { 
+                title: "第一夜", 
+                description: "第一夜行动顺序：丘比特 → 狼人 → 机械狼 → 女巫 → 预言家 → 守卫",
+                actions: ["请按照夜晚行动顺序依次行动"]
+            },
+            { 
+                title: "第一天白天", 
+                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。",
+                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言"]
+            },
+            { 
+                title: "第二天夜晚", 
+                description: "第二夜行动顺序：狼人 → 女巫 → 预言家 → 守卫",
+                actions: ["请按照夜晚行动顺序依次行动"]
+            },
+            { 
+                title: "第二天白天", 
+                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。",
+                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言"]
+            },
+            { 
+                title: "第三天夜晚", 
+                description: "第三夜行动顺序：狼人 → 女巫 → 预言家 → 守卫",
+                actions: ["请按照夜晚行动顺序依次行动"]
+            },
+            { 
+                title: "第三天白天", 
+                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。",
+                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言"]
+            },
+            { 
+                title: "游戏结束", 
+                description: "宣布游戏结果，狼人阵营或好人阵营获胜。",
+                actions: ["宣布游戏结果", "公布所有玩家身份", "进行游戏复盘"]
+            }
+        ];
+        
+        // 游戏日志
+        let gameLog = [
+            { phase: "游戏开始", content: "游戏开始，共12名玩家", time: "10:00" },
+            { phase: "板型配置", content: "使用标准板型：4狼人、4村民、预言家、女巫、猎人、守卫", time: "10:02" }
+        ];
+        
+        // 当前游戏状态
+        let currentBoard = [];
+        let currentPhaseIndex = 0;
+        let timerInterval = null;
+        let timerSeconds = 120;
+        let isTimerRunning = false;
+        let gameStarted = false;
+        let playerCount = 12;
+        let players = [];
+        let editingRoleId = null;
+        let editingLogIndex = null;
+        
+        // DOM元素
+        const rolePoolEl = document.getElementById('rolePool');
+        const boardRolesEl = document.getElementById('boardRoles');
+        const playerCountEl = document.getElementById('playerCount');
+        const clearBoardBtn = document.getElementById('clearBoard');
+        const saveBoardBtn = document.getElementById('saveBoard');
+        const startGameBtn = document.getElementById('startGame');
+        const createCustomRoleBtn = document.getElementById('createCustomRole');
+        const gamePhaseEl = document.getElementById('gamePhase');
+        const timeDisplayEl = document.getElementById('timeDisplay');
+        const startTimerBtn = document.getElementById('startTimer');
+        const pauseTimerBtn = document.getElementById('pauseTimer');
+        const resetTimerBtn = document.getElementById('resetTimer');
+        const playerItemsEl = document.getElementById('playerItems');
+        const nextPhaseBtn = document.getElementById('nextPhase');
+        const prevPhaseBtn = document.getElementById('prevPhase');
+        const assignRolesBtn = document.getElementById('assignRoles');
+        const presetBoards = document.querySelectorAll('.preset-board');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const logEntriesEl = document.getElementById('logEntries');
+        const logInput = document.getElementById('logInput');
+        const addLogEntryBtn = document.getElementById('addLogEntry');
+        const clearLogBtn = document.getElementById('clearLog');
+        const saveLogBtn = document.getElementById('saveLog');
+        
+        // 模态框相关元素
+        const roleEditModal = document.getElementById('roleEditModal');
+        const logEditModal = document.getElementById('logEditModal');
+        const closeRoleModal = document.getElementById('closeRoleModal');
+        const closeLogModal = document.getElementById('closeLogModal');
+        const cancelEditRole = document.getElementById('cancelEditRole');
+        const cancelLogEdit = document.getElementById('cancelLogEdit');
+        const saveRoleChanges = document.getElementById('saveRoleChanges');
+        const deleteRole = document.getElementById('deleteRole');
+        const saveLogChanges = document.getElementById('saveLogChanges');
+        
+        // 初始化角色池
+        function initRolePool() {
+            rolePoolEl.innerHTML = '';
+            
+            roles.forEach(role => {
+                const roleEl = document.createElement('div');
+                roleEl.className = `role-item ${role.side}-role`;
+                roleEl.dataset.roleId = role.id;
+                
+                roleEl.innerHTML = `
+                    <div class="edit-role-btn" data-role-id="${role.id}"><i class="fas fa-edit"></i></div>
+                    <div class="role-icon"><i class="${role.icon}"></i></div>
+                    <div class="role-name">${role.name}</div>
+                    <div class="role-count">剩余: <span class="role-remaining">${role.count}</span></div>
+                `;
+                
+                roleEl.addEventListener('click', (e) => {
+                    // 如果点击的是编辑按钮，不触发添加角色
+                    if (!e.target.closest('.edit-role-btn')) {
+                        addRoleToBoard(role.id);
+                    }
+                });
+                
+                // 编辑角色按钮
+                const editBtn = roleEl.querySelector('.edit-role-btn');
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openRoleEditModal(role.id);
+                });
+                
+                rolePoolEl.appendChild(roleEl);
+            });
+        }
+        
+        // 打开角色编辑模态框
+        function openRoleEditModal(roleId) {
+            const role = roles.find(r => r.id === roleId);
+            if (!role) return;
+            
+            editingRoleId = roleId;
+            
+            document.getElementById('editRoleName').value = role.name;
+            document.getElementById('editRoleIcon').value = role.icon;
+            document.getElementById('editRoleDescription').value = role.description;
+            document.getElementById('editRoleSide').value = role.side;
+            
+            // 如果是预设角色，不允许删除
+            if (!role.custom) {
+                deleteRole.style.display = 'none';
+            } else {
+                deleteRole.style.display = 'block';
+            }
+            
+            roleEditModal.style.display = 'flex';
+        }
+        
+        // 添加角色到板型
+        function addRoleToBoard(roleId) {
+            const role = roles.find(r => r.id === roleId);
+            if (!role) return;
+            
+            // 检查是否可以添加（同一角色不能超过4个）
+            const roleInBoard = currentBoard.filter(r => r.id === roleId);
+            if (roleInBoard.length >= 4) {
+                alert(`同一角色最多只能添加4个！`);
+                return;
+            }
+            
+            // 更新角色池剩余数量
+            role.count++;
+            document.querySelector(`[data-role-id="${roleId}"] .role-remaining`).textContent = role.count;
+            
+            // 添加到当前板型
+            currentBoard.push({
+                id: role.id,
+                name: role.name,
+                icon: role.icon,
+                description: role.description,
+                side: role.side,
+                custom: role.custom
+            });
+            
+            updateBoardDisplay();
+        }
+        
+        // 从板型中移除角色
+        function removeRoleFromBoard(index) {
+            const role = currentBoard[index];
+            const roleData = roles.find(r => r.id === role.id);
+            
+            // 更新角色池剩余数量
+            if (roleData) {
+                roleData.count--;
+                document.querySelector(`[data-role-id="${role.id}"] .role-remaining`).textContent = roleData.count;
+            }
+            
+            // 从当前板型中移除
+            currentBoard.splice(index, 1);
+            
+            updateBoardDisplay();
+        }
+        
+        // 更新板型显示
+        function updateBoardDisplay() {
+            playerCount = currentBoard.length;
+            playerCountEl.textContent = playerCount;
+            
+            if (currentBoard.length === 0) {
+                boardRolesEl.innerHTML = '请从上方角色池中添加角色到当前板型';
+                boardRolesEl.classList.add('empty');
+                return;
+            }
+            
+            boardRolesEl.classList.remove('empty');
+            boardRolesEl.innerHTML = '';
+            
+            currentBoard.forEach((role, index) => {
+                const roleEl = document.createElement('div');
+                roleEl.className = 'board-role-item';
+                
+                // 根据阵营设置不同颜色边框
+                let borderColor = '';
+                if (role.side === 'wolf') borderColor = '#ef476f';
+                else if (role.side === 'village') borderColor = '#06d6a0';
+                else borderColor = '#ffd166';
+                
+                roleEl.style.borderLeft = `4px solid ${borderColor}`;
+                
+                roleEl.innerHTML = `
+                    <div class="role-icon"><i class="${role.icon}"></i></div>
+                    <div class="role-name">${role.name}</div>
+                    <div class="remove-role" data-index="${index}">×</div>
+                `;
+                
+                // 添加移除功能
+                roleEl.querySelector('.remove-role').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeRoleFromBoard(index);
+                });
+                
+                // 添加点击查看角色描述功能
+                roleEl.addEventListener('click', () => {
+                    alert(`${role.name}（${role.side === 'wolf' ? '狼人阵营' : role.side === 'village' ? '好人阵营' : '第三方阵营'}）\n\n${role.description}`);
+                });
+                
+                boardRolesEl.appendChild(roleEl);
+            });
+            
+            // 如果游戏已开始，更新玩家列表
+            if (gameStarted) {
+                updatePlayerList();
+            }
+        }
+        
+        // 更新玩家列表
+        function updatePlayerList() {
+            playerItemsEl.innerHTML = '';
+            
+            if (players.length === 0) {
+                // 初始化玩家数组
+                players = [];
+                for (let i = 1; i <= playerCount; i++) {
+                    players.push({
+                        id: i,
+                        name: `玩家 ${i}`,
+                        role: null,
+                        alive: true,
+                        notes: ''
+                    });
+                }
+                
+                // 如果游戏已开始，自动分配身份
+                if (gameStarted && currentBoard.length > 0) {
+                    assignRolesToPlayers();
+                }
+            }
+            
+            players.forEach(player => {
+                const playerEl = document.createElement('div');
+                playerEl.className = `player-item ${player.alive ? '' : 'dead'}`;
+                playerEl.dataset.playerId = player.id;
+                
+                // 获取角色信息
+                let roleName = '未分配';
+                let roleSide = '';
+                if (player.role) {
+                    const role = roles.find(r => r.id === player.role);
+                    if (role) {
+                        roleName = role.name;
+                        roleSide = role.side;
+                    }
+                }
+                
+                // 根据阵营设置角色颜色
+                let roleColor = '#6c757d';
+                if (roleSide === 'wolf') roleColor = '#ef476f';
+                else if (roleSide === 'village') roleColor = '#06d6a0';
+                else if (roleSide === 'third') roleColor = '#ffd166';
+                
+                playerEl.innerHTML = `
+                    <div class="player-number">${player.id}</div>
+                    <div class="player-info">
+                        <div class="player-name">${player.name}</div>
+                        <div class="player-role" style="color: ${roleColor}">${roleName}</div>
+                    </div>
+                    <div class="player-status ${player.alive ? 'alive' : 'dead'}">
+                        ${player.alive ? '存活' : '死亡'}
+                    </div>
+                `;
+                
+                // 点击玩家切换存活状态
+                playerEl.addEventListener('click', (e) => {
+                    // 如果点击的是玩家编号，重新分配身份
+                    if (e.target.classList.contains('player-number') || e.target.parentElement.classList.contains('player-number')) {
+                        reassignRole(player.id);
+                        return;
+                    }
+                    
+                    // 否则切换存活状态
+                    player.alive = !player.alive;
+                    updatePlayerList();
+                    
+                    // 记录到游戏日志
+                    const action = player.alive ? '复活' : '死亡';
+                    addLogEntry(`玩家 ${player.id} ${action}`, gamePhases[currentPhaseIndex].title);
+                });
+                
+                playerItemsEl.appendChild(playerEl);
+            });
+        }
+        
+        // 分配身份给玩家
+        function assignRolesToPlayers() {
+            if (currentBoard.length === 0) return;
+            
+            // 复制当前板型角色用于分配
+            let rolesToAssign = [...currentBoard];
+            
+            // 如果角色数量少于玩家数量，重复分配
+            while (rolesToAssign.length < players.length) {
+                rolesToAssign = rolesToAssign.concat([...currentBoard]);
+            }
+            
+            // 打乱角色顺序
+            rolesToAssign = shuffleArray(rolesToAssign);
+            
+            // 为每个玩家分配角色
+            players.forEach((player, index) => {
+                if (index < rolesToAssign.length) {
+                    player.role = rolesToAssign[index].id;
+                }
+            });
+            
+            updatePlayerList();
+            addLogEntry(`身份已分配，游戏开始`, "游戏开始");
+        }
+        
+        // 重新为特定玩家分配身份
+        function reassignRole(playerId) {
+            if (!gameStarted) {
+                alert('请先开始游戏！');
+                return;
+            }
+            
+            const player = players.find(p => p.id === playerId);
+            if (!player) return;
+            
+            // 获取当前角色信息
+            let currentRoleName = '未分配';
+            if (player.role) {
+                const role = roles.find(r => r.id === player.role);
+                if (role) {
+                    currentRoleName = role.name;
+                }
+            }
+            
+            // 创建角色选择列表
+            let roleOptions = '<option value="">随机分配</option>';
+            currentBoard.forEach(role => {
+                roleOptions += `<option value="${role.id}">${role.name}</option>`;
+            });
+            
+            const newRoleId = prompt(`玩家 ${playerId} 当前身份：${currentRoleName}\n\n请选择新身份：\n${roleOptions}`, "");
+            
+            if (newRoleId !== null) {
+                if (newRoleId === "") {
+                    // 随机分配
+                    const randomIndex = Math.floor(Math.random() * currentBoard.length);
+                    player.role = currentBoard[randomIndex].id;
+                } else {
+                    // 指定分配
+                    player.role = newRoleId;
+                }
+                
+                updatePlayerList();
+                addLogEntry(`玩家 ${playerId} 身份重新分配为 ${getRoleName(player.role)}`, "身份调整");
+            }
+        }
+        
+        // 重新分配所有身份
+        function reassignAllRoles() {
+            if (!gameStarted) {
+                alert('请先开始游戏！');
+                return;
+            }
+            
+            if (confirm('确定要重新分配所有玩家身份吗？')) {
+                assignRolesToPlayers();
+                addLogEntry(`所有玩家身份重新分配`, "身份调整");
+            }
+        }
+        
+        // 清空板型
+        function clearBoard() {
+            // 重置所有角色计数
+            roles.forEach(role => {
+                role.count = 0;
+            });
+            
+            // 清空当前板型
+            currentBoard = [];
+            
+            // 更新显示
+            initRolePool();
+            updateBoardDisplay();
+            
+            // 重置游戏状态
+            gameStarted = false;
+            currentPhaseIndex = 0;
+            updateGamePhase();
+            
+            // 重置按钮状态
+            startGameBtn.innerHTML = '<i class="fas fa-play"></i> 开始游戏';
+        }
+        
+        // 保存板型
+        function saveBoard() {
+            if (currentBoard.length === 0) {
+                alert('板型为空，无法保存！');
+                return;
+            }
+            
+            const boardName = prompt('请输入板型名称：', `自定义板型 ${new Date().toLocaleDateString()}`);
+            if (boardName) {
+                const boardData = {
+                    name: boardName,
+                    roles: currentBoard,
+                    playerCount: playerCount,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // 保存到本地存储
+                localStorage.setItem('werewolf_board_' + Date.now(), JSON.stringify(boardData));
+                alert(`板型 "${boardName}" 已保存到本地存储！`);
+                
+                // 添加到游戏日志
+                addLogEntry(`保存板型: ${boardName}`, "板型配置");
+            }
+        }
+        
+        // 开始游戏
+        function startGame() {
+            if (currentBoard.length === 0) {
+                alert('请先配置板型！');
+                return;
+            }
+            
+            if (currentBoard.length < 6) {
+                if (!confirm(`当前板型只有 ${currentBoard.length} 个角色，建议至少6人开始游戏。确定开始吗？`)) {
+                    return;
+                }
+            }
+            
+            gameStarted = true;
+            currentPhaseIndex = 0;
+            
+            // 重置玩家数组
+            players = [];
+            
+            // 分配身份
+            assignRolesToPlayers();
+            
+            updateGamePhase();
+            
+            // 更新按钮状态
+            startGameBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 重新开始';
+            
+            // 添加到游戏日志
+            addLogEntry(`游戏开始，玩家数量: ${playerCount}`, "游戏开始");
+        }
+        
+        // 更新游戏阶段显示
+        function updateGamePhase() {
+            if (!gameStarted) {
+                gamePhaseEl.innerHTML = `
+                    <div class="phase-title">游戏准备阶段</div>
+                    <div class="phase-description">
+                        请先配置板型并开始游戏。游戏开始后，这里将显示当前游戏阶段和相应的操作指引。
+                    </div>
+                `;
+                return;
+            }
+            
+            const phase = gamePhases[currentPhaseIndex];
+            let actionsHTML = '';
+            
+            if (phase.actions && phase.actions.length > 0) {
+                actionsHTML = '<div style="margin-top: 15px;"><strong>操作步骤：</strong><ul style="margin-top: 10px; padding-left: 20px;">';
+                phase.actions.forEach(action => {
+                    actionsHTML += `<li style="margin-bottom: 5px;">${action}</li>`;
+                });
+                actionsHTML += '</ul></div>';
+            }
+            
+            gamePhaseEl.innerHTML = `
+                <div class="phase-title">${phase.title} (${currentPhaseIndex + 1}/${gamePhases.length})</div>
+                <div class="phase-description">
+                    ${phase.description}
+                    ${actionsHTML}
+                </div>
+            `;
+            
+            // 添加到游戏日志
+            addLogEntry(`进入阶段: ${phase.title}`, "阶段切换");
+        }
+        
+        // 下一阶段
+        function nextPhase() {
+            if (!gameStarted) {
+                alert('请先开始游戏！');
+                return;
+            }
+            
+            if (currentPhaseIndex < gamePhases.length - 1) {
+                currentPhaseIndex++;
+                updateGamePhase();
+            } else {
+                alert('已经是最后一个阶段！');
+            }
+        }
+        
+        // 上一阶段
+        function prevPhase() {
+            if (!gameStarted) {
+                alert('请先开始游戏！');
+                return;
+            }
+            
+            if (currentPhaseIndex > 0) {
+                currentPhaseIndex--;
+                updateGamePhase();
+            } else {
+                alert('已经是第一个阶段！');
+            }
+        }
+        
+        // 计时器功能
+        function startTimer() {
+            if (isTimerRunning) return;
+            
+            isTimerRunning = true;
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimeDisplay();
+                
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    alert('时间到！');
+                    addLogEntry('发言时间到', '发言阶段');
+                }
+            }, 1000);
+            
+            addLogEntry('发言计时开始', '发言阶段');
+        }
+        
+        function pauseTimer() {
+            if (!isTimerRunning) return;
+            
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            addLogEntry('发言计时暂停', '发言阶段');
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerSeconds = 120;
+            updateTimeDisplay();
+            addLogEntry('发言计时重置', '发言阶段');
+        }
+        
+        function updateTimeDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            timeDisplayEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // 当时间少于30秒时改变颜色
+            if (timerSeconds <= 30) {
+                timeDisplayEl.style.color = '#ef476f';
+            } else if (timerSeconds <= 60) {
+                timeDisplayEl.style.color = '#ffd166';
+            } else {
+                timeDisplayEl.style.color = '#4361ee';
+            }
+        }
+        
+        // 预设板型
+        function loadPresetBoard(presetId) {
+            // 先清空当前板型
+            clearBoard();
+            
+            let presetRoles = [];
+            
+            switch(presetId) {
+                case 'standard':
+                    // 标准板型: 4狼人、4村民、预言家、女巫、猎人、守卫
+                    presetRoles = [
+                        'werewolf', 'werewolf', 'werewolf', 'werewolf',
+                        'villager', 'villager', 'villager', 'villager',
+                        'seer', 'witch', 'hunter', 'guard'
+                    ];
+                    break;
+                case 'advanced':
+                    // 进阶板型: 4狼人、3村民、预言家、女巫、猎人、白狼王
+                    presetRoles = [
+                        'werewolf', 'werewolf', 'werewolf', 'werewolf',
+                        'villager', 'villager', 'villager',
+                        'seer', 'witch', 'hunter', 'whitewolf'
+                    ];
+                    break;
+                case 'mechanical':
+                    // 机械狼板型: 3狼人、机械狼、4村民、预言家、女巫、守卫
+                    presetRoles = [
+                        'werewolf', 'werewolf', 'werewolf',
+                        'mechanical_wolf',
+                        'villager', 'villager', 'villager', 'villager',
+                        'seer', 'witch', 'guard'
+                    ];
+                    break;
+            }
+            
+            // 添加角色到板型
+            presetRoles.forEach(roleId => {
+                addRoleToBoard(roleId);
+            });
+            
+            const presetName = presetId === 'standard' ? '标准' : presetId === 'advanced' ? '进阶' : '机械狼';
+            alert(`已加载${presetName}板型！`);
+            addLogEntry(`加载${presetName}板型`, "板型配置");
+        }
+        
+        // 创建自定义角色
+        function createCustomRole() {
+            const name = document.getElementById('customRoleName').value.trim();
+            const icon = document.getElementById('customRoleIcon').value.trim();
+            const description = document.getElementById('customRoleDescription').value.trim();
+            const side = document.getElementById('customRoleSide').value;
+            
+            if (!name || !icon || !description) {
+                alert('请填写所有必填字段！');
+                return;
+            }
+            
+            // 生成角色ID
+            const roleId = 'custom_' + Date.now();
+            
+            // 添加到角色池
+            const newRole = {
+                id: roleId,
+                name: name,
+                icon: icon,
+                count: 0,
+                description: description,
+                side: side,
+                custom: true
+            };
+            
+            roles.push(newRole);
+            
+            // 清空表单
+            document.getElementById('customRoleName').value = '';
+            document.getElementById('customRoleIcon').value = 'fas fa-robot';
+            document.getElementById('customRoleDescription').value = '';
+            
+            // 更新角色池显示
+            initRolePool();
+            
+            // 切换到角色池标签页
+            document.querySelector('.tab.active').classList.remove('active');
+            document.querySelector('.tab-content.active').classList.remove('active');
+            document.querySelector('[data-tab="role-pool"]').classList.add('active');
+            document.getElementById('role-pool').classList.add('active');
+            
+            alert(`自定义角色 "${name}" 创建成功！`);
+            addLogEntry(`创建自定义角色: ${name}`, "角色管理");
+        }
+        
+        // 初始化游戏日志显示
+        function initGameLog() {
+            logEntriesEl.innerHTML = '';
+            
+            if (gameLog.length === 0) {
+                logEntriesEl.innerHTML = '<p style="color: #adb5bd; text-align: center; padding: 20px;">暂无游戏日志，请添加。</p>';
+                return;
+            }
+            
+            gameLog.forEach((log, index) => {
+                const logEl = document.createElement('div');
+                logEl.className = 'log-entry';
+                logEl.innerHTML = `
+                    <div class="log-entry-header">
+                        <span class="log-phase">${log.phase}</span>
+                        <span class="log-time">${log.time}</span>
+                    </div>
+                    <div class="log-content">${log.content}</div>
+                    <button class="log-edit-btn" data-index="${index}"><i class="fas fa-edit"></i> 编辑</button>
+                `;
+                
+                // 添加编辑按钮事件
+                logEl.querySelector('.log-edit-btn').addEventListener('click', () => {
+                    openLogEditModal(index);
+                });
+                
+                logEntriesEl.appendChild(logEl);
+            });
+            
+            // 滚动到底部
+            logEntriesEl.scrollTop = logEntriesEl.scrollHeight;
+        }
+        
+        // 打开日志编辑模态框
+        function openLogEditModal(index) {
+            editingLogIndex = index;
+            const log = gameLog[index];
+            
+            document.getElementById('editLogPhase').value = log.phase;
+            document.getElementById('editLogContent').value = log.content;
+            
+            logEditModal.style.display = 'flex';
+        }
+        
+        // 添加日志条目
+        function addLogEntry(content, phase = null) {
+            if (!content.trim()) return;
+            
+            const now = new Date();
+            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            const logPhase = phase || gamePhases[currentPhaseIndex].title;
+            
+            gameLog.push({
+                phase: logPhase,
+                content: content,
+                time: timeString
+            });
+            
+            initGameLog();
+            logInput.value = '';
+        }
+        
+        // 保存日志更改
+        function saveLogChangesFunc() {
+            const phase = document.getElementById('editLogPhase').value.trim();
+            const content = document.getElementById('editLogContent').value.trim();
+            
+            if (!phase || !content) {
+                alert('请填写所有必填字段！');
+                return;
+            }
+            
+            if (editingLogIndex !== null) {
+                gameLog[editingLogIndex].phase = phase;
+                gameLog[editingLogIndex].content = content;
+                initGameLog();
+                logEditModal.style.display = 'none';
+            }
+        }
+        
+        // 保存日志到本地
+        function saveLogToLocal() {
+            const logData = {
+                gameLog: gameLog,
+                players: players,
+                board: currentBoard,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('werewolf_game_log', JSON.stringify(logData));
+            alert('游戏日志已保存到本地存储！');
+        }
+        
+        // 清空日志
+        function clearLog() {
+            if (confirm('确定要清空游戏日志吗？此操作不可撤销。')) {
+                gameLog = [];
+                initGameLog();
+            }
+        }
+        
+        // 工具函数
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        function getRoleName(roleId) {
+            const role = roles.find(r => r.id === roleId);
+            return role ? role.name : '未知';
+        }
+        
+        // 事件监听
+        clearBoardBtn.addEventListener('click', clearBoard);
+        saveBoardBtn.addEventListener('click', saveBoard);
+        startGameBtn.addEventListener('click', startGame);
+        startTimerBtn.addEventListener('click', startTimer);
+        pauseTimerBtn.addEventListener('click', pauseTimer);
+        resetTimerBtn.addEventListener('click', resetTimer);
+        nextPhaseBtn.addEventListener('click', nextPhase);
+        prevPhaseBtn.addEventListener('click', prevPhase);
+        assignRolesBtn.addEventListener('click', reassignAllRoles);
+        createCustomRoleBtn.addEventListener('click', createCustomRole);
+        addLogEntryBtn.addEventListener('click', () => {
+            if (logInput.value.trim()) {
+                addLogEntry(logInput.value.trim());
+            }
+        });
+        saveLogBtn.addEventListener('click', saveLogToLocal);
+        clearLogBtn.addEventListener('click', clearLog);
+        
+        // 日志输入框回车键添加日志
+        logInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addLogEntry(logInput.value.trim());
+            }
+        });
+        
+        // 预设板型点击事件
+        presetBoards.forEach(board => {
+            board.addEventListener('click', () => {
+                const presetId = board.dataset.preset;
+                loadPresetBoard(presetId);
+            });
+        });
+        
+        // 标签页切换
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                
+                // 移除所有active类
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                
+                // 添加active类到当前标签
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // 模态框关闭事件
+        closeRoleModal.addEventListener('click', () => { roleEditModal.style.display = 'none'; });
+        closeLogModal.addEventListener('click', () => { logEditModal.style.display = 'none'; });
+        cancelEditRole.addEventListener('click', () => { roleEditModal.style.display = 'none'; });
+        cancelLogEdit.addEventListener('click', () => { logEditModal.style.display = 'none'; });
+        
+        // 角色编辑相关事件
+        saveRoleChanges.addEventListener('click', () => {
+            const role = roles.find(r => r.id === editingRoleId);
+            if (!role) return;
+            
+            role.name = document.getElementById('editRoleName').value.trim();
+            role.icon = document.getElementById('editRoleIcon').value.trim();
+            role.description = document.getElementById('editRoleDescription').value.trim();
+            role.side = document.getElementById('editRoleSide').value;
+            
+            // 更新角色池显示
+            initRolePool();
+            roleEditModal.style.display = 'none';
+            alert('角色信息已更新！');
+        });
+        
+        deleteRole.addEventListener('click', () => {
+            if (!confirm('确定要删除这个角色吗？此操作不可撤销。')) {
+                return;
+            }
+            
+            const roleIndex = roles.findIndex(r => r.id === editingRoleId);
+            if (roleIndex !== -1) {
+                roles.splice(roleIndex, 1);
+                initRolePool();
+                roleEditModal.style.display = 'none';
+                alert('角色已删除！');
+            }
+        });
+        
+        // 日志编辑相关事件
+        saveLogChanges.addEventListener('click', saveLogChangesFunc);
+        
+        // 初始化
+        function init() {
+            initRolePool();
+            updateBoardDisplay();
+            updateTimeDisplay();
+            initGameLog();
+            
+            // 加载保存的游戏日志
+            const savedLog = localStorage.getItem('werewolf_game_log');
+            if (savedLog) {
+                try {
+                    const logData = JSON.parse(savedLog);
+                    if (logData.gameLog) {
+                        gameLog = logData.gameLog;
+                        initGameLog();
+                    }
+                } catch(e) {
+                    console.log('加载游戏日志失败:', e);
+                }
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
