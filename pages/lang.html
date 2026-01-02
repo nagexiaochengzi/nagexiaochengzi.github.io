@@ -506,6 +506,32 @@
             line-height: 1.5;
         }
         
+        .night-order {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .night-order h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .night-order-content {
+            color: #6c757d;
+            line-height: 1.6;
+            white-space: pre-line;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -824,6 +850,21 @@
                             </button>
                         </div>
                     </div>
+                    
+                    <div class="preset-boards">
+                        <div class="preset-board" data-preset="standard">
+                            <h4>标准板型-12</h4>
+                            <p>4狼人、4村民、预言家、女巫、猎人、守卫</p>
+                        </div>
+                        <div class="preset-board" data-preset="advanced">
+                            <h4>白狼王板型-12</h4>
+                            <p>3狼人、白狼王、4村民、预言家、女巫、骑士、守卫</p>
+                        </div>
+                        <div class="preset-board" data-preset="gods-twilight">
+                            <h4>诸神黄昏-9</h4>
+                            <p>黑狼王、狼美人、恶灵骑士、预言家、女巫、奇迹商人、白痴、骑士、守卫</p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div id="custom-role" class="tab-content">
@@ -855,21 +896,6 @@
                         </button>
                     </div>
                 </div>
-                
-                <div class="preset-boards">
-                    <div class="preset-board" data-preset="standard">
-                        <h4>标准板型</h4>
-                        <p>4狼人、4村民、预言家、女巫、猎人、守卫</p>
-                    </div>
-                    <div class="preset-board" data-preset="advanced">
-                        <h4>进阶板型</h4>
-                        <p>4狼人、3村民、预言家、女巫、猎人、白狼王</p>
-                    </div>
-                    <div class="preset-board" data-preset="mechanical">
-                        <h4>机械狼板型</h4>
-                        <p>3狼人、机械狼、4村民、预言家、女巫、守卫</p>
-                    </div>
-                </div>
             </div>
             
             <div class="panel">
@@ -879,6 +905,13 @@
                     <div class="phase-title">游戏准备阶段</div>
                     <div class="phase-description">
                         请先配置板型并开始游戏。游戏开始后，这里将显示当前游戏阶段和相应的操作指引。
+                    </div>
+                </div>
+                
+                <div class="night-order" id="nightOrder">
+                    <h3><i class="fas fa-moon"></i> 夜晚行动顺序</h3>
+                    <div class="night-order-content" id="nightOrderContent">
+                        请开始游戏后查看夜晚行动顺序
                     </div>
                 </div>
                 
@@ -947,7 +980,9 @@
             </div>
         </div>
         
-  
+        <footer>
+            <p>狼人杀上帝控制台 v1.1 - 支持屠边规则、上警环节、详细夜晚行动顺序</p>
+        </footer>
     </div>
 
     <!-- 角色编辑模态框 -->
@@ -1008,22 +1043,32 @@
     </div>
 
     <script>
-        // 基础角色数据
+        // 基础角色数据 - 增加新角色
         let roles = [
+            // 狼人阵营
             { id: 'werewolf', name: '狼人', icon: 'fas fa-paw', count: 0, description: '夜晚可以击杀一名玩家', side: 'wolf', custom: false },
-            { id: 'villager', name: '村民', icon: 'fas fa-user', count: 0, description: '没有特殊技能，通过投票放逐狼人', side: 'village', custom: false },
-            { id: 'seer', name: '预言家', icon: 'fas fa-eye', count: 0, description: '夜晚可以查验一名玩家的身份', side: 'village', custom: false },
-            { id: 'witch', name: '女巫', icon: 'fas fa-flask', count: 0, description: '拥有一瓶解药和一瓶毒药', side: 'village', custom: false },
-            { id: 'hunter', name: '猎人', icon: 'fas fa-crosshairs', count: 0, description: '死亡时可以开枪带走一名玩家', side: 'village', custom: false },
-            { id: 'guard', name: '守卫', icon: 'fas fa-shield-alt', count: 0, description: '每晚可以守护一名玩家免受狼人袭击', side: 'village', custom: false },
-            { id: 'idiot', name: '白痴', icon: 'fas fa-theater-masks', count: 0, description: '被放逐后可以翻牌免死，但失去投票权', side: 'village', custom: false },
             { id: 'whitewolf', name: '白狼王', icon: 'fas fa-crown', count: 0, description: '狼人阵营，可以在白天自爆带走一名玩家', side: 'wolf', custom: false },
-            { id: 'knight', name: '骑士', icon: 'fas fa-horse', count: 0, description: '可以在白天决斗一名玩家，若对方是狼人则将其杀死', side: 'village', custom: false },
-            { id: 'cupid', name: '丘比特', icon: 'fas fa-heart', count: 0, description: '第一夜指定两名玩家成为情侣', side: 'village', custom: false },
-            { id: 'mechanical_wolf', name: '机械狼', icon: 'fas fa-robot', count: 0, description: '第一夜学习一名玩家的身份，之后获得该身份的技能', side: 'wolf', custom: true }
+            { id: 'hidden_wolf', name: '隐狼', icon: 'fas fa-user-secret', count: 0, description: '隐狼不可以自爆，当其他所有狼人出局后，可在夜间进行袭击，狼人队友不能看到隐狼的身份。属于狼人阵营但其他狼人不知道其存在。', side: 'wolf', custom: false },
+            { id: 'black_wolf_king', name: '黑狼王', icon: 'fas fa-skull', count: 0, description: '狼人阵营，被放逐时可以开枪带走一名玩家，但无法自爆。具有猎人技能但不属于好人阵营。', side: 'wolf', custom: false },
+            { id: 'wolf_beauty', name: '狼美人', icon: 'fas fa-heart-broken', count: 0, description: '狼人阵营，每晚可以魅惑一名玩家，狼美人出局时，被魅惑的玩家殉情。不能自爆或自刀。', side: 'wolf', custom: false },
+            { id: 'evil_knight', name: '恶灵骑士', icon: 'fas fa-ghost', count: 0, description: '狼人阵营，不能自爆，不能被预言家查验。免疫夜间技能（守卫守护无效），若被预言家查验则预言家死亡，被女巫毒药则女巫死亡。', side: 'wolf', custom: false },
+            { id: 'stone_gargoyle', name: '石像鬼', icon: 'fas fa-gem', count: 0, description: '狼人阵营，不能自爆。每晚可以查验一名玩家的具体身份。当所有其他狼人死亡后，获得刀人能力。', side: 'wolf', custom: false },
+            { id: 'mechanical_wolf', name: '机械狼', icon: 'fas fa-robot', count: 0, description: '第一夜学习一名玩家的身份，之后获得该身份的技能，但阵营仍为狼人', side: 'wolf', custom: true },
+            
+            // 好人阵营
+            { id: 'villager', name: '村民', icon: 'fas fa-user', count: 0, description: '没有特殊技能，通过投票放逐狼人', side: 'village', custom: false },
+            { id: 'seer', name: '预言家', icon: 'fas fa-eye', count: 0, description: '夜晚可以查验一名玩家的身份（好人/狼人）', side: 'village', custom: false },
+            { id: 'witch', name: '女巫', icon: 'fas fa-flask', count: 0, description: '拥有一瓶解药和一瓶毒药，每晚只能用一瓶药', side: 'village', custom: false },
+            { id: 'hunter', name: '猎人', icon: 'fas fa-crosshairs', count: 0, description: '死亡时可以开枪带走一名玩家', side: 'village', custom: false },
+            { id: 'guard', name: '守卫', icon: 'fas fa-shield-alt', count: 0, description: '每晚可以守护一名玩家免受狼人袭击，不能连续两晚守护同一人', side: 'village', custom: false },
+            { id: 'idiot', name: '白痴', icon: 'fas fa-theater-masks', count: 0, description: '被放逐后可以翻牌免死，但失去投票权', side: 'village', custom: false },
+            { id: 'knight', name: '骑士', icon: 'fas fa-horse', count: 0, description: '可以在白天决斗一名玩家，若对方是狼人则将其杀死，若对方是好人则骑士死亡', side: 'village', custom: false },
+            { id: 'cupid', name: '丘比特', icon: 'fas fa-heart', count: 0, description: '第一夜指定两名玩家成为情侣，情侣中一人死亡另一人殉情', side: 'village', custom: false },
+            { id: 'silencer', name: '禁言长老', icon: 'fas fa-volume-mute', count: 0, description: '每晚可以禁言一名玩家，该玩家第二天白天不能发言', side: 'village', custom: false },
+            { id: 'miracle_merchant', name: '奇迹商人', icon: 'fas fa-gift', count: 0, description: '每晚选择场上任意一名玩家成为幸运儿，并给予他三个一次性技能中的一个：预言家的查验、女巫的毒药、守卫的守护。如果幸运儿是狼人，则奇迹商人死亡。', side: 'village', custom: false }
         ];
         
-        // 游戏阶段
+        // 游戏阶段 - 修改为无限天数，直到游戏结束
         const gamePhases = [
             { 
                 title: "游戏准备", 
@@ -1031,34 +1076,29 @@
                 actions: []
             },
             { 
+                title: "上警环节", 
+                description: "所有玩家决定是否上警竞选警长，上警玩家依次发言，未上警玩家投票选出警长。",
+                actions: ["请所有玩家决定是否上警", "上警玩家依次发言", "未上警玩家投票", "公布警长选举结果"]
+            },
+            { 
                 title: "第一夜", 
-                description: "第一夜行动顺序：丘比特 → 狼人 → 机械狼 → 女巫 → 预言家 → 守卫",
+                description: "第一夜行动，请按照夜晚行动顺序依次操作。",
                 actions: ["请按照夜晚行动顺序依次行动"]
             },
             { 
                 title: "第一天白天", 
-                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。",
-                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言"]
+                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。警长组织发言和投票。",
+                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言", "警长组织发言和投票"]
             },
             { 
                 title: "第二天夜晚", 
-                description: "第二夜行动顺序：狼人 → 女巫 → 预言家 → 守卫",
+                description: "第二夜行动，请按照夜晚行动顺序依次操作。",
                 actions: ["请按照夜晚行动顺序依次行动"]
             },
             { 
                 title: "第二天白天", 
-                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。",
-                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言"]
-            },
-            { 
-                title: "第三天夜晚", 
-                description: "第三夜行动顺序：狼人 → 女巫 → 预言家 → 守卫",
-                actions: ["请按照夜晚行动顺序依次行动"]
-            },
-            { 
-                title: "第三天白天", 
-                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。",
-                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言"]
+                description: "天亮了，所有人请睁眼。宣布昨晚的死亡情况。警长组织发言和投票。",
+                actions: ["天亮了，所有人请睁眼", "宣布昨晚的死亡信息", "请死者发表遗言", "警长组织发言和投票"]
             },
             { 
                 title: "游戏结束", 
@@ -1069,8 +1109,7 @@
         
         // 游戏日志
         let gameLog = [
-            { phase: "游戏开始", content: "游戏开始，共12名玩家", time: "10:00" },
-            { phase: "板型配置", content: "使用标准板型：4狼人、4村民、预言家、女巫、猎人、守卫", time: "10:02" }
+            { phase: "游戏开始", content: "游戏开始，请配置板型", time: "10:00" }
         ];
         
         // 当前游戏状态
@@ -1080,10 +1119,11 @@
         let timerSeconds = 120;
         let isTimerRunning = false;
         let gameStarted = false;
-        let playerCount = 12;
+        let playerCount = 0;
         let players = [];
         let editingRoleId = null;
         let editingLogIndex = null;
+        let currentNight = 1; // 当前夜晚编号
         
         // DOM元素
         const rolePoolEl = document.getElementById('rolePool');
@@ -1094,6 +1134,7 @@
         const startGameBtn = document.getElementById('startGame');
         const createCustomRoleBtn = document.getElementById('createCustomRole');
         const gamePhaseEl = document.getElementById('gamePhase');
+        const nightOrderEl = document.getElementById('nightOrderContent');
         const timeDisplayEl = document.getElementById('timeDisplay');
         const startTimerBtn = document.getElementById('startTimer');
         const pauseTimerBtn = document.getElementById('pauseTimer');
@@ -1126,34 +1167,54 @@
         function initRolePool() {
             rolePoolEl.innerHTML = '';
             
-            roles.forEach(role => {
-                const roleEl = document.createElement('div');
-                roleEl.className = `role-item ${role.side}-role`;
-                roleEl.dataset.roleId = role.id;
-                
-                roleEl.innerHTML = `
-                    <div class="edit-role-btn" data-role-id="${role.id}"><i class="fas fa-edit"></i></div>
-                    <div class="role-icon"><i class="${role.icon}"></i></div>
-                    <div class="role-name">${role.name}</div>
-                    <div class="role-count">剩余: <span class="role-remaining">${role.count}</span></div>
-                `;
-                
-                roleEl.addEventListener('click', (e) => {
-                    // 如果点击的是编辑按钮，不触发添加角色
-                    if (!e.target.closest('.edit-role-btn')) {
-                        addRoleToBoard(role.id);
-                    }
-                });
-                
-                // 编辑角色按钮
-                const editBtn = roleEl.querySelector('.edit-role-btn');
-                editBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openRoleEditModal(role.id);
-                });
-                
-                rolePoolEl.appendChild(roleEl);
+            // 按阵营分组
+            const wolfRoles = roles.filter(r => r.side === 'wolf');
+            const villageRoles = roles.filter(r => r.side === 'village');
+            const thirdRoles = roles.filter(r => r.side === 'third');
+            
+            // 添加狼人阵营角色
+            wolfRoles.forEach(role => {
+                addRoleToPool(role);
             });
+            
+            // 添加好人阵营角色
+            villageRoles.forEach(role => {
+                addRoleToPool(role);
+            });
+            
+            // 添加第三方阵营角色
+            thirdRoles.forEach(role => {
+                addRoleToPool(role);
+            });
+        }
+        
+        function addRoleToPool(role) {
+            const roleEl = document.createElement('div');
+            roleEl.className = `role-item ${role.side}-role`;
+            roleEl.dataset.roleId = role.id;
+            
+            roleEl.innerHTML = `
+                <div class="edit-role-btn" data-role-id="${role.id}"><i class="fas fa-edit"></i></div>
+                <div class="role-icon"><i class="${role.icon}"></i></div>
+                <div class="role-name">${role.name}</div>
+                <div class="role-count">剩余: <span class="role-remaining">${role.count}</span></div>
+            `;
+            
+            roleEl.addEventListener('click', (e) => {
+                // 如果点击的是编辑按钮，不触发添加角色
+                if (!e.target.closest('.edit-role-btn')) {
+                    addRoleToBoard(role.id);
+                }
+            });
+            
+            // 编辑角色按钮
+            const editBtn = roleEl.querySelector('.edit-role-btn');
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openRoleEditModal(role.id);
+            });
+            
+            rolePoolEl.appendChild(roleEl);
         }
         
         // 打开角色编辑模态框
@@ -1269,35 +1330,13 @@
                 
                 boardRolesEl.appendChild(roleEl);
             });
-            
-            // 如果游戏已开始，更新玩家列表
-            if (gameStarted) {
-                updatePlayerList();
-            }
         }
         
         // 更新玩家列表
         function updatePlayerList() {
             playerItemsEl.innerHTML = '';
             
-            if (players.length === 0) {
-                // 初始化玩家数组
-                players = [];
-                for (let i = 1; i <= playerCount; i++) {
-                    players.push({
-                        id: i,
-                        name: `玩家 ${i}`,
-                        role: null,
-                        alive: true,
-                        notes: ''
-                    });
-                }
-                
-                // 如果游戏已开始，自动分配身份
-                if (gameStarted && currentBoard.length > 0) {
-                    assignRolesToPlayers();
-                }
-            }
+            if (players.length === 0) return;
             
             players.forEach(player => {
                 const playerEl = document.createElement('div');
@@ -1344,6 +1383,9 @@
                     player.alive = !player.alive;
                     updatePlayerList();
                     
+                    // 检查游戏是否结束
+                    checkGameEnd();
+                    
                     // 记录到游戏日志
                     const action = player.alive ? '复活' : '死亡';
                     addLogEntry(`玩家 ${player.id} ${action}`, gamePhases[currentPhaseIndex].title);
@@ -1357,26 +1399,39 @@
         function assignRolesToPlayers() {
             if (currentBoard.length === 0) return;
             
+            // 重置玩家数组
+            players = [];
+            for (let i = 1; i <= playerCount; i++) {
+                players.push({
+                    id: i,
+                    name: `玩家 ${i}`,
+                    role: null,
+                    alive: true,
+                    notes: ''
+                });
+            }
+            
             // 复制当前板型角色用于分配
             let rolesToAssign = [...currentBoard];
             
-            // 如果角色数量少于玩家数量，重复分配
+            // 如果角色数量少于玩家数量，重复分配直到足够
             while (rolesToAssign.length < players.length) {
                 rolesToAssign = rolesToAssign.concat([...currentBoard]);
             }
+            
+            // 只取前playerCount个角色
+            rolesToAssign = rolesToAssign.slice(0, players.length);
             
             // 打乱角色顺序
             rolesToAssign = shuffleArray(rolesToAssign);
             
             // 为每个玩家分配角色
             players.forEach((player, index) => {
-                if (index < rolesToAssign.length) {
-                    player.role = rolesToAssign[index].id;
-                }
+                player.role = rolesToAssign[index].id;
             });
             
             updatePlayerList();
-            addLogEntry(`身份已分配，游戏开始`, "游戏开始");
+            addLogEntry(`身份已分配给 ${playerCount} 名玩家`, "游戏开始");
         }
         
         // 重新为特定玩家分配身份
@@ -1444,17 +1499,23 @@
             // 清空当前板型
             currentBoard = [];
             
+            // 清空玩家列表
+            players = [];
+            gameStarted = false;
+            
             // 更新显示
             initRolePool();
             updateBoardDisplay();
+            updatePlayerList();
             
             // 重置游戏状态
-            gameStarted = false;
             currentPhaseIndex = 0;
             updateGamePhase();
+            updateNightOrder();
             
             // 重置按钮状态
             startGameBtn.innerHTML = '<i class="fas fa-play"></i> 开始游戏';
+            addLogEntry('板型已清空', "板型配置");
         }
         
         // 保存板型
@@ -1489,28 +1550,102 @@
                 return;
             }
             
-            if (currentBoard.length < 6) {
-                if (!confirm(`当前板型只有 ${currentBoard.length} 个角色，建议至少6人开始游戏。确定开始吗？`)) {
+            if (currentBoard.length < 4) {
+                if (!confirm(`当前板型只有 ${currentBoard.length} 个角色，建议至少4人开始游戏。确定开始吗？`)) {
                     return;
                 }
             }
             
             gameStarted = true;
             currentPhaseIndex = 0;
-            
-            // 重置玩家数组
-            players = [];
+            currentNight = 1;
             
             // 分配身份
             assignRolesToPlayers();
             
             updateGamePhase();
+            updateNightOrder();
             
             // 更新按钮状态
             startGameBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 重新开始';
             
             // 添加到游戏日志
-            addLogEntry(`游戏开始，玩家数量: ${playerCount}`, "游戏开始");
+            addLogEntry(`游戏开始，玩家数量: ${playerCount}，板型: ${currentBoard.map(r => r.name).join(', ')}`, "游戏开始");
+        }
+        
+        // 更新夜晚行动顺序
+        function updateNightOrder() {
+            if (!gameStarted) {
+                nightOrderEl.textContent = "请开始游戏后查看夜晚行动顺序";
+                return;
+            }
+            
+            // 获取当前板型中存在的角色
+            const boardRoleIds = currentBoard.map(r => r.id);
+            const boardRoles = roles.filter(r => boardRoleIds.includes(r.id));
+            
+            let nightOrder = "第" + currentNight + "夜行动顺序：\n\n";
+            
+            // 第一夜特殊角色
+            if (currentNight === 1) {
+                if (boardRoleIds.includes('cupid')) {
+                    nightOrder += "1. 丘比特请睁眼，选择两名玩家成为情侣\n";
+                }
+                if (boardRoleIds.includes('miracle_merchant')) {
+                    nightOrder += "2. 奇迹商人请睁眼，选择场上任意一名玩家成为幸运儿，并给予他三个一次性技能中的一个：\n   预言家的查验、女巫的毒药、守卫的守护\n";
+                }
+            }
+            
+            // 常规夜晚行动顺序
+            nightOrder += "\n常规夜晚行动：\n";
+            
+            // 狼人相关
+            const wolfRoles = boardRoles.filter(r => r.side === 'wolf');
+            if (wolfRoles.length > 0) {
+                nightOrder += "1. 所有狼人请睁眼，确认同伴，并选择袭击目标\n";
+                
+                // 特殊狼人行动
+                wolfRoles.forEach(role => {
+                    if (role.id === 'wolf_beauty') {
+                        nightOrder += "   狼美人请单独睁眼，选择一名玩家进行魅惑\n";
+                    }
+                    if (role.id === 'stone_gargoyle') {
+                        nightOrder += "   石像鬼请单独睁眼，查验一名玩家的具体身份\n";
+                    }
+                });
+            }
+            
+            // 机械狼
+            if (boardRoleIds.includes('mechanical_wolf') && currentNight === 1) {
+                nightOrder += "2. 机械狼请睁眼，学习一名玩家的身份\n";
+            }
+            
+            // 女巫
+            if (boardRoleIds.includes('witch')) {
+                nightOrder += "3. 女巫请睁眼，今晚死亡的是... (用手势告知)\n   你要使用解药吗？你要使用毒药吗？\n";
+            }
+            
+            // 预言家
+            if (boardRoleIds.includes('seer')) {
+                nightOrder += "4. 预言家请睁眼，选择一名玩家查验身份\n   他的身份是... (好人/狼人)\n";
+            }
+            
+            // 守卫
+            if (boardRoleIds.includes('guard')) {
+                nightOrder += "5. 守卫请睁眼，选择一名玩家进行守护\n";
+            }
+            
+            // 禁言长老
+            if (boardRoleIds.includes('silencer')) {
+                nightOrder += "6. 禁言长老请睁眼，选择一名玩家进行禁言\n";
+            }
+            
+            nightOrder += "\n天亮后流程：\n";
+            nightOrder += "1. 宣布昨晚的死亡情况\n";
+            nightOrder += "2. 请死者发表遗言\n";
+            nightOrder += "3. 警长组织发言和投票\n";
+            
+            nightOrderEl.textContent = nightOrder;
         }
         
         // 更新游戏阶段显示
@@ -1536,8 +1671,14 @@
                 actionsHTML += '</ul></div>';
             }
             
+            // 如果是夜晚阶段，显示当前是第几夜
+            let phaseTitle = phase.title;
+            if (phase.title.includes('夜') && !phase.title.includes('第一夜')) {
+                phaseTitle = `第${currentNight}夜`;
+            }
+            
             gamePhaseEl.innerHTML = `
-                <div class="phase-title">${phase.title} (${currentPhaseIndex + 1}/${gamePhases.length})</div>
+                <div class="phase-title">${phaseTitle} (${currentPhaseIndex + 1}/${gamePhases.length})</div>
                 <div class="phase-description">
                     ${phase.description}
                     ${actionsHTML}
@@ -1545,7 +1686,7 @@
             `;
             
             // 添加到游戏日志
-            addLogEntry(`进入阶段: ${phase.title}`, "阶段切换");
+            addLogEntry(`进入阶段: ${phaseTitle}`, "阶段切换");
         }
         
         // 下一阶段
@@ -1557,9 +1698,29 @@
             
             if (currentPhaseIndex < gamePhases.length - 1) {
                 currentPhaseIndex++;
+                
+                // 如果是夜晚阶段，增加夜晚计数
+                if (gamePhases[currentPhaseIndex].title.includes('夜') && !gamePhases[currentPhaseIndex].title.includes('第一夜')) {
+                    currentNight++;
+                }
+                
                 updateGamePhase();
+                updateNightOrder();
             } else {
-                alert('已经是最后一个阶段！');
+                // 循环回到白天阶段（无限游戏）
+                if (confirm('是否进入下一轮白天？')) {
+                    // 添加一个新的白天阶段
+                    currentPhaseIndex = 3; // 回到第一天白天
+                    currentNight++;
+                    
+                    // 修改阶段标题
+                    const dayNumber = Math.floor(currentNight / 2) + 1;
+                    gamePhases[3].title = `第${dayNumber}天白天`;
+                    gamePhases[4].title = `第${currentNight}夜`;
+                    
+                    updateGamePhase();
+                    updateNightOrder();
+                }
             }
         }
         
@@ -1572,9 +1733,81 @@
             
             if (currentPhaseIndex > 0) {
                 currentPhaseIndex--;
+                
+                // 如果是夜晚阶段，减少夜晚计数
+                if (gamePhases[currentPhaseIndex].title.includes('夜') && currentNight > 1) {
+                    currentNight--;
+                }
+                
                 updateGamePhase();
+                updateNightOrder();
             } else {
                 alert('已经是第一个阶段！');
+            }
+        }
+        
+        // 检查游戏是否结束
+        function checkGameEnd() {
+            if (!gameStarted || players.length === 0) return;
+            
+            const alivePlayers = players.filter(p => p.alive);
+            const aliveWolves = alivePlayers.filter(p => {
+                const role = roles.find(r => r.id === p.role);
+                return role && role.side === 'wolf';
+            });
+            const aliveVillagers = alivePlayers.filter(p => {
+                const role = roles.find(r => r.id === p.role);
+                return role && role.side === 'village';
+            });
+            
+            // 屠边规则：狼人杀光所有神民或所有平民
+            let godsAlive = 0;
+            let villagersAlive = 0;
+            
+            aliveVillagers.forEach(player => {
+                const role = roles.find(r => r.id === player.role);
+                if (role) {
+                    if (role.id === 'villager') {
+                        villagersAlive++;
+                    } else {
+                        godsAlive++;
+                    }
+                }
+            });
+            
+            // 狼人胜利条件
+            if (aliveWolves.length === 0) {
+                alert('游戏结束！好人阵营获胜！');
+                currentPhaseIndex = gamePhases.length - 1; // 跳转到游戏结束阶段
+                updateGamePhase();
+                addLogEntry('游戏结束：所有狼人出局，好人阵营获胜！', "游戏结束");
+                return;
+            }
+            
+            // 好人胜利条件
+            if (aliveVillagers.length === 0) {
+                alert('游戏结束！狼人阵营获胜！');
+                currentPhaseIndex = gamePhases.length - 1; // 跳转到游戏结束阶段
+                updateGamePhase();
+                addLogEntry('游戏结束：所有好人出局，狼人阵营获胜！', "游戏结束");
+                return;
+            }
+            
+            // 屠边规则检查
+            if (godsAlive === 0) {
+                alert('游戏结束！所有神职出局，狼人阵营获胜！');
+                currentPhaseIndex = gamePhases.length - 1;
+                updateGamePhase();
+                addLogEntry('游戏结束：所有神职出局，狼人阵营获胜！', "游戏结束");
+                return;
+            }
+            
+            if (villagersAlive === 0) {
+                alert('游戏结束！所有平民出局，狼人阵营获胜！');
+                currentPhaseIndex = gamePhases.length - 1;
+                updateGamePhase();
+                addLogEntry('游戏结束：所有平民出局，狼人阵营获胜！', "游戏结束");
+                return;
             }
         }
         
@@ -1646,20 +1879,19 @@
                     ];
                     break;
                 case 'advanced':
-                    // 进阶板型: 4狼人、3村民、预言家、女巫、猎人、白狼王
+                    // 进阶板型: 3狼人、白狼王、4村民、预言家、女巫、骑士、守卫
                     presetRoles = [
-                        'werewolf', 'werewolf', 'werewolf', 'werewolf',
-                        'villager', 'villager', 'villager',
-                        'seer', 'witch', 'hunter', 'whitewolf'
+                        'werewolf', 'werewolf', 'werewolf', 'whitewolf',
+                        'villager', 'villager', 'villager', 'villager',
+                        'seer', 'witch', 'knight', 'guard'
                     ];
                     break;
-                case 'mechanical':
-                    // 机械狼板型: 3狼人、机械狼、4村民、预言家、女巫、守卫
+                case 'gods-twilight':
+                    // 诸神黄昏板型: 黑狼王、狼美人、恶灵骑士、预言家、女巫、奇迹商人、白痴、骑士、守卫
                     presetRoles = [
-                        'werewolf', 'werewolf', 'werewolf',
-                        'mechanical_wolf',
-                        'villager', 'villager', 'villager', 'villager',
-                        'seer', 'witch', 'guard'
+                        'black_wolf_king', 'wolf_beauty', 'evil_knight',
+                        'seer', 'witch', 'miracle_merchant',
+                        'idiot', 'knight', 'guard'
                     ];
                     break;
             }
@@ -1669,7 +1901,7 @@
                 addRoleToBoard(roleId);
             });
             
-            const presetName = presetId === 'standard' ? '标准' : presetId === 'advanced' ? '进阶' : '机械狼';
+            const presetName = presetId === 'standard' ? '标准' : presetId === 'advanced' ? '进阶' : '诸神黄昏';
             alert(`已加载${presetName}板型！`);
             addLogEntry(`加载${presetName}板型`, "板型配置");
         }
