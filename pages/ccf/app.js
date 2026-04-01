@@ -93,6 +93,7 @@
 
             // Determine display name
             e.displayName = e.abbr || e.fullName || 'Unknown';
+            e.entryKey = normalizeConfFileKey(e.abbr || e.displayName || e.fullName || String(idx));
 
             // Merge extra metadata
             const abbrKey = e.abbr.replace(/[\s\-]/g, '');
@@ -115,6 +116,33 @@
     let filteredData = [];
     let displayedCount = 0;
     const PAGE_SIZE = 30;
+    let deadlineTimer = null;
+    let currentModalEntry = null;
+    const autoDeadlineCache = new Map();
+    const autoFetchInFlight = new Map();
+    const autoMissCache = new Map();
+    const AUTO_CACHE_STORAGE_KEY = 'ccf_deadline_auto_cache_v2';
+    const AUTO_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
+    const AUTO_MISS_TTL_MS = 2 * 60 * 60 * 1000;
+    const REQUEST_TIMEOUT_MS = 4000;
+    const CCFDDL_MIRRORS = [
+      'https://raw.githubusercontent.com/ccfddl/ccf-deadlines/main',
+      'https://cdn.jsdelivr.net/gh/ccfddl/ccf-deadlines@main',
+    ];
+
+    const CATEGORY_TO_CCFDDL_SUB = {
+      '计算机体系结构/并行与分布计算/存储系统': 'DS',
+      '计算机网络': 'NW',
+      '网络与信息安全': 'SC',
+      '软件工程/系统软件/程序设计语言': 'SE',
+      '数据库/数据挖掘/内容检索': 'DB',
+      '计算机科学理论': 'CT',
+      '计算机图形学与多媒体': 'CG',
+      '人工智能': 'AI',
+      '人机交互与普适计算': 'HI',
+      '交叉/综合/新兴': 'MX',
+    };
+    const ALL_CCFDDL_SUBS = [...new Set(Object.values(CATEGORY_TO_CCFDDL_SUB))];
 
     let currentFilters = {
         type: 'all',
@@ -157,13 +185,18 @@
     // Initialize
     // ============================================
 
-    function init() {
+    async function init() {
         if (typeof CCF_DATA === 'undefined') {
             console.error('CCF_DATA not loaded!');
             return;
         }
 
         allData = processData(CCF_DATA);
+
+        loadAutoCacheFromStorage();
+
+      // Fetch initial conference deadline data before first render to reduce flicker.
+      await preloadInitialConferenceDeadlines();
 
         // Build filter options
         buildCategoryDropdown();
@@ -303,6 +336,35 @@
             if (e.key === 'Escape') closeModal();
         });
 
+        els.modalContent.addEventListener('click', async (e) => {
+          const btn = e.target.closest('.deadline-refresh-btn');
+          if (!btn || !currentModalEntry) return;
+
+          btn.disabled = true;
+          btn.textContent = '刷新中...';
+
+          try {
+            const key = getConferenceCacheKey(currentModalEntry);
+            autoDeadlineCache.delete(key);
+            autoMissCache.delete(key);
+            persistAutoCacheToStorage();
+
+            if (currentModalEntry.extra) {
+              delete currentModalEntry.extra.deadline;
+              delete currentModalEntry.extra.extensionDeadline;
+              delete currentModalEntry.extra.conferenceWebsite;
+              delete currentModalEntry.extra.deadlineYear;
+              delete currentModalEntry.extra.websiteYear;
+            }
+
+            await ensureConferenceAutoData(currentModalEntry, { forceNetwork: true, searchAllSubs: true });
+            openModal(currentModalEntry);
+          } finally {
+            btn.disabled = false;
+            btn.textContent = '刷新抓取';
+          }
+        });
+
         // Close dropdowns when clicking outside
         document.addEventListener('click', (e) => {
             if (!els.categoryFilter.contains(e.target)) {
@@ -431,6 +493,9 @@
 
         // Toggle load more
         els.loadMore.style.display = displayedCount < filteredData.length ? 'block' : 'none';
+
+        startDeadlineTimer();
+        prefetchVisibleConferenceDeadlines();
     }
 
     function createCard(entry, index) {
@@ -464,6 +529,7 @@
       </div>
       <div class="card-fullname" title="${escapeHtml(entry.fullName)}">${escapeHtml(entry.fullName || '')}</div>
       <div class="card-meta">${metaTags}</div>
+      ${entry.type === 'conference' ? renderConferenceDeadline(entry, 'card') : ''}
     `;
 
         card.addEventListener('click', () => openModal(entry));
@@ -476,6 +542,7 @@
     // ============================================
 
     function openModal(entry) {
+      currentModalEntry = entry;
         const extra = entry.extra;
 
         let html = `
@@ -487,6 +554,16 @@
         <div class="modal-fullname">${escapeHtml(entry.fullName || '')}</div>
       </div>
     `;
+
+        if (entry.type === 'conference') {
+            html += `
+      <div class="modal-section">
+        <div class="modal-section-title">截稿状态</div>
+        ${renderConferenceDeadline(entry, 'modal')}
+        <button class="deadline-refresh-btn" type="button">刷新抓取</button>
+      </div>
+    `;
+        }
 
         // Basic info section
         html += `
@@ -626,6 +703,16 @@
             html += `
         <div class="modal-section">
           <div class="modal-section-title">相关链接</div>
+          ${extra && extra.conferenceWebsite ? `
+          <a href="${escapeHtml(extra.conferenceWebsite)}" target="_blank" rel="noopener" class="modal-link" style="background: linear-gradient(135deg, #dc2626, #f97316);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 3h7v7"/>
+              <path d="M10 14L21 3"/>
+              <path d="M21 14v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6"/>
+            </svg>
+            会议官网
+          </a>
+          ` : ''}
           <a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener" class="modal-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -655,11 +742,17 @@
         els.modalContent.innerHTML = html;
         els.modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        updateDeadlineDisplays();
+
+        if (entry.type === 'conference') {
+          ensureConferenceAutoData(entry);
+        }
     }
 
     function closeModal() {
         els.modalOverlay.classList.remove('active');
         document.body.style.overflow = '';
+        currentModalEntry = null;
     }
 
     // ============================================
@@ -671,6 +764,519 @@
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
+    }
+
+    function normalizeDateInput(value) {
+      if (!value) return null;
+
+      if (value instanceof Date) {
+        return Number.isNaN(value.getTime()) ? null : value;
+      }
+
+      if (typeof value === 'number') {
+        const d = new Date(value);
+        return Number.isNaN(d.getTime()) ? null : d;
+      }
+
+      if (typeof value === 'string') {
+        let text = value.trim();
+        if (!text) return null;
+
+        if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+          text += 'T23:59:59+08:00';
+        } else if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(:\d{2})?$/.test(text)) {
+          text = text.replace(' ', 'T');
+          if (!/(Z|[+\-]\d{2}:\d{2})$/.test(text)) {
+            text += '+08:00';
+          }
+        }
+
+        const d = new Date(text);
+        return Number.isNaN(d.getTime()) ? null : d;
+      }
+
+      return null;
+    }
+
+    function normalizeConfFileKey(name) {
+      return (name || '')
+        .toLowerCase()
+        .replace(/\+/g, 'plus')
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]/g, '');
+    }
+
+    function getConferenceCacheKey(entry) {
+      return normalizeConfFileKey(entry.abbr || entry.displayName || entry.fullName);
+    }
+
+    function findEntryByKey(entryKey) {
+      if (!entryKey) return null;
+      return allData.find(e => e.entryKey === entryKey) || null;
+    }
+
+    function buildConferenceFileCandidates(entry) {
+      const candidates = new Set();
+      const abbr = entry.abbr || '';
+      const display = entry.displayName || '';
+
+      const fromUrl = (entry.url || '').match(/\/conf\/([^\/]+)/i);
+      if (fromUrl && fromUrl[1]) {
+        candidates.add(normalizeConfFileKey(fromUrl[1]));
+        candidates.add(fromUrl[1].toLowerCase());
+      }
+
+      candidates.add(normalizeConfFileKey(abbr));
+      candidates.add(normalizeConfFileKey(display));
+      candidates.add((abbr || '').toLowerCase().replace(/\s+/g, ''));
+      candidates.add((abbr || '').toLowerCase().replace(/[^a-z0-9\-]/g, ''));
+
+      return [...candidates].filter(Boolean);
+    }
+
+    function timezoneToOffset(tz) {
+      const text = (tz || '').trim();
+      if (!text) return '+08:00';
+      if (/^AoE$/i.test(text)) return '-12:00';
+
+      const m = text.match(/^UTC\s*([+\-]\d{1,2})(?::(\d{2}))?$/i);
+      if (m) {
+        const hour = Number(m[1]);
+        const minute = Number(m[2] || '0');
+        const sign = hour >= 0 ? '+' : '-';
+        return `${sign}${String(Math.abs(hour)).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      }
+
+      if (/^UTC$/i.test(text)) {
+        return '+00:00';
+      }
+
+      return '+08:00';
+    }
+
+    function parseDeadlineWithTimezone(deadlineText, timezoneText) {
+      const text = (deadlineText || '').trim();
+      if (!text || /^TBD$/i.test(text)) return null;
+
+      if (!/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$/.test(text)) {
+        return null;
+      }
+
+      return `${text.replace(' ', 'T')}${timezoneToOffset(timezoneText)}`;
+    }
+
+    function parseConferenceYaml(yamlText) {
+      if (!yamlText || typeof yamlText !== 'string') return null;
+
+      const confsIdx = yamlText.indexOf('confs:');
+      if (confsIdx < 0) return null;
+
+      const confsText = yamlText.slice(confsIdx);
+      const blockRegex = /\n\s*-\s*year:\s*(\d{4})([\s\S]*?)(?=\n\s*-\s*year:|$)/g;
+      const blocks = [];
+      let match;
+      while ((match = blockRegex.exec(confsText)) !== null) {
+        const year = Number(match[1]);
+        const block = match[2];
+        const linkMatch = block.match(/\n\s*link:\s*([^\n]+)/);
+        const timezoneMatch = block.match(/\n\s*timezone:\s*([^\n]+)/);
+
+        const rawDeadlines = [];
+        const deadlineRegex = /\n\s*(?:-\s*)?deadline:\s*'?([^\n']+)'?/gi;
+        let dm;
+        while ((dm = deadlineRegex.exec(block)) !== null) {
+          rawDeadlines.push(dm[1].trim());
+        }
+
+        const timezone = timezoneMatch ? timezoneMatch[1].trim() : '';
+        const parsedDeadlines = rawDeadlines
+          .map(d => parseDeadlineWithTimezone(d, timezone))
+          .filter(Boolean);
+
+        blocks.push({
+          year,
+          block,
+          link: linkMatch ? linkMatch[1].trim() : '',
+          parsedDeadlines,
+        });
+      }
+
+      if (blocks.length === 0) return null;
+
+      blocks.sort((a, b) => b.year - a.year);
+
+      // Always use the newest conference website; deadline can fallback to nearest year with concrete value.
+      const latestForWebsite = blocks.find(b => b.link) || blocks[0];
+      const latestForDeadline = blocks.find(b => b.parsedDeadlines.length > 0) || blocks[0];
+
+      if (latestForDeadline.parsedDeadlines.length === 0 && !latestForWebsite.link) {
+        return null;
+      }
+
+      return {
+        conferenceWebsite: latestForWebsite.link || undefined,
+        deadline: latestForDeadline.parsedDeadlines[0],
+        extensionDeadline: latestForDeadline.parsedDeadlines[1],
+        deadlineSource: 'ccfddl',
+        fetchedAt: Date.now(),
+        deadlineYear: latestForDeadline.year,
+        websiteYear: latestForWebsite.year,
+      };
+    }
+
+    function loadAutoCacheFromStorage() {
+      try {
+        const raw = localStorage.getItem(AUTO_CACHE_STORAGE_KEY);
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        const now = Date.now();
+        Object.entries(saved).forEach(([k, v]) => {
+          if (!v || typeof v !== 'object') return;
+          const ts = Number(v.fetchedAt || 0);
+          if (ts > 0 && now - ts <= AUTO_CACHE_TTL_MS) {
+            autoDeadlineCache.set(k, v);
+          }
+        });
+      } catch (_err) {
+        // Ignore corrupted cache data.
+      }
+    }
+
+    function persistAutoCacheToStorage() {
+      try {
+        const obj = {};
+        autoDeadlineCache.forEach((v, k) => {
+          obj[k] = v;
+        });
+        localStorage.setItem(AUTO_CACHE_STORAGE_KEY, JSON.stringify(obj));
+      } catch (_err) {
+        // Ignore storage quota or disabled storage.
+      }
+    }
+
+    async function fetchTextWithTimeout(url, timeoutMs, preferFresh) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, {
+          cache: preferFresh ? 'no-cache' : 'force-cache',
+          signal: controller.signal,
+        });
+        if (!res.ok) return null;
+        return await res.text();
+      } catch (_err) {
+        return null;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function fetchYamlFromMirrors(relativePath, preferFresh) {
+      return await new Promise(resolve => {
+        let pending = CCFDDL_MIRRORS.length;
+        let resolved = false;
+
+        CCFDDL_MIRRORS.forEach(base => {
+          fetchTextWithTimeout(`${base}/${relativePath}`, REQUEST_TIMEOUT_MS, preferFresh)
+            .then(text => {
+              if (resolved) return;
+              if (text) {
+                resolved = true;
+                resolve(text);
+                return;
+              }
+
+              pending -= 1;
+              if (pending === 0) {
+                resolve(null);
+              }
+            })
+            .catch(() => {
+              pending -= 1;
+              if (!resolved && pending === 0) {
+                resolve(null);
+              }
+            });
+        });
+      });
+    }
+
+    async function fetchConferenceYamlFromCcfddl(entry, preferFresh, searchAllSubs) {
+      const primarySub = CATEGORY_TO_CCFDDL_SUB[entry.category];
+      const subs = searchAllSubs
+        ? [primarySub, ...ALL_CCFDDL_SUBS.filter(s => s && s !== primarySub)].filter(Boolean)
+        : (primarySub ? [primarySub] : ALL_CCFDDL_SUBS);
+
+      const candidates = buildConferenceFileCandidates(entry);
+
+      for (const sub of subs) {
+        for (const key of candidates) {
+          const relativePath = `conference/${sub}/${key}.yml`;
+          const yaml = await fetchYamlFromMirrors(relativePath, preferFresh);
+          if (!yaml) continue;
+          const parsed = parseConferenceYaml(yaml);
+          if (parsed) return parsed;
+        }
+      }
+
+      return null;
+    }
+
+    function shouldRefreshCachedConference(cacheItem) {
+      if (!cacheItem || typeof cacheItem !== 'object') return true;
+      if (!cacheItem.websiteYear) return true;
+      const nowYear = new Date().getFullYear();
+      return Number(cacheItem.websiteYear) < nowYear - 1;
+    }
+
+    async function ensureConferenceAutoData(entry, options) {
+      if (!entry || entry.type !== 'conference') return null;
+      const forceNetwork = Boolean(options && options.forceNetwork);
+      const searchAllSubs = Boolean(options && options.searchAllSubs);
+
+      const existing = getConferenceDeadlineData(entry);
+      if (!forceNetwork && existing.deadlineDate && entry.extra && entry.extra.conferenceWebsite) {
+        return entry.extra;
+      }
+
+      const cacheKey = getConferenceCacheKey(entry);
+      const cached = autoDeadlineCache.get(cacheKey);
+      if (!forceNetwork && cached) {
+        entry.extra = { ...(entry.extra || {}), ...cached };
+        updateDeadlineDisplays();
+
+        // Cache from older parser may miss newest website year, refresh in background once.
+        if (shouldRefreshCachedConference(cached)) {
+          ensureConferenceAutoData(entry, { forceNetwork: true }).catch(() => null);
+        }
+        return entry.extra;
+      }
+
+      const missTs = autoMissCache.get(cacheKey);
+      if (!forceNetwork && missTs && Date.now() - missTs < AUTO_MISS_TTL_MS) {
+        return null;
+      }
+
+      const inFlightKey = `${cacheKey}:${forceNetwork ? 'force' : 'normal'}:${searchAllSubs ? 'all' : 'mapped'}`;
+      if (autoFetchInFlight.has(inFlightKey)) {
+        return autoFetchInFlight.get(inFlightKey);
+      }
+
+      const task = (async () => {
+        const parsed = await fetchConferenceYamlFromCcfddl(entry, forceNetwork, searchAllSubs);
+        if (parsed) {
+          autoDeadlineCache.set(cacheKey, parsed);
+          autoMissCache.delete(cacheKey);
+          persistAutoCacheToStorage();
+          entry.extra = { ...(entry.extra || {}), ...parsed };
+          updateDeadlineDisplays();
+          return entry.extra;
+        }
+        autoMissCache.set(cacheKey, Date.now());
+        return null;
+      })();
+
+      autoFetchInFlight.set(inFlightKey, task);
+
+      try {
+        return await task;
+      } finally {
+        autoFetchInFlight.delete(inFlightKey);
+      }
+    }
+
+    async function preloadInitialConferenceDeadlines() {
+      const targets = allData.filter(e => e.type === 'conference').slice(0, 16);
+
+      const limit = 6;
+      for (let i = 0; i < targets.length; i += limit) {
+        const chunk = targets.slice(i, i + limit);
+        await Promise.all(chunk.map(e => ensureConferenceAutoData(e).catch(() => null)));
+      }
+    }
+
+    function prefetchVisibleConferenceDeadlines() {
+      const visibleConfs = filteredData.slice(0, displayedCount)
+        .filter(e => e.type === 'conference');
+
+      let started = 0;
+      for (const entry of visibleConfs) {
+        const { deadlineDate } = getConferenceDeadlineData(entry);
+        if (deadlineDate) continue;
+        ensureConferenceAutoData(entry);
+        started += 1;
+        if (started >= 6) break;
+      }
+    }
+
+    function getConferenceDeadlineData(entry) {
+      const extra = entry && entry.extra ? entry.extra : {};
+
+      const deadlineDate = normalizeDateInput(
+        extra.deadline || extra.submissionDeadline || extra.ddl || extra.dueDate
+      );
+
+      const extensionDate = normalizeDateInput(
+        extra.extensionDeadline || extra.extendedDeadline || extra.deadlineExtension
+      );
+
+      return {
+        deadlineDate,
+        extensionDate,
+      };
+    }
+
+    function formatDuration(ms) {
+      const total = Math.floor(Math.abs(ms) / 1000);
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      const minutes = Math.floor((total % 3600) / 60);
+      const seconds = total % 60;
+      const pad = n => String(n).padStart(2, '0');
+      return `${days}天 ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    function formatDateTime(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      const h = String(date.getHours()).padStart(2, '0');
+      const mm = String(date.getMinutes()).padStart(2, '0');
+      const s = String(date.getSeconds()).padStart(2, '0');
+      return `${y}-${m}-${d} ${h}:${mm}:${s}`;
+    }
+
+    function renderConferenceDeadline(entry, mode) {
+      const { deadlineDate, extensionDate } = getConferenceDeadlineData(entry);
+      const entryKey = escapeHtml(entry.entryKey || normalizeConfFileKey(entry.abbr || entry.displayName || entry.fullName));
+
+      if (!deadlineDate && !extensionDate) {
+        return `
+      <div class="conference-deadline conference-deadline-${mode} js-deadline" data-entry-key="${entryKey}" data-deadline="" data-extension="">
+      <div class="deadline-row">
+        <span class="deadline-label">当前状态</span>
+        <span class="deadline-value js-deadline-status">抓取中</span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">截稿时间</span>
+        <span class="deadline-value">自动抓取会议官网截稿中...</span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label js-deadline-main-label">倒计时</span>
+        <span class="deadline-value js-deadline-main">--</span>
+      </div>
+      </div>
+    `;
+      }
+
+      const deadlineTs = deadlineDate ? deadlineDate.getTime() : '';
+      const extensionTs = extensionDate ? extensionDate.getTime() : '';
+
+      return `
+      <div class="conference-deadline conference-deadline-${mode} js-deadline" data-entry-key="${entryKey}" data-deadline="${deadlineTs}" data-extension="${extensionTs}">
+      <div class="deadline-row">
+        <span class="deadline-label">当前状态</span>
+        <span class="deadline-value js-deadline-status">计算中...</span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">截稿时间</span>
+        <span class="deadline-value">${deadlineDate ? formatDateTime(deadlineDate) : '未提供'}</span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label js-deadline-main-label">倒计时</span>
+        <span class="deadline-value js-deadline-main">计算中...</span>
+      </div>
+      ${extensionDate ? `
+        <div class="deadline-row deadline-extension">
+        <span class="deadline-label">延期到</span>
+        <span class="deadline-value">${formatDateTime(extensionDate)}</span>
+        </div>
+        <div class="deadline-row deadline-extension">
+        <span class="deadline-label js-deadline-ext-label">延期倒计时</span>
+        <span class="deadline-value js-deadline-ext">计算中...</span>
+        </div>
+      ` : ''}
+      </div>
+    `;
+    }
+
+    function updateDeadlineDisplays() {
+      const blocks = document.querySelectorAll('.js-deadline');
+      const now = Date.now();
+
+      blocks.forEach(block => {
+        let deadlineTs = Number(block.dataset.deadline) || 0;
+        let extensionTs = Number(block.dataset.extension) || 0;
+
+        if (!deadlineTs && !extensionTs) {
+          const linkedEntry = findEntryByKey(block.dataset.entryKey || '');
+          if (linkedEntry) {
+            const fresh = getConferenceDeadlineData(linkedEntry);
+            if (fresh.deadlineDate) {
+              deadlineTs = fresh.deadlineDate.getTime();
+              block.dataset.deadline = String(deadlineTs);
+            }
+            if (fresh.extensionDate) {
+              extensionTs = fresh.extensionDate.getTime();
+              block.dataset.extension = String(extensionTs);
+            }
+          }
+        }
+
+        const effectiveTs = extensionTs || deadlineTs;
+
+        const statusEl = block.querySelector('.js-deadline-status');
+        const mainLabelEl = block.querySelector('.js-deadline-main-label');
+        const mainEl = block.querySelector('.js-deadline-main');
+        const extLabelEl = block.querySelector('.js-deadline-ext-label');
+        const extEl = block.querySelector('.js-deadline-ext');
+
+        if (!effectiveTs || !statusEl || !mainLabelEl || !mainEl) {
+          if (statusEl) {
+            statusEl.textContent = '抓取中';
+            statusEl.className = 'deadline-value js-deadline-status';
+          }
+          if (mainEl) {
+            mainEl.textContent = '--';
+          }
+          return;
+        }
+
+        if (now <= effectiveTs) {
+          statusEl.textContent = '未截稿';
+          statusEl.className = 'deadline-value js-deadline-status deadline-open';
+          mainLabelEl.textContent = '截稿倒计时';
+          mainEl.textContent = formatDuration(effectiveTs - now);
+        } else {
+          statusEl.textContent = '已截稿';
+          statusEl.className = 'deadline-value js-deadline-status deadline-closed';
+          mainLabelEl.textContent = '已截稿时长';
+          mainEl.textContent = formatDuration(now - effectiveTs);
+        }
+
+        if (extensionTs && extLabelEl && extEl) {
+          if (now <= extensionTs) {
+            extLabelEl.textContent = '延期倒计时';
+            extEl.textContent = formatDuration(extensionTs - now);
+          } else {
+            extLabelEl.textContent = '延期已过';
+            extEl.textContent = formatDuration(now - extensionTs);
+          }
+        }
+      });
+    }
+
+    function startDeadlineTimer() {
+      if (deadlineTimer) {
+        clearInterval(deadlineTimer);
+        deadlineTimer = null;
+      }
+
+      updateDeadlineDisplays();
+
+      if (document.querySelector('.js-deadline')) {
+        deadlineTimer = setInterval(updateDeadlineDisplays, 1000);
+      }
     }
 
     // ============================================
