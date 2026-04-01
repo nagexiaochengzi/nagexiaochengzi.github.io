@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CCF推荐国际学术会议和期刊查询工具 - 查看SCI/JCR分区、影响因子、CCF等级等信息">
+    <title>学术期刊会议查询</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Header -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">学术期刊 & 会议</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <main class="main-container">
+        <div class="search-section">
+            <div class="search-box" id="searchBox">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input type="text" id="searchInput" placeholder="输入期刊/会议名称或简称搜索..." autocomplete="off">
+                <button class="search-clear" id="searchClear" style="display:none">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="search-stats" id="searchStats"></div>
+        </div>
+
+        <!-- Type Tabs -->
+        <div class="tabs-container">
+            <div class="tabs" id="typeTabs">
+                <button class="tab active" data-type="all">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                    </svg>
+                    全部
+                    <span class="tab-count" id="countAll">0</span>
+                </button>
+                <button class="tab" data-type="journal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                    期刊
+                    <span class="tab-count" id="countJournal">0</span>
+                </button>
+                <button class="tab" data-type="conference">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    会议
+                    <span class="tab-count" id="countConference">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-container">
+            <div class="filter-group">
+                <label class="filter-label">研究领域</label>
+                <div class="custom-select" id="categoryFilter">
+                    <button class="select-btn" id="categoryBtn">
+                        <span>全部领域</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </button>
+                    <div class="select-dropdown" id="categoryDropdown"></div>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">CCF等级</label>
+                <div class="grade-btns" id="gradeFilter">
+                    <button class="grade-btn active" data-grade="all">全部</button>
+                    <button class="grade-btn grade-a" data-grade="A">A</button>
+                    <button class="grade-btn grade-b" data-grade="B">B</button>
+                    <button class="grade-btn grade-c" data-grade="C">C</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">出版商</label>
+                <div class="custom-select" id="publisherFilter">
+                    <button class="select-btn" id="publisherBtn">
+                        <span>全部出版商</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </button>
+                    <div class="select-dropdown" id="publisherDropdown"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Grid -->
+        <div class="results-grid" id="resultsGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+                <path d="M8 11h6" />
+            </svg>
+            <h3>未找到匹配结果</h3>
+            <p>请尝试修改搜索关键词或调整筛选条件</p>
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more" id="loadMore" style="display:none">
+            <button class="load-more-btn" id="loadMoreBtn">加载更多</button>
+        </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="detailModal">
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
+    <script src="ccf_data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
