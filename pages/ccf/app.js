@@ -6,6 +6,31 @@
 (function () {
     'use strict';
 
+  function normalizeCategoryText(text) {
+    const value = (text || '').trim();
+    if (!value) return value;
+
+    if (value.includes('璁＄畻鏈轰綋绯')) return '计算机体系结构/并行与分布计算/存储系统';
+    if (value.includes('璁＄畻鏈虹綉缁')) return '计算机网络';
+    if (value.includes('缃戠粶涓庝俊鎭')) return '网络与信息安全';
+    if (value.includes('杞欢宸ョ▼') || value.includes('绋嬪簭璁捐')) return '软件工程/系统软件/程序设计语言';
+    if (value.includes('鏁版嵁搴') || value.includes('鏁版嵁鎸栨帢')) return '数据库/数据挖掘/内容检索';
+    if (value.includes('璁＄畻鏈虹瀛') || value.includes('鐞嗚')) return '计算机科学理论';
+    if (value.includes('璁＄畻鏈哄浘褰') || value.includes('澶氬獟浣')) return '计算机图形学与多媒体';
+    if (value.includes('浜哄伐鏅鸿兘')) return '人工智能';
+    if (value.includes('浜烘満浜や簰') || value.includes('鏅€傝绠')) return '人机交互与普适计算';
+    if (value.includes('浜ゅ弶') || value.includes('鏂板叴')) return '交叉/综合/新兴';
+
+    return value;
+  }
+
+  function sanitizeUrl(url) {
+    const value = (url || '').trim();
+    if (!value) return '';
+    const m = value.match(/https?:\/\/[A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+/);
+    return m ? m[0] : value;
+  }
+
     // ============================================
     // Data Processing
     // ============================================
@@ -39,6 +64,14 @@
                 fn.includes('colloquium') || fn.includes('summit')) {
                 e.type = 'conference';
             }
+
+            // DBLP URLs are reliable for venue type: /db/conf/ => conference, /db/journals/ => journal.
+            const rawUrl = (e.url || '').toLowerCase();
+            if (rawUrl.includes('/db/conf/')) {
+              e.type = 'conference';
+            } else if (rawUrl.includes('/db/journals/')) {
+              e.type = 'journal';
+            }
             // Also check publisher field for misplaced full names
             if (e.publisher && e.publisher.length > 30) {
                 // Publisher field likely contains the full name
@@ -62,11 +95,12 @@
             } else {
                 e.category = currentCategory;
             }
+            e.category = normalizeCategoryText(e.category);
+            currentCategory = e.category || currentCategory;
 
             // Clean up URLs
             if (e.url) {
-                // Remove Chinese text from URLs
-                e.url = e.url.replace(/[\u4e00-\u9fff\uff08\uff09]+.*$/, '').trim();
+              e.url = sanitizeUrl(e.url);
             }
 
             // Clean publisher
@@ -96,7 +130,7 @@
             e.entryKey = normalizeConfFileKey(e.abbr || e.displayName || e.fullName || String(idx));
 
             // Merge extra metadata
-            const abbrKey = e.abbr.replace(/[\s\-]/g, '');
+            const abbrKey = (e.abbr || '').replace(/[\s\-]/g, '');
             if (typeof EXTRA_METADATA !== 'undefined') {
                 const meta = EXTRA_METADATA[e.abbr] || EXTRA_METADATA[abbrKey];
                 if (meta) {
@@ -195,9 +229,6 @@
 
         loadAutoCacheFromStorage();
 
-      // Fetch initial conference deadline data before first render to reduce flicker.
-      await preloadInitialConferenceDeadlines();
-
         // Build filter options
         buildCategoryDropdown();
         buildPublisherDropdown();
@@ -210,6 +241,21 @@
 
         // Initial render
         applyFilters();
+
+        // Warm up conference deadline cache in background so first paint is instant.
+        scheduleBackgroundDeadlineWarmup();
+    }
+
+    function scheduleBackgroundDeadlineWarmup() {
+      const run = () => {
+        preloadInitialConferenceDeadlines().catch(() => null);
+      };
+
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(run, { timeout: 2000 });
+      } else {
+        setTimeout(run, 0);
+      }
     }
 
     // ============================================

@@ -6117,3 +6117,125 @@ const CCF_DATA = [
   }
 ];
 
+const CCF_CATEGORIES = [
+  "浜ゅ弶/缁煎悎/鏂板叴",
+  "浜哄伐鏅鸿兘",
+  "浜烘満浜や簰涓庢櫘閫傝绠?,
+  "鏁版嵁搴?鏁版嵁鎸栨帢/鍐呭妫€绱?,
+  "缃戠粶涓庝俊鎭畨鍏?,
+  "璁＄畻鏈轰綋绯荤粨鏋?骞惰涓庡垎甯冭绠?瀛樺偍绯荤粺",
+  "璁＄畻鏈哄浘褰㈠涓庡濯掍綋",
+  "璁＄畻鏈虹綉缁?,
+  "杞欢宸ョ▼/绯荤粺杞欢/绋嬪簭璁捐璇█"
+];
+
+
+// Additional metadata for well-known journals (curated, not from PDF)
+// This includes SCI zone info, impact factors, etc.
+const EXTRA_METADATA = {
+  // === 浜哄伐鏅鸿兘 ===
+  "AI": { issn: "0004-3702", impactFactor: 14.4, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "15%", researchAreas: ["浜哄伐鏅鸿兘", "鏈哄櫒瀛︿範", "鐭ヨ瘑琛ㄧず"], annualPapers: 280 },
+  "TPAMI": { issn: "0162-8828", impactFactor: 23.6, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 180, acceptRate: "10%", researchAreas: ["妯″紡璇嗗埆", "璁＄畻鏈鸿瑙?, "鏈哄櫒瀛︿範"], annualPapers: 400 },
+  "IJCV": { issn: "0920-5691", impactFactor: 19.5, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 150, acceptRate: "12%", researchAreas: ["璁＄畻鏈鸿瑙?, "鍥惧儚澶勭悊"], annualPapers: 200 },
+  "JMLR": { issn: "1532-4435", impactFactor: 6.0, sciZone: "2鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: true, avgReviewDays: 240, acceptRate: "20%", researchAreas: ["鏈哄櫒瀛︿範", "缁熻瀛︿範"], annualPapers: 150 },
+  "TAP": { issn: "1556-4681", impactFactor: 3.2, sciZone: "3鍖?, jcrZone: "Q2", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 90, acceptRate: "25%", researchAreas: ["搴旂敤鎰熺煡", "鐢ㄦ埛寤烘ā"], annualPapers: 60 },
+  
+  // === 璁＄畻鏈轰綋绯荤粨鏋?===
+  "TOCS": { issn: "0734-2071", impactFactor: 2.5, sciZone: "3鍖?, jcrZone: "Q2", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 180, acceptRate: "15%", researchAreas: ["璁＄畻鏈虹郴缁?, "鎿嶄綔绯荤粺"], annualPapers: 30 },
+  "TPDS": { issn: "1045-9219", impactFactor: 5.6, sciZone: "2鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "18%", researchAreas: ["骞惰璁＄畻", "鍒嗗竷寮忕郴缁?], annualPapers: 350 },
+  "TC": { issn: "0018-9340", impactFactor: 3.7, sciZone: "2鍖?, jcrZone: "Q1", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 150, acceptRate: "20%", researchAreas: ["璁＄畻鏈鸿璁?, "浣撶郴缁撴瀯"], annualPapers: 280 },
+  "TCAD": { issn: "0278-0070", impactFactor: 2.9, sciZone: "2鍖?, jcrZone: "Q2", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "22%", researchAreas: ["EDA", "闆嗘垚鐢佃矾璁捐"], annualPapers: 250 },
+  
+  // === 璁＄畻鏈虹綉缁?===
+  "JSAC": { issn: "0733-8716", impactFactor: 16.4, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 90, acceptRate: "12%", researchAreas: ["閫氫俊缃戠粶", "鏃犵嚎閫氫俊"], annualPapers: 300 },
+  "TMC": { issn: "1536-1233", impactFactor: 7.9, sciZone: "2鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "15%", researchAreas: ["绉诲姩璁＄畻", "鏃犵嚎缃戠粶"], annualPapers: 250 },
+  "TON": { issn: "1063-6692", impactFactor: 7.7, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 150, acceptRate: "12%", researchAreas: ["璁＄畻鏈虹綉缁?, "鍗忚璁捐"], annualPapers: 180 },
+  "IOT": { issn: "2327-4662", impactFactor: 10.6, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 90, acceptRate: "10%", researchAreas: ["鐗╄仈缃?, "浼犳劅鍣ㄧ綉缁?], annualPapers: 500 },
+
+  // === 杞欢宸ョ▼ ===
+  "TSE": { issn: "0098-5589", impactFactor: 7.4, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 180, acceptRate: "15%", researchAreas: ["杞欢宸ョ▼", "绋嬪簭鍒嗘瀽"], annualPapers: 200 },
+  "TOSEM": { issn: "1049-331X", impactFactor: 6.6, sciZone: "2鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 150, acceptRate: "18%", researchAreas: ["杞欢宸ョ▼鏂规硶", "杞欢娴嬭瘯"], annualPapers: 100 },
+  "TOPLAS": { issn: "0164-0925", impactFactor: 1.5, sciZone: "3鍖?, jcrZone: "Q3", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 240, acceptRate: "20%", researchAreas: ["绋嬪簭璁捐璇█", "绫诲瀷绯荤粺"], annualPapers: 30 },
+
+  // === 鏁版嵁搴?鏁版嵁鎸栨帢 ===
+  "TODS": { issn: "0362-5915", impactFactor: 2.6, sciZone: "3鍖?, jcrZone: "Q2", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 180, acceptRate: "15%", researchAreas: ["鏁版嵁搴撶郴缁?, "鏌ヨ浼樺寲"], annualPapers: 40 },
+  "TKDE": { issn: "1041-4347", impactFactor: 8.9, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "15%", researchAreas: ["鏁版嵁鎸栨帢", "鐭ヨ瘑鍙戠幇"], annualPapers: 350 },
+  "VLDBJ": { issn: "1066-8888", impactFactor: 4.5, sciZone: "2鍖?, jcrZone: "Q1", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 150, acceptRate: "18%", researchAreas: ["澶ц妯℃暟鎹簱", "鏁版嵁绠＄悊"], annualPapers: 60 },
+
+  // === 璁＄畻鏈哄浘褰㈠涓庡濯掍綋 ===
+  "TOG": { issn: "0730-0301", impactFactor: 7.8, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 90, acceptRate: "20%", researchAreas: ["璁＄畻鏈哄浘褰㈠", "娓叉煋鎶€鏈?], annualPapers: 200 },
+  "TIP": { issn: "1057-7149", impactFactor: 10.6, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "15%", researchAreas: ["鍥惧儚澶勭悊", "瑙嗛鍒嗘瀽"], annualPapers: 500 },
+  "TVCG": { issn: "1077-2626", impactFactor: 5.2, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 90, acceptRate: "22%", researchAreas: ["鍙鍖?, "璁＄畻鏈哄浘褰㈠"], annualPapers: 300 },
+
+  // === 缃戠粶涓庝俊鎭畨鍏?===
+  "TDSC": { issn: "1545-5971", impactFactor: 7.3, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "15%", researchAreas: ["淇℃伅瀹夊叏", "鍙俊璁＄畻"], annualPapers: 250 },
+  "TIFS": { issn: "1556-6013", impactFactor: 6.8, sciZone: "1鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 90, acceptRate: "18%", researchAreas: ["淇℃伅鍙栬瘉", "瀹夊叏"], annualPapers: 350 },
+
+  // === 璁＄畻鏈虹瀛︾悊璁?===
+  "TIT": { issn: "0018-9448", impactFactor: 2.5, sciZone: "2鍖?, jcrZone: "Q2", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 180, acceptRate: "20%", researchAreas: ["淇℃伅璁?, "缂栫爜鐞嗚"], annualPapers: 400 },
+  "IANDC": { issn: "0890-5401", impactFactor: 1.2, sciZone: "3鍖?, jcrZone: "Q3", isTop: false, isReview: false, isWarning: false, isOA: false, avgReviewDays: 240, acceptRate: "25%", researchAreas: ["璁＄畻鐞嗚", "褰㈠紡鍖栨柟娉?], annualPapers: 50 },
+
+  // === 浜烘満浜や簰涓庢櫘閫傝绠?===
+  "TOCHI": { issn: "1073-0516", impactFactor: 4.8, sciZone: "2鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 150, acceptRate: "15%", researchAreas: ["浜烘満浜や簰", "鐢ㄦ埛浣撻獙"], annualPapers: 60 },
+  "IJHCS": { issn: "1071-5819", impactFactor: 5.4, sciZone: "2鍖?, jcrZone: "Q1", isTop: true, isReview: false, isWarning: false, isOA: false, avgReviewDays: 120, acceptRate: "20%", researchAreas: ["浜烘満浜や簰", "璁ょ煡绉戝"], annualPapers: 150 },
+
+  // === Conferences (selected major ones) ===
+  "AAAI": { impactFactor: null, acceptRate: "20%", researchAreas: ["浜哄伐鏅鸿兘"], annualPapers: 1500 },
+  "NeurIPS": { impactFactor: null, acceptRate: "25%", researchAreas: ["鏈哄櫒瀛︿範", "娣卞害瀛︿範", "浼樺寲"], annualPapers: 2500 },
+  "ICML": { impactFactor: null, acceptRate: "22%", researchAreas: ["鏈哄櫒瀛︿範"], annualPapers: 1800 },
+  "ICLR": { impactFactor: null, acceptRate: "30%", researchAreas: ["娣卞害瀛︿範", "琛ㄧず瀛︿範"], annualPapers: 2000 },
+  "CVPR": { impactFactor: null, acceptRate: "25%", researchAreas: ["璁＄畻鏈鸿瑙?, "妯″紡璇嗗埆"], annualPapers: 2500 },
+  "ICCV": { impactFactor: null, acceptRate: "25%", researchAreas: ["璁＄畻鏈鸿瑙?], annualPapers: 1500 },
+  "ECCV": { impactFactor: null, acceptRate: "27%", researchAreas: ["璁＄畻鏈鸿瑙?, "鍥惧儚鐞嗚В"], annualPapers: 1600 },
+  "ACL": { impactFactor: null, acceptRate: "22%", researchAreas: ["鑷劧璇█澶勭悊", "璁＄畻璇█瀛?], annualPapers: 800 },
+  "SIGCOMM": { impactFactor: null, acceptRate: "12%", researchAreas: ["璁＄畻鏈虹綉缁?], annualPapers: 50 },
+  "OSDI": { impactFactor: null, acceptRate: "15%", researchAreas: ["鎿嶄綔绯荤粺", "鍒嗗竷寮忕郴缁?], annualPapers: 40 },
+  "SOSP": { impactFactor: null, acceptRate: "15%", researchAreas: ["鎿嶄綔绯荤粺", "绯荤粺杞欢"], annualPapers: 30 },
+  "SIGMOD": { impactFactor: null, acceptRate: "18%", researchAreas: ["鏁版嵁绠＄悊", "鏁版嵁搴?], annualPapers: 120 },
+  "VLDB": { impactFactor: null, acceptRate: "20%", researchAreas: ["澶ц妯℃暟鎹鐞?, "鏁版嵁搴?], annualPapers: 200 },
+  "ICDE": { impactFactor: null, acceptRate: "20%", researchAreas: ["鏁版嵁宸ョ▼", "鏁版嵁搴?], annualPapers: 200 },
+  "STOC": { impactFactor: null, acceptRate: "25%", researchAreas: ["鐞嗚璁＄畻鏈虹瀛?, "绠楁硶"], annualPapers: 100 },
+  "FOCS": { impactFactor: null, acceptRate: "25%", researchAreas: ["鐞嗚璁＄畻鏈虹瀛?, "澶嶆潅鎬?], annualPapers: 100 },
+  "SIGGRAPH": { impactFactor: null, acceptRate: "25%", researchAreas: ["璁＄畻鏈哄浘褰㈠", "娓叉煋"], annualPapers: 150 },
+  "CCS": { impactFactor: null, acceptRate: "18%", researchAreas: ["缃戠粶瀹夊叏", "瀵嗙爜瀛?], annualPapers: 150 },
+  "ISCA": { impactFactor: null, acceptRate: "18%", researchAreas: ["璁＄畻鏈轰綋绯荤粨鏋?], annualPapers: 70 },
+  "MICRO": { impactFactor: null, acceptRate: "20%", researchAreas: ["寰綋绯荤粨鏋?, "澶勭悊鍣ㄨ璁?], annualPapers: 80 },
+  "ASPLOS": { impactFactor: null, acceptRate: "20%", researchAreas: ["浣撶郴缁撴瀯", "缂栫▼璇█", "鎿嶄綔绯荤粺"], annualPapers: 80 },
+  "HPCA": { impactFactor: null, acceptRate: "20%", researchAreas: ["楂樻€ц兘璁＄畻鏈轰綋绯荤粨鏋?], annualPapers: 60 },
+  "SC": { impactFactor: null, acceptRate: "22%", researchAreas: ["楂樻€ц兘璁＄畻", "瓒呯骇璁＄畻"], annualPapers: 80 },
+  "INFOCOM": { impactFactor: null, acceptRate: "18%", researchAreas: ["璁＄畻鏈洪€氫俊", "缃戠粶"], annualPapers: 300 },
+  "MobiCom": { impactFactor: null, acceptRate: "15%", researchAreas: ["绉诲姩璁＄畻", "鏃犵嚎缃戠粶"], annualPapers: 50 },
+  "WWW": { impactFactor: null, acceptRate: "18%", researchAreas: ["涓囩淮缃?, "绀句氦缃戠粶", "淇℃伅妫€绱?], annualPapers: 300 },
+  "KDD": { impactFactor: null, acceptRate: "15%", researchAreas: ["鏁版嵁鎸栨帢", "鐭ヨ瘑鍙戠幇"], annualPapers: 300 },
+  "IJCAI": { impactFactor: null, acceptRate: "15%", researchAreas: ["浜哄伐鏅鸿兘"], annualPapers: 600 },
+  "CHI": { impactFactor: null, acceptRate: "25%", researchAreas: ["浜烘満浜や簰", "鐢ㄦ埛浣撻獙"], annualPapers: 600 },
+  "ICSE": { impactFactor: null, acceptRate: "20%", researchAreas: ["杞欢宸ョ▼"], annualPapers: 150 },
+  "FSE": { impactFactor: null, acceptRate: "20%", researchAreas: ["杞欢宸ョ▼", "绋嬪簭鍒嗘瀽"], annualPapers: 100 },
+  "NSDI": { impactFactor: null, acceptRate: "15%", researchAreas: ["缃戠粶绯荤粺璁捐"], annualPapers: 40 },
+  "PLDI": { impactFactor: null, acceptRate: "22%", researchAreas: ["绋嬪簭璁捐璇█", "缂栬瘧鍣?], annualPapers: 60 },
+  "POPL": { impactFactor: null, acceptRate: "25%", researchAreas: ["绋嬪簭璁捐璇█鍘熺悊"], annualPapers: 60 },
+  "DAC": { impactFactor: null, acceptRate: "18%", researchAreas: ["璁捐鑷姩鍖?, "EDA"], annualPapers: 200 },
+  "NDSS": { impactFactor: null, acceptRate: "15%", researchAreas: ["缃戠粶瀹夊叏"], annualPapers: 100 },
+  "S&P": { impactFactor: null, acceptRate: "12%", researchAreas: ["瀹夊叏涓庨殣绉?], annualPapers: 100 },
+  "USENIX Security": { impactFactor: null, acceptRate: "15%", researchAreas: ["瀹夊叏"], annualPapers: 120 },
+  "CRYPTO": { impactFactor: null, acceptRate: "22%", researchAreas: ["瀵嗙爜瀛?], annualPapers: 80 },
+  "EUROCRYPT": { impactFactor: null, acceptRate: "22%", researchAreas: ["瀵嗙爜瀛?], annualPapers: 70 },
+  "MM": { impactFactor: null, acceptRate: "25%", researchAreas: ["澶氬獟浣?, "瑙嗛澶勭悊"], annualPapers: 300 },
+  "CSCW": { impactFactor: null, acceptRate: "25%", researchAreas: ["鍗忓悓宸ヤ綔", "绀句細璁＄畻"], annualPapers: 200 },
+  "UbiComp": { impactFactor: null, acceptRate: "20%", researchAreas: ["鏅€傝绠?, "鍙┛鎴磋绠?], annualPapers: 100 },
+  "EMNLP": { impactFactor: null, acceptRate: "22%", researchAreas: ["鑷劧璇█澶勭悊", "鏂囨湰鎸栨帢"], annualPapers: 800 },
+  "COLT": { impactFactor: null, acceptRate: "25%", researchAreas: ["璁＄畻瀛︿範鐞嗚"], annualPapers: 100 },
+  "LICS": { impactFactor: null, acceptRate: "30%", researchAreas: ["閫昏緫", "璁＄畻鏈虹瀛?], annualPapers: 50 },
+  "CAD/Graphics": { impactFactor: null, acceptRate: "30%", researchAreas: ["璁＄畻鏈鸿緟鍔╄璁?, "鍥惧舰瀛?], annualPapers: 80 },
+  "ICME": { impactFactor: null, acceptRate: "28%", researchAreas: ["澶氬獟浣?, "瑙嗛澶勭悊"], annualPapers: 300 },
+  "ECML-PKDD": { impactFactor: null, acceptRate: "25%", researchAreas: ["鏈哄櫒瀛︿範", "鏁版嵁鎸栨帢"], annualPapers: 200 },
+  "AAMAS": { impactFactor: null, acceptRate: "24%", researchAreas: ["澶氭櫤鑳戒綋绯荤粺"], annualPapers: 200 },
+  "NAACL": { impactFactor: null, acceptRate: "22%", researchAreas: ["鑷劧璇█澶勭悊"], annualPapers: 400 },
+  "COLING": { impactFactor: null, acceptRate: "25%", researchAreas: ["璁＄畻璇█瀛?], annualPapers: 400 },
+  "ASE": { impactFactor: null, acceptRate: "20%", researchAreas: ["鑷姩鍖栬蒋浠跺伐绋?], annualPapers: 100 },
+  "ISSTA": { impactFactor: null, acceptRate: "20%", researchAreas: ["杞欢娴嬭瘯"], annualPapers: 50 },
+  "FAST": { impactFactor: null, acceptRate: "15%", researchAreas: ["瀛樺偍鎶€鏈?], annualPapers: 30 },
+  "PPoPP": { impactFactor: null, acceptRate: "20%", researchAreas: ["骞惰缂栫▼"], annualPapers: 40 },
+  "EuroSys": { impactFactor: null, acceptRate: "15%", researchAreas: ["绯荤粺杞欢"], annualPapers: 40 },
+};
+
