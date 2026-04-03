@@ -178,7 +178,7 @@ permalink: /about/
   <ul style="list-style-type: none; padding: 0; margin: 0;">
     <li style="padding: 12px 0; border-bottom: 1px solid #eee; display: flex; align-items: center;">
       <i style="color: #52c41a; margin-right: 12px; font-size: 18px;">🔬</i>
-      <span style="color: #333;">研究生创新基金：《基于视频数据驱动的物理服装模拟技术研究》</span>
+      <span style="color: #333;">研究生创新基金</span>
     </li>
     <li style="padding: 12px 0; display: flex; align-items: center;">
       <i style="color: #52c41a; margin-right: 12px; font-size: 18px;">🚀</i>
@@ -204,7 +204,8 @@ permalink: /about/
         <li>国家奖学金、特等学业奖学金</li>
         <li>知行论坛二等奖、挑战杯银奖</li>
         <li>创新之星、优秀研究生、优秀研究生干部</li>
-        <li>优秀志愿者、优秀共青团干部（兼任党支部副书记）</li>
+        <li>优秀志愿者、优秀共青团干部</li>
+        <li>研究生党支部副书记</li>
       </ul>
     </div>
   </div>
